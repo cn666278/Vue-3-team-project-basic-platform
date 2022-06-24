@@ -1,4 +1,12 @@
 import { createApp } from 'vue'
 import App from './App.vue'
-
-createApp(App).mount('#app')
+import { setupRouter } from './router';
+import { setupNaiveUI } from './naiveUI';
+// createApp(App).mount('#app')
+async function setupApp() {
+    const app = createApp(App);
+    setupRouter(app);
+    setupNaiveUI(app);
+    app.mount('#app');
+}
+setupApp();
