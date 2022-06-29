@@ -12,13 +12,12 @@ declare namespace defaultType {
     }
 }
 declare namespace login {
-    interface loginRequestType {
-        userName: string;
-        passWord: string;
+    import type { Ref } from "vue";
+    interface loginRequestType extends ref {
+        userName: string | Ref<string>;
+        passWord: string | Ref<string>;
     }
     interface loginResponseType extends defaultType.responseDefaultType {
-        Data: {
-            token: string,
-        },
+        Data: Auth.Token,
     }
 }

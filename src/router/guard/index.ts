@@ -1,13 +1,23 @@
-import type { Router } from 'vue-router';
+import type { Router } from "vue-router";
+import { getToken } from "@/utils/auth";
 
 export function createRouterGuard(router: Router) {
     router.beforeEach((to, from, next) => {
-        console.log(window);
         window.$loadingBar?.start();
-        setTimeout(() => {
-            next();
-            window.$loadingBar?.finish();
-        }, 3000);
+        // next();
+        if (getToken()) {
+            if (to.fullPath == "/login") {
+                next({path: "/home"});
+            } else {
+                next();
+            }
+        } else {
+            if (to.fullPath == "/login") {
+                next();
+            } else {
+                next({ path: "/login" });
+            }
+        }
     });
     router.afterEach((to) => {
         window.$loadingBar?.finish();
