@@ -4,11 +4,12 @@ declare namespace defaultType {
         token?: string;
         data?: object | string;
     }
-    interface responseDefaultType {
+    
+    interface responseDefaultType<T = any> {
         State: number;
         Message: string;
         HasData: boolean;
-        Data: Object;
+        Data: T;
     }
 }
 declare namespace login {

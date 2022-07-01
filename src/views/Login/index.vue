@@ -11,7 +11,7 @@ let userName = ref<string>("");
 let passWord = ref<string>("");
 const auth = useAuthStore();
 const { login } = auth;
-const onSubmit = (e: EventInit) => {
+const onSubmit = () => {
     login(userName.value, passWord.value);
 };
 </script>
