@@ -1,11 +1,10 @@
 import Cookies from 'js-cookie';
 import type { CookieAttributes } from 'js-cookie';
-import axios from '@/utils/request';
 
 const TokenKey:string = import.meta.env.VITE_TOKEN_KEY;
 
-export const getToken = ():string | undefined => {
-    return Cookies.get(TokenKey);
+export const getToken = <T = string | undefined>():T => {
+    return Cookies.get(TokenKey) as unknown as T;
 }
 
 export const setToken = (data: Auth.Token, option?:CookieAttributes):void => {

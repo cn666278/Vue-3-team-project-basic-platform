@@ -2,7 +2,7 @@ import { defineStore } from "pinia";
 import { getToken, setToken } from "@/utils/auth/index";
 import { loginRequest } from "@/api/login";
 import { MD5Encrypt } from "@/utils/login";
-import { router } from '@/router/index';
+import { router } from "@/router/index";
 
 interface AuthState {
     // userInfo?: Auth.UserInfo,
@@ -19,8 +19,10 @@ export const useAuthStore = defineStore("auth-store", {
                 passWord: MD5Encrypt(passWord),
             };
             let { token } = await loginRequest(loginData);
-            setToken({ token });
-            router.push({path: '/home'})
+            if (token) {
+                setToken({ token });
+                router.push({ name: "home" });
+            }
         },
     },
 });

@@ -1,6 +1,6 @@
 import qs from "qs";
 import Request from "./request";
-import type { RequestInterceptors } from "./type";
+import { getToken } from '@/utils/auth/index';
 const request = new Request({
     baseURL: import.meta.env.VITE_BASE_URL,
     timeout: 1000 * 20,
@@ -9,15 +9,18 @@ const request = new Request({
 export default <T = defaultType.responseDefaultType>(
     url: string,
     jsonData: defaultType.requestDefaultType,
-    interceptors?: RequestInterceptors
 ) => {
     return request.request<T>({
         url: url,
         method: "post",
-        interceptors,
+        interceptors: {
+            responseInterceptorsCatch(error) {
+                console.log(error);
+            },
+        },
         data: qs.stringify({
             action: jsonData.targetAPI,
-            token: jsonData.token,
+            token: getToken(),
             data:
                 typeof jsonData.data == "string"
                     ? jsonData.data

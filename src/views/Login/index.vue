@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import login_bg from "@/assets/base/login-background.png";
+import login_bg from "@/assets/base/login-background2.png";
 import logo from "@/assets/base/Yatinova-logo2.png";
 import { useAuthStore } from "@/store/modules";
 import { ref } from "vue";
