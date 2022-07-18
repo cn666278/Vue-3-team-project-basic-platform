@@ -16,6 +16,7 @@ import type { Ref } from "vue";
 import { router } from "@/router";
 const routeStore = useRouteStore();
 let menu = ref(await routeStore.getMenu);
+/**递归拼装menu所需数据 */
 const routeTransformMenu = (routes: AuthRoute.Route[]): MenuOption[] => {
     let routeMenu: MenuOption[] = [];
     for (let index = 0; index < routes.length; index++) {
@@ -38,6 +39,7 @@ let menuOption: Ref<MenuOption[]> = ref([]);
 if (menu.value.length > 0) {
     menuOption.value = routeTransformMenu(menu.value);
 }
+/**订阅store,如果store菜单获取到值就更新到菜单上 */
 const subscribe = routeStore.$subscribe((mutation, store) => {
     if (menu.value.length == 0 && store.menu.length > 0) {
         menu.value = store.menu;
@@ -45,7 +47,8 @@ const subscribe = routeStore.$subscribe((mutation, store) => {
     }
 });
 const activeKey = ref<string | null>(null);
-const onMenuItem = (key: string, item: MenuOption) => {
+/**菜单点击事件,点击后跳转到当前点击菜单的要么 */
+const onMenuItem = (key: string) => {
     router.push({name: key});
 };
 </script>

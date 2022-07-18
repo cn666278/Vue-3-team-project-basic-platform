@@ -36,7 +36,7 @@ class Request {
         // 全局响拦截器
         this.instance.interceptors.response.use(
             (res: AxiosResponse) => {
-                return res.data.Data;
+                return res.data;
             },
             (error: any) => error
         );

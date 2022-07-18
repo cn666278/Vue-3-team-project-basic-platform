@@ -5,8 +5,8 @@ export interface RequestInterceptors {
     requestInterceptors?: (config: AxiosRequestConfig) => AxiosRequestConfig
     requestInterceptorsCatch?: (error: any) => any
     // 响应后拦截
-    responseInterceptors?: <T = AxiosResponse>(config: T) => T
-    // responseInterceptors?: <T>(config: AxiosResponse) => T
+    // responseInterceptors?: <T = AxiosResponse>(config: T) => T
+    responseInterceptors?: <T = defaultType.responseDefaultType>(config: T) => T
     responseInterceptorsCatch?: (error: any) => any
 }
 

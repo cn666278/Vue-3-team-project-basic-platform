@@ -1,14 +1,17 @@
 <template>
     <suspense>
         <n-config-provider :theme-overrides="themeOverrides">
-            <naive-global>
-                <router-view />
-            </naive-global>
+            <n-theme-editor>
+                <naive-global>
+                    <router-view />
+                </naive-global>
+            </n-theme-editor>
         </n-config-provider>
     </suspense>
 </template>
 <script setup lang="ts">
 import NaiveGlobal from "@/components/naiveGlobal/index.vue";
+import { NThemeEditor } from "naive-ui";
 import type { GlobalThemeOverrides } from "naive-ui";
 let themeOverrides: GlobalThemeOverrides = {
     common: {

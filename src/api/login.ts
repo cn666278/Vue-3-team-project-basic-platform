@@ -8,7 +8,7 @@ const url = "/Login";
  * @returns {String} token
  */
 export async function loginRequest(jsonData: login.loginRequestType) {
-    const result = await axios<Auth.Token>(url, {
+    const result = await axios<defaultType.responseDefaultType<Auth.Token>>(url, {
         targetAPI: 'AdminPwdLogin',
         data: jsonData
     })

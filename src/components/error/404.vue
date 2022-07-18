@@ -7,17 +7,19 @@
         >
             <template #footer>
                 <n-button type="info" size="medium" @click="onBack"
-                    >回到首页</n-button
+                    >回到上一页</n-button
                 >
             </template>
         </n-result>
     </div>
 </template>
 <script setup lang="ts">
-import { router } from "@/router";
-
+import { useRouter } from "vue-router";
+const router = useRouter();
 const onBack = () => {
-    router.push({name: 'root'});
+    // console.log(router.go());
+    // router.push({ name: "root" });
+    router.go(-1);
 };
 </script>
 <style lang="scss" scoped>

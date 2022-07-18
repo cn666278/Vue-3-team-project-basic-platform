@@ -8,7 +8,7 @@ const url = "/Login";
  * @returns {String} token
  */
 export async function getMenusTree(jsonData?: string) {
-    const result = await axios<AuthRoute.Route[]>(url, {
+    const result = await axios<defaultType.responseDefaultType<AuthRoute.Route[]>>(url, {
         targetAPI: 'GetMenusTree',
         data: jsonData
     })

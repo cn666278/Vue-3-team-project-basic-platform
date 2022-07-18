@@ -5,7 +5,7 @@ declare namespace defaultType {
         data?: object | string;
     }
     
-    interface responseDefaultType<T = any> {
+    interface responseDefaultType<T = any | null> {
         State: number;
         Message: string;
         HasData: boolean;

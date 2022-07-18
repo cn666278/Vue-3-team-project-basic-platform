@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import login_bg from "@/assets/base/login-background2.png";
 import logo from "@/assets/base/Yatinova-logo2.png";
+import { useRoute } from 'vue-router';
 import { useAuthStore } from "@/store/modules";
 import { ref } from "vue";
 let login_bg_theme = {

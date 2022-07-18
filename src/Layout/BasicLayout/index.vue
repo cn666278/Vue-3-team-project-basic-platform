@@ -14,8 +14,9 @@
                     class="layout_content_header"
                     position="static"
                     bordered
-                    >header</n-layout-header
                 >
+                    <BasicHeader></BasicHeader>
+                </n-layout-header>
                 <n-layout-content class="layout_content_content" bordered>
                     <BlankLayout />
                 </n-layout-content>
@@ -27,22 +28,9 @@
     </suspense>
 </template>
 <script setup lang="ts">
-import {
-    useLoadingBar,
-    useDialog,
-    useNotification,
-    useMessage,
-} from "naive-ui";
-import { onMounted } from "vue";
 import Slider from "./Slider/index.vue";
-import BlankLayout from '@/components/Layout/BlankLayout/index.vue';
-onMounted(() => {
-    //  全局组件函数API声明
-    window.$loadingBar = useLoadingBar();
-    window.$dialog = useDialog();
-    window.$notification = useNotification();
-    window.$message = useMessage();
-});
+import BlankLayout from "@/Layout/BlankLayout/index.vue";
+import BasicHeader from "./Header/index.vue";
 </script>
 <style lang="scss">
 .layout_main {
@@ -52,6 +40,9 @@ onMounted(() => {
     .layout_content {
         .layout_content_header {
             height: 50px;
+            padding: 0 10px;
+            display: flex;
+            align-items: center;
         }
         .layout_content_content {
             height: calc(100% - 80px);

@@ -5,19 +5,27 @@ import '@vue/runtime-core'
 
 declare module '@vue/runtime-core' {
   export interface GlobalComponents {
-    404: typeof import('./src/components/error/404.vue')['default']
+    404: typeof import('./src/components/Error/404.vue')['default']
     BasicLayout: typeof import('./src/components/Layout/BasicLayout/index.vue')['default']
-    BlankLayout: typeof import('./src/components/Layout/blankLayout/index.vue')['default']
+    BlankLayout: typeof import('./src/components/Layout/BlankLayout/index.vue')['default']
+    Breadcrumb: typeof import('./src/components/Breadcrumb/index.vue')['default']
+    GlobalAPIContent: typeof import('./src/components/naiveGlobal/globalAPIContent.vue')['default']
+    Header: typeof import('./src/components/Layout/BasicLayout/Header/index.vue')['default']
     Layout: typeof import('./src/components/Layout/index.vue')['default']
     MultiLevelMenu: typeof import('./src/components/multiLevelMenu/index.vue')['default']
     NaiveGlobal: typeof import('./src/components/naiveGlobal/index.vue')['default']
+    NAvatar: typeof import('naive-ui')['NAvatar']
+    NBreadcrumb: typeof import('naive-ui')['NBreadcrumb']
+    NBreadcrumbItem: typeof import('naive-ui')['NBreadcrumbItem']
     NButton: typeof import('naive-ui')['NButton']
     NCard: typeof import('naive-ui')['NCard']
     NConfigProvider: typeof import('naive-ui')['NConfigProvider']
     NDialogProvider: typeof import('naive-ui')['NDialogProvider']
+    NDropdown: typeof import('naive-ui')['NDropdown']
     NForm: typeof import('naive-ui')['NForm']
     NFormItem: typeof import('naive-ui')['NFormItem']
     NFormItemGridItem: typeof import('naive-ui')['NFormItemGridItem']
+    NGi: typeof import('naive-ui')['NGi']
     NGrid: typeof import('naive-ui')['NGrid']
     NGridItem: typeof import('naive-ui')['NGridItem']
     NInput: typeof import('naive-ui')['NInput']
@@ -35,6 +43,8 @@ declare module '@vue/runtime-core' {
     NSpace: typeof import('naive-ui')['NSpace']
     RouterLink: typeof import('vue-router')['RouterLink']
     RouterView: typeof import('vue-router')['RouterView']
+    Setting: typeof import('./src/components/Setting/index.vue')['default']
+    SettingDrawer: typeof import('./src/components/SettingDrawer/index.vue')['default']
     Slider: typeof import('./src/components/Layout/BasicLayout/Slider/index.vue')['default']
   }
 }

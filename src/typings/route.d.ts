@@ -10,18 +10,18 @@ declare namespace AuthRoute {
         }
     }
     // type RoutePath = "/" | "/:pathMatch(.*)*";
-    // interface AuthRouteMeta extends RouteMeta {
-    //     title: string;
-    //     icon: string;
-    //     noCache: boolean;
-    //     breadcrumb: boolean;
-    //     affix: boolean;
-    // }
+    interface AuthRouteMeta extends RouteMeta {
+        title: string;
+        icon: string;
+        noCache: boolean;
+        breadcrumb: boolean;
+        affix: boolean;
+    }
     interface Route extends RouteRecordRaw {
         path: string;
         name: string;
         hidden: boolean;
-        meta: AuthRouteMeta;
+        meta: AuthRoute.AuthRouteMeta;
         component: Promise;
         redirect: RouteLocationRaw;
         children: Route[];

@@ -6,7 +6,7 @@ const request = new Request({
     timeout: 1000 * 20,
 });
 
-export default <T = defaultType.responseDefaultType>(
+export default <T>(
     url: string,
     jsonData: defaultType.requestDefaultType,
 ) => {
@@ -14,6 +14,14 @@ export default <T = defaultType.responseDefaultType>(
         url: url,
         method: "post",
         interceptors: {
+            responseInterceptors(config: any) {
+                if(config.State != 1) {
+                    window.$message?.error(config.Message, {
+                        duration: 3000,
+                    });
+                }
+                return config
+            },
             responseInterceptorsCatch(error) {
                 console.log(error);
             },
