@@ -4,7 +4,7 @@ import { createPersistedState } from "pinia-persistedstate-plugin";
 
 export function setupStore(app: App) {
     const store = createPinia();
-    store.use(createPersistedState());
+    // store.use(createPersistedState());
     app.use(store);
 }
 

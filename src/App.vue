@@ -1,6 +1,6 @@
 <template>
     <suspense>
-        <n-config-provider :theme-overrides="themeOverrides">
+        <n-config-provider :theme="theme.naiveUiTheme" :theme-overrides="themeOverrides">
             <n-theme-editor>
                 <naive-global>
                     <router-view />
@@ -13,6 +13,7 @@
 import NaiveGlobal from "@/components/naiveGlobal/index.vue";
 import { NThemeEditor } from "naive-ui";
 import type { GlobalThemeOverrides } from "naive-ui";
+import { useThemeStore } from "@/store";
 let themeOverrides: GlobalThemeOverrides = {
     common: {
         primaryColor: "#002FA7",
@@ -21,6 +22,7 @@ let themeOverrides: GlobalThemeOverrides = {
         primaryColorSuppl: "#002371",
     },
 };
+const theme = useThemeStore();
 </script>
 <style>
 body {

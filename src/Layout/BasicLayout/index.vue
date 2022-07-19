@@ -18,17 +18,21 @@
                     <BasicHeader></BasicHeader>
                 </n-layout-header>
                 <n-layout-content class="layout_content_content" bordered>
-                    <BlankLayout />
+                    <n-card class="layout_content_content_card" content-style="height: inherit">
+                        <BlankLayout />
+                    </n-card>
                 </n-layout-content>
                 <n-layout-footer class="layout_content_footer" bordered
                     >footer</n-layout-footer
                 >
             </n-layout>
+            <SettingDrawer />
         </n-layout>
     </suspense>
 </template>
 <script setup lang="ts">
 import Slider from "./Slider/index.vue";
+import SettingDrawer from "@/components/SettingDrawer/index.vue";
 import BlankLayout from "@/Layout/BlankLayout/index.vue";
 import BasicHeader from "./Header/index.vue";
 </script>
@@ -46,6 +50,12 @@ import BasicHeader from "./Header/index.vue";
         }
         .layout_content_content {
             height: calc(100% - 80px);
+            padding: 10px;
+            box-sizing: border-box;
+            background-color: #f3f3f3;
+            .layout_content_content_card {
+                height: initial;
+            }
         }
         .layout_content_footer {
             height: 30px;
