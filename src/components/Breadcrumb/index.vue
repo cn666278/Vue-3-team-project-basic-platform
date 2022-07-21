@@ -1,13 +1,20 @@
 <template>
     <n-breadcrumb>
         <n-breadcrumb-item v-for="item in menuLevel" :key="item">
-            {{ item }}
+            <span
+                :style="{
+                    color:
+                        inverted
+                            ? '#fff'
+                            : primaryColor,
+                }"
+                >{{ item }}</span
+            >
         </n-breadcrumb-item>
     </n-breadcrumb>
 </template>
 <script setup lang="ts">
-import { ref, watch } from "vue";
-import type { Ref } from "vue";
+import { ref, Ref, watch } from "vue";
 import { useRoute } from "vue-router";
 import type { RouteLocationMatched } from "vue-router";
 const route = useRoute();
@@ -24,5 +31,6 @@ const breadcrumbHandle = watch(route, (nowRoute) => {
         return meta.title;
     });
 });
+defineProps(['inverted', 'primaryColor'])
 </script>
 <style lang="scss"></style>

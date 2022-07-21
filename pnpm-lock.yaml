@@ -12,7 +12,7 @@ specifiers:
   js-cookie: ^3.0.1
   naive-ui: ^2.28.2
   pinia: ^2.0.14
-  pinia-persistedstate-plugin: ^0.1.0
+  pinia-plugin-persistedstate: ^1.6.3
   qs: ^6.10.3
   sass: ^1.53.0
   typescript: ^4.7.3
@@ -29,7 +29,7 @@ dependencies:
   js-cookie: registry.npmmirror.com/js-cookie/3.0.1
   naive-ui: registry.npmmirror.com/naive-ui/2.30.6_vue@3.2.37
   pinia: registry.npmmirror.com/pinia/2.0.14_j6bzmzd4ujpabbp5objtwxyjp4
-  pinia-persistedstate-plugin: registry.npmmirror.com/pinia-persistedstate-plugin/0.1.0_j6bzmzd4ujpabbp5objtwxyjp4
+  pinia-plugin-persistedstate: registry.npmmirror.com/pinia-plugin-persistedstate/1.6.3_pinia@2.0.14
   qs: registry.npmmirror.com/qs/6.11.0
   sass: registry.npmmirror.com/sass/1.53.0
   unplugin-vue-components: registry.npmmirror.com/unplugin-vue-components/0.19.9_vite@2.9.13+vue@3.2.37
@@ -169,6 +169,7 @@ packages:
     resolution: {integrity: sha512-6+0ekgfusHftJNYpihfkMu8BWdeHs9EOJuGcSofErjstGPfPGEu9yTu4t460lTzzAMl2cM5zngQJqPMHbbnvYA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/js-cookie/-/js-cookie-3.0.2.tgz}
     name: '@types/js-cookie'
     version: 3.0.2
+    dev: true
 
   registry.npmmirror.com/@types/keyv/3.1.4:
     resolution: {integrity: sha512-BQ5aZNSCpj7D6K2ksrRCTmKRLEpnPvWDiLPfoGyhZ++8YtiK9d/3DBKPJgry359X/P1PfruyYwvnvwFjuEiEIg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/keyv/-/keyv-3.1.4.tgz}
@@ -2113,18 +2114,15 @@ packages:
     engines: {node: '>=4'}
     dev: true
 
-  registry.npmmirror.com/pinia-persistedstate-plugin/0.1.0_j6bzmzd4ujpabbp5objtwxyjp4:
-    resolution: {integrity: sha512-ToKR/EJzhhXElQ5YL8PVVY4CqLJjywxszAJjOCgprjmIVkTrPBsEOY4b/ATOzHQc1TtuaJs/3MJuoCpA3pv8Ew==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/pinia-persistedstate-plugin/-/pinia-persistedstate-plugin-0.1.0.tgz}
-    id: registry.npmmirror.com/pinia-persistedstate-plugin/0.1.0
-    name: pinia-persistedstate-plugin
-    version: 0.1.0
+  registry.npmmirror.com/pinia-plugin-persistedstate/1.6.3_pinia@2.0.14:
+    resolution: {integrity: sha512-vwxUca3DZKW6+wnGsgu6hA0ESVKoLovF8vH1jMOPBhaH4VpCSTgn5AsprTxXyg3uMk047m0B+NggeMTcCC8H6w==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/pinia-plugin-persistedstate/-/pinia-plugin-persistedstate-1.6.3.tgz}
+    id: registry.npmmirror.com/pinia-plugin-persistedstate/1.6.3
+    name: pinia-plugin-persistedstate
+    version: 1.6.3
+    peerDependencies:
+      pinia: ^2.0.0
     dependencies:
-      '@types/js-cookie': registry.npmmirror.com/@types/js-cookie/3.0.2
       pinia: registry.npmmirror.com/pinia/2.0.14_j6bzmzd4ujpabbp5objtwxyjp4
-    transitivePeerDependencies:
-      - '@vue/composition-api'
-      - typescript
-      - vue
     dev: false
 
   registry.npmmirror.com/pinia/2.0.14_j6bzmzd4ujpabbp5objtwxyjp4:

@@ -10,8 +10,8 @@
         @click="app.toggleSettingDrawerVisible"
     >
         <icon size="18">
-            <setting-twotone v-if="app.settingDrawerVisible" />
-            <close-outlined v-else />
+            <close-outlined v-if="app.settingDrawerVisible" />
+            <setting-twotone v-else />
         </icon>
     </n-button>
 </template>

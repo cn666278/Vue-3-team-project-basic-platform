@@ -1,20 +1,20 @@
 <template>
-    <n-scrollbar>
-        <n-menu
-            v-model="activeKey"
-            mode="vertical"
-            :options="menuOption"
-            @update:value="onMenuItem"
-        />
-    </n-scrollbar>
+    <n-menu
+        v-model="activeKey"
+        :mode="theme.layoutMode"
+        :options="menuOption"
+        :inverted="sideInverted"
+        @update:value="onMenuItem"
+    />
 </template>
 <script setup lang="ts">
-import { useRouteStore } from "@/store";
+import { useRouteStore, useThemeStore } from "@/store";
 import type { MenuOption } from "naive-ui";
-import { ref } from "vue";
-import type { Ref } from "vue";
+import { ref, Ref } from "vue";
 import { router } from "@/router";
+defineProps(['sideInverted'])
 const routeStore = useRouteStore();
+const theme = useThemeStore();
 let menu = ref(await routeStore.getMenu);
 /**递归拼装menu所需数据 */
 const routeTransformMenu = (routes: AuthRoute.Route[]): MenuOption[] => {
@@ -49,7 +49,7 @@ const subscribe = routeStore.$subscribe((mutation, store) => {
 const activeKey = ref<string | null>(null);
 /**菜单点击事件,点击后跳转到当前点击菜单的要么 */
 const onMenuItem = (key: string) => {
-    router.push({name: key});
+    router.push({ name: key });
 };
 </script>
-<style lang="scss"></style>
+<style lang="scss" scoped></style>

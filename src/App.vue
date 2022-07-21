@@ -1,6 +1,11 @@
 <template>
     <suspense>
-        <n-config-provider :theme="theme.naiveUiTheme" :theme-overrides="themeOverrides">
+        <n-config-provider
+            :theme="theme.naiveUiTheme"
+            :theme-overrides="themeOverrides"
+            :locale="zhCN"
+            :date-locale="dateZhCN"
+        >
             <n-theme-editor>
                 <naive-global>
                     <router-view />
@@ -11,7 +16,7 @@
 </template>
 <script setup lang="ts">
 import NaiveGlobal from "@/components/naiveGlobal/index.vue";
-import { NThemeEditor } from "naive-ui";
+import { zhCN, dateZhCN, NThemeEditor } from "naive-ui";
 import type { GlobalThemeOverrides } from "naive-ui";
 import { useThemeStore } from "@/store";
 let themeOverrides: GlobalThemeOverrides = {
