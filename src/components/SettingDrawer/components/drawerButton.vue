@@ -9,15 +9,14 @@
         ]"
         @click="app.toggleSettingDrawerVisible"
     >
-        <icon size="18">
+        <n-icon size="18">
             <close-outlined v-if="app.settingDrawerVisible" />
             <setting-twotone v-else />
-        </icon>
+        </n-icon>
     </n-button>
 </template>
 <script setup lang="ts">
 import { SettingTwotone, CloseOutlined } from "@vicons/antd";
-import { Icon } from "@vicons/utils/";
 import { useAppStore } from "@/store";
 const app = useAppStore();
 </script>

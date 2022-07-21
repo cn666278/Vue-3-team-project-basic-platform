@@ -3,7 +3,7 @@
         v-model="activeKey"
         :mode="theme.layoutMode"
         :options="menuOption"
-        :inverted="sideInverted"
+        :inverted="sideInverted || headerInverted"
         @update:value="onMenuItem"
     />
 </template>
@@ -12,7 +12,7 @@ import { useRouteStore, useThemeStore } from "@/store";
 import type { MenuOption } from "naive-ui";
 import { ref, Ref } from "vue";
 import { router } from "@/router";
-defineProps(['sideInverted'])
+defineProps(['sideInverted','headerInverted'])
 const routeStore = useRouteStore();
 const theme = useThemeStore();
 let menu = ref(await routeStore.getMenu);

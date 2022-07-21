@@ -36,7 +36,9 @@ declare module '@vue/runtime-core' {
     NGi: typeof import('naive-ui')['NGi']
     NGrid: typeof import('naive-ui')['NGrid']
     NGridItem: typeof import('naive-ui')['NGridItem']
+    NIcon: typeof import('naive-ui')['NIcon']
     NInput: typeof import('naive-ui')['NInput']
+    NInputNumber: typeof import('naive-ui')['NInputNumber']
     NLayout: typeof import('naive-ui')['NLayout']
     NLayoutContent: typeof import('naive-ui')['NLayoutContent']
     NLayoutFooter: typeof import('naive-ui')['NLayoutFooter']
@@ -57,6 +59,7 @@ declare module '@vue/runtime-core' {
     SettingDrawer: typeof import('./src/components/SettingDrawer/index.vue')['default']
     SettingMenu: typeof import('./src/components/SettingDrawer/components/SettingMenu.vue')['default']
     Slider: typeof import('./src/components/Layout/BasicLayout/Slider/index.vue')['default']
+    SvgIcon: typeof import('./src/components/SvgIcon/index.vue')['default']
   }
 }
 

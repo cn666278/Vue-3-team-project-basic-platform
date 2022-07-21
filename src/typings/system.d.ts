@@ -11,5 +11,6 @@ declare namespace system {
         layoutMode: "vertical" | "horizontal";
         sideInverted: boolean;
         headerInverted: boolean;
+        sideWidth: number;
     }
 }

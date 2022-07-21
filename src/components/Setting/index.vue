@@ -46,6 +46,7 @@ const handleSelect = (key: string | number, option: DropdownOption) => {
         padding: 0 5px;
     }
     h4 {
+        margin: 0;
         cursor: pointer;
     }
 }

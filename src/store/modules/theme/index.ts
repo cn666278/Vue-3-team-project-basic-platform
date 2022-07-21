@@ -7,6 +7,7 @@ export const useThemeStore = defineStore("theme-store", {
         layoutMode: "vertical",
         sideInverted: false,
         headerInverted: false,
+        sideWidth: 270,
     }),
     getters: {
         /**判断是否深色模式，为真返回深色模式 */
@@ -34,6 +35,10 @@ export const useThemeStore = defineStore("theme-store", {
         /**设置侧边栏反转色 */
         setHeaderInverted(headerInverted: boolean) {
             this.headerInverted = headerInverted;
+        },
+        /**设置侧边栏宽度 */
+        setSideWidth(width: number) {
+            this.sideWidth = width;
         },
     },
     persist: {

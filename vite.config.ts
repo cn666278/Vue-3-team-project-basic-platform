@@ -1,23 +1,28 @@
 import { defineConfig } from "vite";
 import vue from "@vitejs/plugin-vue";
-import Components from 'unplugin-vue-components/vite';
-import { resolve } from "path";
-import { NaiveUiResolver } from 'unplugin-vue-components/resolvers';
+import Components from "unplugin-vue-components/vite";
+import { NaiveUiResolver } from "unplugin-vue-components/resolvers";
+import { createSvgIconsPlugin } from "vite-plugin-svg-icons";
+import * as path from "path";
 
 // https://vitejs.dev/config/
 export default defineConfig({
     plugins: [
         vue(),
         Components({
-            resolvers: [NaiveUiResolver()]
-        })
+            resolvers: [NaiveUiResolver()],
+        }),
+        createSvgIconsPlugin({
+            iconDirs: [path.resolve(process.cwd(), "src/assets/icons")],
+            symbolId: 'icon-[dir]-[name]'
+        }),
     ],
     /**文件路径 */
-    base: './',
+    base: "./",
     resolve: {
         alias: {
-            '@': resolve(__dirname, './src'),
-        }
+            "@": path.resolve(__dirname, "./src"),
+        },
     },
     // css: {
     //     preprocessorOptions: {
@@ -28,8 +33,8 @@ export default defineConfig({
     //     }
     // }
     server: {
-        host: '0.0.0.0',
+        host: "0.0.0.0",
         port: 9580,
         open: true,
-    }
+    },
 });

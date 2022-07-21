@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="167px" height="188px" viewBox="0 0 167 188" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>图片</title>
+    <g id="页面-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Yatinova-logo" transform="translate(-167.000000, 0.000000)">
+            <g id="图片" transform="translate(167.000000, 0.000000)">
+                <path d="M0,55 L30,71.7708333 L30,124.229167 L78,153 L78,188 L0,141 L0,55 Z M46,81.4375 L78,99.9541091 L77.4959063,137 L46,117.5625 L46,81.4375 Z M84,51 L115,71 L84,89.4375 L53,71 L84,51 Z M84,0 L159,46 L129,63 L84,35 L39,63 L9,46 L84,0 Z" id="形状结合" fill="#1C67C4"></path>
+                <polygon id="路径" fill="#15C7C9" transform="translate(128.000000, 121.500000) scale(-1, 1) translate(-128.000000, -121.500000) " points="89 55 119 71.7708333 119 124.229167 167 153 167 188 89 141"></polygon>
+                <polygon id="路径-2" fill="#FFB42C" transform="translate(105.000000, 109.218750) scale(-1, 1) translate(-105.000000, -109.218750) " points="89 81.4375 89 117.5625 120.495906 137 121 99.9541091"></polygon>
+            </g>
+        </g>
+    </g>
+</svg>

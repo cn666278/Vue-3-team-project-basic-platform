@@ -1,20 +1,27 @@
 <template>
-    <n-grid :x-gap="10" :cols="2">
-        <n-gi class="header_control header_control_left">
-            <Slider v-if="theme.layoutMode == 'horizontal'" />
+    <div class="layout_header">
+        <div class="layout_header_logo">
+            <Logo />
+        </div>
+        <div class="layout_header_content">
+            <Slider
+                :side-inverted="theme.headerInverted"
+                v-if="theme.layoutMode == 'horizontal'"
+            />
             <Breadcrumb
                 :inverted="theme.darkMode || theme.headerInverted"
                 :primaryColor="primaryColor"
                 v-else
             />
-        </n-gi>
-        <n-gi class="header_control header_control_right">
-            <Setting></Setting>
-        </n-gi>
-    </n-grid>
+        </div>
+        <div class="layout_header_setting">
+            <Setting />
+        </div>
+    </div>
 </template>
 <script setup lang="ts">
 import Slider from "../Slider/index.vue";
+import Logo from "../Logo/index.vue";
 import Breadcrumb from "@/components/Breadcrumb/index.vue";
 import Setting from "@/components/Setting/index.vue";
 import { useThemeVars } from "naive-ui";
@@ -23,13 +30,16 @@ const theme = useThemeStore();
 const { primaryColor } = useThemeVars().value;
 </script>
 <style lang="scss" scoped>
-.header_control {
+.layout_header {
+    width: 100%;
     display: flex;
     align-items: center;
+    justify-content: space-between;
 }
-.header_control_left {
+.layout_header_content {
+    width: 80%;
 }
-.header_control_right {
-    justify-content: flex-end;
+.layout_header_setting {
+    min-width: 120px;
 }
 </style>

@@ -5,13 +5,15 @@
                 class="layout_sider"
                 collapse-mode="width"
                 :inverted="theme.sideInverted"
+                :width="theme.sideWidth"
+                :native-scrollbar="false"
                 show-trigger
                 bordered
+                @update:collapsed="app.setSideCollapsed"
                 v-if="theme.layoutMode == 'vertical'"
             >
-                <n-scrollbar>
-                    <Slider :side-inverted="theme.sideInverted"></Slider>
-                </n-scrollbar>
+                <Logo />
+                <Slider :side-inverted="theme.sideInverted"></Slider>
             </n-layout-sider>
             <n-layout class="layout_content">
                 <n-layout-header
@@ -20,7 +22,7 @@
                     :inverted="theme.headerInverted"
                     bordered
                 >
-                    <BasicHeader></BasicHeader>
+                    <BasicHeader />
                 </n-layout-header>
                 <n-layout-content
                     :class="[
@@ -36,27 +38,28 @@
                         <BlankLayout />
                     </n-card>
                 </n-layout-content>
-                <!-- <n-layout-footer class="layout_content_footer" bordered
-                    >footer</n-layout-footer
-                > -->
             </n-layout>
             <SettingDrawer />
         </n-layout>
     </suspense>
 </template>
 <script setup lang="ts">
+import Logo from "./Logo/index.vue";
 import Slider from "./Slider/index.vue";
 import SettingDrawer from "@/components/SettingDrawer/index.vue";
 import BlankLayout from "@/Layout/BlankLayout/index.vue";
 import BasicHeader from "./Header/index.vue";
-import { useThemeStore } from "@/store";
+import { useThemeStore, useAppStore } from "@/store";
 const theme = useThemeStore();
+const app = useAppStore();
 </script>
 <style lang="scss">
 .layout_main {
     height: 100vh;
-    // .layout_sider {
-    // }
+    .layout_sider {
+        display: flex;
+        align-items: center;
+    }
     .layout_content {
         .layout_content_header {
             height: 50px;
