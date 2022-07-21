@@ -1,6 +1,6 @@
 <template>
     <div class="layout_header">
-        <div class="layout_header_logo">
+        <div class="layout_header_logo" v-if="theme.layoutMode == 'horizontal'">
             <Logo />
         </div>
         <div class="layout_header_content">
