@@ -6,14 +6,19 @@
                 collapse-mode="width"
                 :inverted="theme.sideInverted"
                 :width="theme.sideWidth"
-                :native-scrollbar="false"
+                :native-scrollbar="true"
                 show-trigger
                 bordered
                 @update:collapsed="app.setSideCollapsed"
                 v-if="theme.layoutMode == 'vertical'"
             >
-                <Logo />
-                <Slider :side-inverted="theme.sideInverted"></Slider>
+                <Logo class="layout_sider_content" />
+                <n-scrollbar>
+                    <Slider
+                        class="layout_sider_content"
+                        :side-inverted="theme.sideInverted"
+                    ></Slider>
+                </n-scrollbar>
             </n-layout-sider>
             <n-layout class="layout_content">
                 <n-layout-header
@@ -53,33 +58,12 @@ import { useThemeStore, useAppStore } from "@/store";
 const theme = useThemeStore();
 const app = useAppStore();
 </script>
-<style lang="scss">
-.layout_main {
-    height: 100vh;
-    .layout_sider {
-        display: flex;
-        align-items: center;
-    }
-    .layout_content {
-        .layout_content_header {
-            height: 50px;
-            padding: 0 10px;
-            display: flex;
-            align-items: center;
-        }
-        .layout_content_content {
+<style lang="scss" scoped>
+.layout_sider {
+    :deep(.n-layout-sider-scroll-container) {
+        width: 100%;
+        .n-scrollbar {
             height: calc(100% - 50px);
-            padding: 10px;
-            box-sizing: border-box;
-            .layout_content_content_card {
-                height: 100%;
-            }
-        }
-        .layout_content_background {
-            background-color: #f3f3f3;
-        }
-        .layout_content_footer {
-            height: 30px;
         }
     }
 }

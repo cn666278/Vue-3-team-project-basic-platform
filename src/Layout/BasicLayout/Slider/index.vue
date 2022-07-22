@@ -49,7 +49,7 @@ const subscribe = routeStore.$subscribe((mutation, store) => {
 const activeKey = ref<string | null>(null);
 /**菜单点击事件,点击后跳转到当前点击菜单的要么 */
 const onMenuItem = (key: string) => {
-    router.push({ name: key });
+    router.push({ path: key });
 };
 </script>
 <style lang="scss" scoped></style>

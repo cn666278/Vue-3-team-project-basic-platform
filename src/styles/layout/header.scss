@@ -1,0 +1,12 @@
+.layout_header {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .layout_header_content {
+        width: 80%;
+    }
+    .layout_header_setting {
+        min-width: 120px;
+    }
+}

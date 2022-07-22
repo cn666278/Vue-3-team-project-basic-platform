@@ -5,6 +5,7 @@
         </div>
         <div class="layout_header_content">
             <Slider
+                class="layout_header_slider"
                 :side-inverted="theme.headerInverted"
                 v-if="theme.layoutMode == 'horizontal'"
             />
@@ -29,17 +30,3 @@ import { useThemeStore } from "@/store";
 const theme = useThemeStore();
 const { primaryColor } = useThemeVars().value;
 </script>
-<style lang="scss" scoped>
-.layout_header {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-.layout_header_content {
-    width: 80%;
-}
-.layout_header_setting {
-    min-width: 120px;
-}
-</style>

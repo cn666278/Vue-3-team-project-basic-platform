@@ -1,0 +1,34 @@
+@import './header.scss';
+.layout_main {
+    height: 100vh;
+    .layout_sider {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        // .layout_sider_content {
+        //     flex: 1;
+        // }
+    }
+    .layout_content {
+        .layout_content_header {
+            height: 50px;
+            padding: 0 10px;
+            display: flex;
+            align-items: center;
+        }
+        .layout_content_content {
+            height: calc(100% - 50px);
+            padding: 10px;
+            box-sizing: border-box;
+            .layout_content_content_card {
+                height: 100%;
+            }
+        }
+        .layout_content_background {
+            background-color: #f3f3f3;
+        }
+        .layout_content_footer {
+            height: 30px;
+        }
+    }
+}
