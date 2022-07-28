@@ -22,12 +22,19 @@
                 button-placement="both"
             />
         </setting-menu>
+        <setting-menu label="多页签">
+            <n-switch
+                :value="app.tagTabsVisible"
+                @update:value="app.setTagTabsVisible"
+            ></n-switch>
+        </setting-menu>
     </n-space>
 </template>
 <script setup lang="ts">
-import { useThemeStore } from "@/store";
+import { useThemeStore, useAppStore } from "@/store";
 import SettingMenu from "./SettingMenu.vue";
 const theme = useThemeStore();
+const app = useAppStore();
 </script>
 <style lang="scss" scoped>
 .setting_menu_list {

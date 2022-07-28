@@ -8,6 +8,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@types/node": "^18.6.1",
     "animate.css": "^4.1.1",
     "axios": "^0.27.1",
     "crypto-js": "^4.1.1",

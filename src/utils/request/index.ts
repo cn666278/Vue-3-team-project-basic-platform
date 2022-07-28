@@ -10,7 +10,7 @@ export default <T>(
     url: string,
     jsonData: defaultType.requestDefaultType,
 ) => {
-    return request.request<T>({
+    return request.request<defaultType.responseDefaultType<T>>({
         url: url,
         method: "post",
         interceptors: {

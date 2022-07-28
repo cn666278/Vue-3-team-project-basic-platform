@@ -1,14 +1,16 @@
 import type { Router, RouteRecordRaw } from "vue-router";
-import { useRouteStore } from "@/store";
+import { useRouteStore, useAuthStore } from "@/store";
+import { storeToRefs } from "pinia";
 export default async (router: Router) => {
-    const routeStore = useRouteStore();
-    const { getAsyncRouteMenu } = routeStore;
-    if (!routeStore.hasRoute) {
+    const { getMenu, hasRoute } = storeToRefs(useRouteStore());
+    const { getAsyncRouteMenu } = useRouteStore();
+    const { getUserSession } = useAuthStore();
+    if (!hasRoute.value) {
         await getAsyncRouteMenu();
+        await getUserSession();
     }
-    const menu: AuthRoute.Route[] = routeStore.getMenu;
+    const menu: AuthRoute.Route[] = getMenu.value;
     await menu.map((route) => {
         router.addRoute(route as unknown as RouteRecordRaw);
     });
 };
-

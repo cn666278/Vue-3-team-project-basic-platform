@@ -20,8 +20,11 @@
             height: calc(100% - 50px);
             padding: 10px;
             box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
             .layout_content_content_card {
-                height: 100%;
+                flex: 1;
+                // height: 100%;
             }
         }
         .layout_content_background {

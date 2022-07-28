@@ -1,11 +1,11 @@
 import { defineStore } from "pinia";
 import { getToken, setToken, removeToken } from "@/utils/auth/index";
-import { loginRequest } from "@/api/login";
+import { loginRequest, useInfoRequest } from "@/api/login";
 import { MD5Encrypt } from "@/utils/login";
 import { router } from "@/router";
 
 interface AuthState {
-    // userInfo?: Auth.UserInfo,
+    userInfo?: Auth.UserInfo;
     token: Auth.Token;
 }
 export const useAuthStore = defineStore("auth-store", {
@@ -13,12 +13,12 @@ export const useAuthStore = defineStore("auth-store", {
         token: getToken(),
     }),
     actions: {
+        /**登陆 */
         async login(userName: string, passWord: string) {
             const loginData: login.loginRequestType = {
                 userName,
                 passWord: MD5Encrypt(passWord),
             };
-            // let { token } = await loginRequest(loginData);
             let { Data } = await loginRequest(loginData);
             if (Data) {
                 setToken(Data);
@@ -26,10 +26,16 @@ export const useAuthStore = defineStore("auth-store", {
                 location.reload();
             }
         },
+        /**登出 */
         async logout() {
-            const route = router.currentRoute.value;
+            // const route = router.currentRoute.value;
             removeToken();
             location.reload();
+        },
+        /**获取用户信息 */
+        async getUserSession() {
+            const { Data } = await useInfoRequest();
+            this.userInfo = Data;
         },
     },
 });

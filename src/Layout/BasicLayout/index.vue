@@ -36,9 +36,9 @@
                     ]"
                     bordered
                 >
+                    <TagTabs v-if="app.tagTabsVisible" />
                     <n-card
                         class="layout_content_content_card"
-                        content-style="height: inherit"
                     >
                         <BlankLayout />
                     </n-card>
@@ -52,6 +52,7 @@
 import Logo from "./Logo/index.vue";
 import Slider from "./Slider/index.vue";
 import SettingDrawer from "@/components/SettingDrawer/index.vue";
+import TagTabs from '@/components/TagTabs/index.vue';
 import BlankLayout from "@/Layout/BlankLayout/index.vue";
 import BasicHeader from "./Header/index.vue";
 import { useThemeStore, useAppStore } from "@/store";
@@ -65,6 +66,12 @@ const app = useAppStore();
         .n-scrollbar {
             height: calc(100% - 50px);
         }
+    }
+}
+.layout_content_background {
+    :deep(.n-layout-scroll-container) {
+        display: inherit;
+        flex-direction: inherit;
     }
 }
 </style>

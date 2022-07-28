@@ -20,7 +20,7 @@ export const useRouteStore = defineStore("route-store", {
     actions: {
         async getAsyncRouteMenu() {
             let { Data } = await getMenusTree();
-            this.menu = this.filterRouteMenu(Data);
+            this.menu = this.filterRouteMenu(Data as unknown as AuthRoute.Route[]);
         },
         filterRouteMenu(allRoute: AuthRoute.Route[]) {
             allRoute.map((route) => {

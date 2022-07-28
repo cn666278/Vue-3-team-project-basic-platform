@@ -37,4 +37,19 @@ export default defineConfig({
         port: 9580,
         open: true,
     },
+    build: {
+        terserOptions: {
+            compress: {
+                drop_console: true,
+                drop_debugger: true,
+            }
+        },
+        rollupOptions: {
+            output: {
+                chunkFileNames: 'static/js/[name]-[hash].js',
+                entryFileNames: 'static/js/[name]-[hash].js',
+                assetFileNames: 'static/[ext]/[name]-[hash].[ext]',
+            }
+        }
+    }
 });

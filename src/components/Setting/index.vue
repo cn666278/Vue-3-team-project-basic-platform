@@ -1,17 +1,17 @@
 <template>
     <div class="setting_control">
         <div class="setting_avatar">
-            <n-avatar round size="medium">Admin</n-avatar>
+            <n-avatar round size="medium">{{userInfo?.account}}</n-avatar>
         </div>
         <n-dropdown trigger="hover" :options="options" @select="handleSelect">
-            <h4>超级管理员</h4>
+            <h4>{{userInfo?.nick}}</h4>
         </n-dropdown>
     </div>
 </template>
 <script setup lang="ts">
 import { useAuthStore } from "@/store";
 import type { DropdownOption } from "naive-ui";
-const { logout } = useAuthStore();
+const { logout, userInfo } = useAuthStore();
 const options: DropdownOption[] = [
     {
         key: "clearCache",

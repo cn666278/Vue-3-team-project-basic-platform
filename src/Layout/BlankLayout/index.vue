@@ -5,8 +5,8 @@ import "animate.css";
     <router-view>
         <template #default="{ Component, route }">
             <transition
-                enter-active-class="animate__animated animate__backInRight"
-                leave-active-class="animate__animated animate__backOutLeft"
+                enter-active-class="animate__animated animate__fadeInRight"
+                leave-active-class="animate__animated animate__fadeOutLeft"
                 mode="out-in"
                 :duration="400"
                 appear
