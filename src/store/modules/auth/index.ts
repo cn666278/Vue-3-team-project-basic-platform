@@ -23,7 +23,7 @@ export const useAuthStore = defineStore("auth-store", {
             if (Data) {
                 setToken(Data);
                 this.token = Data;
-                // location.reload();
+                location.reload();
             }
         },
         /**登出 */
