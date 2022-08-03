@@ -48,6 +48,7 @@ export const useAppStore = defineStore("app-store", {
                 if(v.name === key) return true
             });
             this.tabRouteList.splice(findKey, 1);
+            console.log(this.tabRouteList);
         },
     },
     persist: {

@@ -22,3 +22,18 @@ declare namespace login {
         Data: Auth.Token,
     }
 }
+declare namespace config {
+    interface sysConfig {
+        apiSite?: string;
+        socketUrl?: string;
+        mapPointCD?: number;
+        filePath?: string;
+        indexURL?: string;
+        isBusinessLogin?: boolean;
+        title?: string;
+        paramA?: string;
+        paramB?: string;
+        paramC?: string;
+        updateDate?: string;
+    }
+}

@@ -15,7 +15,13 @@ export default <T>(
         method: "post",
         interceptors: {
             responseInterceptors(config: any) {
-                if(config.State != 1) {
+                if(config.State == 1) {
+                    if(config.Message != '') {
+                        window.$message?.success(config.Message, {
+                            duration: 3000,
+                        });
+                    }
+                } else {
                     window.$message?.error(config.Message, {
                         duration: 3000,
                     });

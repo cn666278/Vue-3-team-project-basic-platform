@@ -8,7 +8,7 @@
             <n-tag
                 :type="route.name === item.name ? 'primary' : 'default'"
                 @click="onTagTab(item)"
-                @close="tagTabCloseHandle(item.name as string)"
+                @close="tagTabCloseHandle(item.name as string, $event)"
                 :closable="app.getTagTabList.length > 1"
                 >{{ item.meta.title }}</n-tag
             >
@@ -39,11 +39,17 @@ watch(route, (nowRoute) => {
 const onTagTab = (route: RouteLocationNormalizedLoaded) => {
     router.push({ name: route.name as RouteRecordName });
 };
-const tagTabCloseHandle = (key: string) => {
+const tagTabCloseHandle = (key: string, event: MouseEvent) => {
+    event.stopPropagation();
     if (app.tabRouteList.length > 1) {
+        let currentKey = app.tabRouteList.findIndex((item) => {
+            return route.path === item.path;
+        });
         app.removeTabRouteList(key);
         let lastRoute = app.tabRouteList[app.tabRouteList.length - 1];
-        router.push({ name: lastRoute.name as RouteRecordName });
+        if(currentKey == app.tabRouteList.length || currentKey == app.tabRouteList.length - 1) {
+            router.push({ name: lastRoute.name as RouteRecordName });
+        }
     }
 };
 </script>

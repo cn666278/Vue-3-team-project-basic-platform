@@ -37,11 +37,11 @@
                     bordered
                 >
                     <TagTabs v-if="app.tagTabsVisible" />
-                    <n-card
-                        class="layout_content_content_card"
-                    >
-                        <BlankLayout />
-                    </n-card>
+                    <n-scrollbar>
+                        <n-card class="layout_content_content_card">
+                            <BlankLayout />
+                        </n-card>
+                    </n-scrollbar>
                 </n-layout-content>
             </n-layout>
             <SettingDrawer />
@@ -52,7 +52,7 @@
 import Logo from "./Logo/index.vue";
 import Slider from "./Slider/index.vue";
 import SettingDrawer from "@/components/SettingDrawer/index.vue";
-import TagTabs from '@/components/TagTabs/index.vue';
+import TagTabs from "@/components/TagTabs/index.vue";
 import BlankLayout from "@/Layout/BlankLayout/index.vue";
 import BasicHeader from "./Header/index.vue";
 import { useThemeStore, useAppStore } from "@/store";
