@@ -1,10 +1,10 @@
 <template>
     <div>
         <div v-for="item in configType">
-            <n-divider>
+            <n-divider class="config_title" @click="onTitleHandle(item)">
                 <h2>{{ item.title }}</h2>
             </n-divider>
-            <n-collapse-transition :show="true">
+            <n-collapse-transition :show="item.title == activeConfig">
                 <n-form size="medium" :disabled="isEdit">
                     <n-grid :cols="3" :x-gap="20" responsive="self">
                         <n-form-item-gi
@@ -68,18 +68,34 @@ interface configParam {
     rows?: number;
 }
 const props = defineProps<config>();
+const propsData = Object.assign({}, props.data);
 const emits = defineEmits(["onSubmit"]);
-const originData = JSON.parse(JSON.stringify(props.data));
-let responseData = ref(Object.assign({}, props.data));
+let responseData = ref(Object.assign({}, propsData));
 let isEdit = ref(true);
+let activeConfig = ref(props.configType[0].title);
+/**点击configTitle事件 */
+const onTitleHandle = (item: configType) => {
+    if(activeConfig.value == item.title) {
+        activeConfig.value = '';
+    } else if(activeConfig.value == '') {
+        activeConfig.value = item.title;
+    } else {
+        activeConfig.value = item.title;
+    }
+};
+/**编辑事件 */
 const editHandle = () => {
-    console.log(originData);
-    responseData.value = originData;
+    responseData.value = Object.assign({} ,propsData);
     return (isEdit.value = !isEdit.value);
 };
+/**保存事件 */
 const onSubmit = () => {
     emits("onSubmit", responseData);
     isEdit.value = false;
 };
 </script>
-<style lang="scss"></style>
+<style lang="scss" scoped>
+.config_title {
+    cursor: pointer;
+}
+</style>

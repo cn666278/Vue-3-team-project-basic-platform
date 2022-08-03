@@ -1,21 +1,29 @@
 <template>
     <n-menu
         v-model="activeKey"
+        :value="activeKey"
         :mode="theme.layoutMode"
         :options="menuOption"
+        :expanded-keys="expandedKeys"
         :inverted="sideInverted || headerInverted"
         @update:value="onMenuItem"
+        @update-expanded-keys="expandedKeysHandle"
     />
 </template>
 <script setup lang="ts">
 import { useRouteStore, useThemeStore } from "@/store";
 import type { MenuOption } from "naive-ui";
-import { ref, Ref } from "vue";
-import { router } from "@/router";
+import { onMounted, ref, Ref, watch } from "vue";
+// import { router } from "@/router";
+import {useRoute, useRouter} from 'vue-router';
 defineProps(['sideInverted','headerInverted'])
 const routeStore = useRouteStore();
 const theme = useThemeStore();
+const route = useRoute();
+const router = useRouter();
 let menu = ref(await routeStore.getMenu);
+let menuOption: Ref<MenuOption[]> = ref([]);
+const expandedKeys = ref<string[]>([]);
 /**递归拼装menu所需数据 */
 const routeTransformMenu = (routes: AuthRoute.Route[]): MenuOption[] => {
     let routeMenu: MenuOption[] = [];
@@ -35,7 +43,6 @@ const routeTransformMenu = (routes: AuthRoute.Route[]): MenuOption[] => {
     }
     return routeMenu;
 };
-let menuOption: Ref<MenuOption[]> = ref([]);
 if (menu.value.length > 0) {
     menuOption.value = routeTransformMenu(menu.value);
 }
@@ -51,5 +58,20 @@ const activeKey = ref<string | null>(null);
 const onMenuItem = (key: string) => {
     router.push({ path: key });
 };
+/**监听路由实时选中菜单 */
+const routeHandle = watch(route,(nowRoute) => {
+    activeKey.value = nowRoute.name as string;
+    console.log(nowRoute.matched);
+    let paths = nowRoute.matched.map(routerPath => {
+        return routerPath.name
+    }) as string[];
+    expandedKeys.value = paths;
+});
+const expandedKeysHandle = (keys: string[]) => {
+    expandedKeys.value = keys;
+};
+onMounted(() => {
+    activeKey.value = route.name as string;
+});
 </script>
 <style lang="scss" scoped></style>

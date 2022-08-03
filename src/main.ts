@@ -7,7 +7,7 @@ import '@/styles/index.scss';
 // createApp(App).mount('#app')
 async function setupApp() {
     const app = createApp(App);
-    setupStore(app);
+    await setupStore(app);
     await setupRouter(app);
     app.mount("#app");
 }

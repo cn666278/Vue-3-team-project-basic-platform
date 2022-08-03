@@ -32,9 +32,11 @@ onMounted(() => {
     app.setTabRouteList(Object.assign({}, JSON.parse(JSON.stringify(route))));
 });
 watch(route, (nowRoute) => {
-    app.setTabRouteList(
-        Object.assign({}, JSON.parse(JSON.stringify(nowRoute)))
-    );
+    if (nowRoute.name != "NotFound404") {
+        app.setTabRouteList(
+            Object.assign({}, JSON.parse(JSON.stringify(nowRoute)))
+        );
+    }
 });
 const onTagTab = (route: RouteLocationNormalizedLoaded) => {
     router.push({ name: route.name as RouteRecordName });
@@ -47,7 +49,10 @@ const tagTabCloseHandle = (key: string, event: MouseEvent) => {
         });
         app.removeTabRouteList(key);
         let lastRoute = app.tabRouteList[app.tabRouteList.length - 1];
-        if(currentKey == app.tabRouteList.length || currentKey == app.tabRouteList.length - 1) {
+        if (
+            currentKey == app.tabRouteList.length ||
+            currentKey == app.tabRouteList.length - 1
+        ) {
             router.push({ name: lastRoute.name as RouteRecordName });
         }
     }

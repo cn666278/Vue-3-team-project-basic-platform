@@ -3,7 +3,7 @@ import { getToken } from "@/utils/auth";
 import { getTitle } from "@/utils/common";
 import constantRouter from "./dynamic";
 
-const whitelist:string[] = ['/login', '/404'];
+const whitelist: string[] = ["/login", "/404"];
 export async function createRouterGuard(router: Router) {
     let oneRun = false;
     router.beforeEach(async (to, from, next) => {
@@ -33,7 +33,7 @@ export async function createRouterGuard(router: Router) {
                 console.log(to);
                 if (to.path == "/login") {
                     next();
-                } else if(whitelist.includes(to.path)) {
+                } else if (whitelist.includes(to.path)) {
                     next(to.path);
                 } else {
                     next({
@@ -47,7 +47,7 @@ export async function createRouterGuard(router: Router) {
             }
         }
         /**页面跳转就更改title */
-        if(to.meta?.title) {
+        if (to.meta?.title) {
             getTitle(to.meta.title as string);
         }
     });
@@ -59,7 +59,12 @@ export async function createRouterGuard(router: Router) {
                     "TypeError: Failed to fetch dynamically imported module"
                 ) > -1
         ) {
-            router.push({ path: "/404" });
+            router.push({
+                path: "/404",
+                query: {
+                    redirect: from.path,
+                },
+            });
         }
     });
     router.afterEach((to) => {

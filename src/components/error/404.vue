@@ -14,12 +14,12 @@
     </div>
 </template>
 <script setup lang="ts">
-import { useRouter } from "vue-router";
+import { useRoute, useRouter } from "vue-router";
+const route = useRoute();
 const router = useRouter();
 const onBack = () => {
-    // console.log(router.go());
-    // router.push({ name: "root" });
-    router.go(-1);
+    let path: string = route.query.redirect as string;
+    router.push({ path });
 };
 </script>
 <style lang="scss" scoped>

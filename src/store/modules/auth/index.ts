@@ -2,7 +2,6 @@ import { defineStore } from "pinia";
 import { getToken, setToken, removeToken } from "@/utils/auth/index";
 import { loginRequest, useInfoRequest } from "@/api/login";
 import { MD5Encrypt } from "@/utils/login";
-import { router } from "@/router";
 
 interface AuthState {
     userInfo?: Auth.UserInfo;
@@ -19,16 +18,16 @@ export const useAuthStore = defineStore("auth-store", {
                 userName,
                 passWord: MD5Encrypt(passWord),
             };
+            console.log(MD5Encrypt(passWord));
             let { Data } = await loginRequest(loginData);
             if (Data) {
                 setToken(Data);
                 this.token = Data;
-                location.reload();
+                // location.reload();
             }
         },
         /**登出 */
         async logout() {
-            // const route = router.currentRoute.value;
             removeToken();
             location.reload();
         },
