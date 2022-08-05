@@ -5,6 +5,7 @@
             :theme-overrides="themeOverrides"
             :locale="zhCN"
             :date-locale="dateZhCN"
+            size="small"
         >
             <n-theme-editor>
                 <naive-global>

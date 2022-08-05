@@ -28,7 +28,6 @@ const route = useRoute();
 const router = useRouter();
 const app = useAppStore();
 onMounted(() => {
-    console.log(app.getTagTabList);
     app.setTabRouteList(Object.assign({}, JSON.parse(JSON.stringify(route))));
 });
 watch(route, (nowRoute) => {
@@ -39,7 +38,7 @@ watch(route, (nowRoute) => {
     }
 });
 const onTagTab = (route: RouteLocationNormalizedLoaded) => {
-    router.push({ name: route.name as RouteRecordName });
+    router.push({ path: route.path });
 };
 const tagTabCloseHandle = (key: string, event: MouseEvent) => {
     event.stopPropagation();

@@ -11,7 +11,9 @@ import "animate.css";
                 :duration="400"
                 appear
             >
-                <component :is="Component" :key="route.fullPath" />
+                <!-- <keep-alive> -->
+                    <component :is="Component" :key="route.fullPath" />
+                <!-- </keep-alive> -->
             </transition>
         </template>
     </router-view>
