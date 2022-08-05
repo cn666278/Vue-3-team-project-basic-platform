@@ -1,6 +1,6 @@
 import type { RouteLocationNormalizedLoaded } from "vue-router";
 /**
- * 设置页面title
+ * @function getTitle 设置页面title
  * @param title
  */
 export const getTitle = (title: string): void => {
@@ -8,7 +8,7 @@ export const getTitle = (title: string): void => {
 };
 
 /**
- * 数组去重合并
+ * @function mergeArray 数组去重合并
  * @param arr1
  * @param arr2
  * @returns
@@ -32,7 +32,7 @@ export function mergeArray<T extends RouteLocationNormalizedLoaded>(
 }
 
 /**
- * 时间格式转化
+ * @function formatDateTime 时间格式转化
  * @param inputTime
  * @param formatStr
  * @returns
@@ -62,3 +62,36 @@ export function formatDateTime(inputTime: Date, formatStr?: string):string {
         return formatStr;
     }
 }
+
+/**
+ * @function transformTozTreeFormat 将数组转换成树形结构
+ * @param sNodes 
+ * @returns 
+ */
+ export function transformTozTreeFormat(sNodes: any[]) { //将普通的数组转换为父子结构
+    let i, l;
+    let r = [];
+    let tmpMap:any = {};
+    for (i = 0, l = sNodes.length; i < l; i++) {
+      tmpMap[sNodes[i].id] = sNodes[i];
+    }
+    for (i = 0, l = sNodes.length; i < l; i++) {
+      let p = tmpMap[sNodes[i].pid];
+      if (p && sNodes[i].id != sNodes[i].pid) {
+        let children = nodeChildren(p);
+        if (!children) {
+          children = nodeChildren(p, []);
+        }
+        children.push(sNodes[i]);
+      } else {
+        r.push(sNodes[i]);
+      }
+    }
+    return r;
+  }
+  function nodeChildren(node: any, newChildren?: any[]) {
+    if (typeof newChildren !== 'undefined') {
+      node.children = newChildren;
+    }
+    return node.children;
+  }

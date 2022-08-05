@@ -61,17 +61,18 @@ const onMenuItem = (key: string) => {
 /**监听路由实时选中菜单 */
 const routeHandle = watch(route,(nowRoute) => {
     activeKey.value = nowRoute.name as string;
-    console.log(nowRoute.matched);
     let paths = nowRoute.matched.map(routerPath => {
         return routerPath.name
     }) as string[];
     expandedKeys.value = paths;
 });
 const expandedKeysHandle = (keys: string[]) => {
+    console.log(keys);
     expandedKeys.value = keys;
 };
 onMounted(() => {
     activeKey.value = route.name as string;
+    expandedKeys.value = route.matched.map(routeItem => routeItem.name) as string[];
 });
 </script>
 <style lang="scss" scoped></style>

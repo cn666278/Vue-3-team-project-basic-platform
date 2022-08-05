@@ -4,12 +4,19 @@ declare namespace defaultType {
         token?: string;
         data?: object | string;
     }
-    
     interface responseDefaultType<T = any | null> {
         State: number;
         Message: string;
         HasData: boolean;
         Data: T;
+    }
+    interface responseList<T> {
+        totalCount: number;
+        totalPage: number;
+        currentPage: number;
+        pageSize: number;
+        hasMore: boolean;
+        data: T;
     }
 }
 declare namespace login {
@@ -35,5 +42,20 @@ declare namespace config {
         paramB?: string;
         paramC?: string;
         updateDate?: string;
+    }
+}
+declare namespace admin {
+    interface menuList {
+        id: string;
+        title: string;
+        pid: string;
+        pTitle: string;
+        sort: number;
+        url: string;
+        icon: string;
+        needAuth: boolean;
+        isEnable: boolean;
+        createDate: string;
+        isHidden: boolean;
     }
 }

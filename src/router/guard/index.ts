@@ -30,7 +30,6 @@ export async function createRouterGuard(router: Router) {
             if (oneRun) {
                 next();
             } else {
-                console.log(to);
                 if (to.path == "/login") {
                     next();
                 } else if (whitelist.includes(to.path)) {

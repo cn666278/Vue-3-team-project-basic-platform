@@ -18,7 +18,6 @@ export const useAuthStore = defineStore("auth-store", {
                 userName,
                 passWord: MD5Encrypt(passWord),
             };
-            console.log(MD5Encrypt(passWord));
             let { Data } = await loginRequest(loginData);
             if (Data) {
                 setToken(Data);
