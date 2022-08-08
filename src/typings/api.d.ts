@@ -1,23 +1,23 @@
 declare namespace defaultType {
-    interface requestDefaultType {
-        targetAPI: string;
-        token?: string;
-        data?: object | string;
-    }
-    interface responseDefaultType<T = any | null> {
-        State: number;
-        Message: string;
-        HasData: boolean;
-        Data: T;
-    }
-    interface responseList<T> {
-        totalCount: number;
-        totalPage: number;
-        currentPage: number;
-        pageSize: number;
-        hasMore: boolean;
-        data: T;
-    }
+  interface requestDefaultType {
+    targetAPI: string;
+    token?: string;
+    data?: object | string;
+  }
+  interface responseDefaultType<T = any | null> {
+    State: number;
+    Message: string;
+    HasData: boolean;
+    Data: T;
+  }
+  interface responseList<T> {
+    totalCount: number;
+    totalPage: number;
+    currentPage: number;
+    pageSize: number;
+    hasMore: boolean;
+    data: T;
+  }
 }
 declare namespace login {
   import type { Ref } from "vue";
@@ -46,6 +46,7 @@ declare namespace config {
 }
 // 用户管理
 declare namespace member {
+  // 用户管理搜索的数据
   interface memberdata {
     roleId?: string;
     account?: string;
@@ -55,19 +56,31 @@ declare namespace member {
     currentPage?: number;
     pageSize?: number;
   }
+  // 用户管理得到的数据
+  interface memberList {
+    id: string;
+    deviceList: any;
+    account: string;
+    nick: number;
+    phone: string;
+    roleName: string;
+    isAdmin: boolean;
+    isEnable: boolean;
+    createDate: string;
+  }
 }
 declare namespace admin {
-    interface menuList {
-        id: string;
-        title: string;
-        pid: string;
-        pTitle: string;
-        sort: number;
-        url: string;
-        icon: string;
-        needAuth: boolean;
-        isEnable: boolean;
-        createDate: string;
-        isHidden: boolean;
-    }
+  interface menuList {
+    id: string;
+    title: string;
+    pid: string;
+    pTitle: string;
+    sort: number;
+    url: string;
+    icon: string;
+    needAuth: boolean;
+    isEnable: boolean;
+    createDate: string;
+    isHidden: boolean;
+  }
 }

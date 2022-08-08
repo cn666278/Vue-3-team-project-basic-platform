@@ -6,7 +6,7 @@ const url = '/Admin';
  * @returns {String} token
  */
  export async function getMemberList(jsonData: member.memberdata) {
-    const result = await axios< member.memberdata>(url, {
+    const result = await axios<defaultType.responseList<member.memberList[]>>(url, {
         targetAPI: 'GetMemberList',
         data: jsonData
     })
