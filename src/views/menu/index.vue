@@ -15,8 +15,9 @@
         <div class="form_operate">
             <div class="form_operate_btn">
                 <n-space>
-                    <n-button type="primary">新增</n-button>
-                    <n-button type="info">编辑</n-button>
+                    <n-button type="primary" @click="onAddEditModal()"
+                        >新增</n-button
+                    >
                 </n-space>
             </div>
             <div class="from_operate_static_btn"></div>
@@ -33,22 +34,47 @@
                 @update-expanded-row-keys="expendKeysHandle"
             />
         </div>
+        <n-modal
+            v-model:show="showAddEdit"
+            preset="card"
+            :title="addEditTitle"
+            style="width: 600px"
+            size="huge"
+            bordered
+            auto-focus
+            @before-leave="onAddEditClose"
+        >
+            <AddEditVue :id="editId" :menu-tree="menuTree" :form-info="editInfo">
+                <template #submit="slotProps">
+                    <n-button type="primary" @click="onAddEditSubmit(slotProps)"
+                        >新增</n-button
+                    >
+                    <n-button @click="onAddEditClose">取消</n-button>
+                </template>
+            </AddEditVue>
+        </n-modal>
     </div>
 </template>
 <script setup lang="ts">
-import { getMenusList } from "@/api/setting";
+import AddEditVue from "./addEdit.vue";
+import { getMenusList, getMenusTree, addMenu, updateMenu, getMenuInfo } from "@/api/setting";
 import { transformTozTreeFormat } from "@/utils/common";
 import {
     NTag,
     DataTableColumn,
     DataTableRowKey,
     PaginationProps,
+    TreeSelectOption,
+    NButton,
 } from "naive-ui";
-import { h, Ref, ref } from "vue";
+import { h, Ref, ref, onMounted } from "vue";
 let searchMenuName: Ref<string> = ref("");
 let tableCurrentPage: Ref<number> = ref(1);
 let tablePageSize: Ref<number> = ref(100);
-const test: any | never[] = [];
+let showAddEdit: Ref<boolean> = ref(false);
+let addEditTitle: Ref<string> = ref("新增菜单");
+let editId: Ref<string | undefined> = ref(undefined);
+let editInfo:Ref<any> = ref(undefined);
 const Data = (
     await getMenusList({
         title: searchMenuName.value,
@@ -76,6 +102,50 @@ const getTableData = async () => {
         .finally(() => {
             loading.value = false;
         });
+};
+
+/**编辑新增弹窗事件 */
+const onAddEditModal = async (id?: string) => {
+    if (id) {
+        addEditTitle.value = '编辑菜单';
+        editId.value = id;
+        editInfo.value = (await getMenuInfo(id)).Data;
+        console.log(editInfo.value);
+    }
+    showAddEdit.value = true;
+};
+
+/**弹窗关闭事件 */
+const onAddEditClose = () => {
+    editId.value = undefined;
+    showAddEdit.value = false;
+};
+
+/**新增或编辑事件 */
+const onAddEditSubmit = (slotProps: any) => {
+    const { formData, validate } = slotProps;
+    console.log(formData);
+    validate((error: any) => {
+        if (!error) {
+            if (formData?.id) {
+                updateMenu(formData).then((res) => {
+                    if (res.State == 1) {
+                        getTableData();
+                        showAddEdit.value = false;
+                    }
+                });
+            } else {
+                addMenu(formData).then((res) => {
+                    if (res.State == 1) {
+                        getTableData();
+                        showAddEdit.value = false;
+                    }
+                });
+            }
+        } else {
+            console.log("校验没通过");
+        }
+    });
 };
 
 /**列表格式 */
@@ -162,6 +232,25 @@ const columns: DataTableColumn[] = [
             }
         },
     },
+    {
+        title: "操作",
+        key: "id",
+        align: "center",
+        render(row) {
+            return h(
+                NButton,
+                {
+                    type: "info",
+                    dashed: true,
+                    size: "small",
+                    onClick: () => onAddEditModal(row?.id as string | undefined),
+                },
+                {
+                    default: () => "编辑",
+                }
+            );
+        },
+    },
 ];
 /**分页数据 */
 const page: PaginationProps = {
@@ -178,6 +267,20 @@ const expendKeys: Ref<DataTableRowKey[]> = ref([]);
 const expendKeysHandle = (keys: DataTableRowKey[]) => {
     expendKeys.value = keys;
 };
+let menuTree: Ref<TreeSelectOption[]> = ref([
+    {
+        id: "",
+        title: "根目录菜单",
+        children: [],
+    },
+]);
+const getMenuTreeList = async () => {
+    const { Data } = await getMenusTree();
+    menuTree.value[0].children = Data as unknown as TreeSelectOption[];
+};
+onMounted(() => {
+    getMenuTreeList();
+});
 </script>
 <style lang="scss" scoped>
 .form {

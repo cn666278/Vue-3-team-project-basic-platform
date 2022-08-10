@@ -15,8 +15,25 @@ export async function loginRequest(jsonData: login.loginRequestType) {
     return result
 }
 
+/**
+ * @function GetSession 获取用户详情
+ * @returns 
+ */
 export async function useInfoRequest() {
     return await axios<Auth.UserInfo>(url, {
         targetAPI: 'GetSession',
     })
+}
+
+/**
+ * @function GetMenusTree
+ * @param jsonData 搜索字段
+ * @returns {String} token
+ */
+ export async function getMenusTree(jsonData?: string) {
+    const result = await axios<defaultType.responseDefaultType<AuthRoute.Route[]>>(url, {
+        targetAPI: 'GetMenusTree',
+        data: jsonData
+    })
+    return result
 }
