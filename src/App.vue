@@ -20,6 +20,9 @@ import NaiveGlobal from "@/components/naiveGlobal/index.vue";
 import { zhCN, dateZhCN, NThemeEditor } from "naive-ui";
 import type { GlobalThemeOverrides } from "naive-ui";
 import { useThemeStore } from "@/store";
+import * as echarts from 'echarts'
+import { provide } from 'vue'
+provide('ec',echarts)//provide
 let themeOverrides: GlobalThemeOverrides = {
     common: {
         primaryColor: "#002FA7",
