@@ -38,7 +38,7 @@
                 >
                     <TagTabs v-if="app.tagTabsVisible" />
                     <n-scrollbar>
-                        <n-card class="layout_content_content_card">
+                        <n-card class="layout_content_content_card" content-style="padding: 10px">
                             <BlankLayout />
                         </n-card>
                     </n-scrollbar>

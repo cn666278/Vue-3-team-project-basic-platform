@@ -29,6 +29,9 @@
         <n-form-item label="菜单图标">
             <n-input v-model:value="formData.icon" />
         </n-form-item>
+        <n-form-item label="是否启用">
+            <n-switch v-model:value="formData.isEnable" />
+        </n-form-item>
         <n-form-item label="是否显示">
             <n-switch v-model:value="formData.isHidden" />
         </n-form-item>
@@ -52,11 +55,11 @@
     </n-form>
 </template>
 <script setup lang="ts">
-import { Ref, ref, watch } from "vue";
+import { onMounted, Ref, ref, watch } from "vue";
 import type { FormRules, FormInst, TreeSelectOption } from "naive-ui";
 interface form {
     id?: string;
-    formInfo?: formData;
+    formInfo?: Ref<formData>;
     menuTree: TreeSelectOption[];
 }
 interface formData {
@@ -84,7 +87,7 @@ interface formData {
 //     needAuth?: boolean;
 // }
 let formRef: Ref<FormInst | null> = ref(null);
-const props = defineProps<form>();
+let props = defineProps<form>();
 let formData: Ref<formData> = ref({
     isHidden: false,
     isEnable: true,
@@ -106,9 +109,14 @@ const rules: FormRules = {
         trigger: "blur",
     },
 };
-console.log(132131);
-// watch(props, (nowData: form) => {
-//     console.log(props.formInfo);
-// });
+formData.value = props.formInfo as formData;
+watch(
+    () => props,
+    (nowProps) => {
+        console.log(nowProps.formInfo);
+        formData.value = nowProps.formInfo as formData;
+    },
+    {deep: true}
+)
 </script>
 <style lang="scss" scoped></style>

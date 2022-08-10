@@ -20,7 +20,9 @@ export const useRouteStore = defineStore("route-store", {
     actions: {
         async getAsyncRouteMenu() {
             let { Data } = await getMenusTreeNew();
-            this.menu = this.filterRouteMenu(Data as unknown as AuthRoute.Route[]);
+            this.menu = this.filterRouteMenu(
+                Data as unknown as AuthRoute.Route[]
+            );
         },
         filterRouteMenu(allRoute: AuthRoute.Route[]) {
             allRoute.map((route) => {
@@ -40,15 +42,14 @@ export const useRouteStore = defineStore("route-store", {
                 //     return this.filterRouteMenu(route.children);
                 // }
                 // if (route.path[0] == "/") return route;
-                if (route.component == null && route.url[0] != '/') {
-                    route.path = `/${route.url}`
+                if (route.component == null && route.url[0] != "/") {
+                    route.path = `/${route.url}`;
                     route.component = markRaw(BasicLayout);
-                } else if(route.component == null && route.url[0] == '/') {
-                    route.path = route.url
-                    // route.path = "/";
+                } else if (route.component != null && route.url[0] != "/") {
+                    route.path = route.url;
                     route.component = markRaw(BlankLayout);
                 } else {
-                    route.path = route.url
+                    route.path = route.url;
                     route.component = this.AsyncComp(route.component);
                 }
                 if (route.children.length > 0) {

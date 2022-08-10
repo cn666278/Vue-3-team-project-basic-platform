@@ -1,5 +1,17 @@
 <template>
     <div class="form">
+        <div class="form_operate">
+            <n-space justify="end">
+                <n-button text @click="onAddEditModal()">
+                    <n-icon :size="22">
+                        <AppstoreAddOutlined />
+                    </n-icon>
+                    新增菜单
+                </n-button
+                >
+            </n-space>
+        </div>
+        <n-divider style="margin: 10px 0;" />
         <div class="form_search">
             <n-form inline size="medium" label-placement="left">
                 <n-form-item label="菜单名称">
@@ -11,16 +23,6 @@
                     >
                 </n-form-item>
             </n-form>
-        </div>
-        <div class="form_operate">
-            <div class="form_operate_btn">
-                <n-space>
-                    <n-button type="primary" @click="onAddEditModal()"
-                        >新增</n-button
-                    >
-                </n-space>
-            </div>
-            <div class="from_operate_static_btn"></div>
         </div>
         <div class="form_table">
             <n-data-table
@@ -51,7 +53,7 @@
             >
                 <template #submit="slotProps">
                     <n-button type="primary" @click="onAddEditSubmit(slotProps)"
-                        >新增</n-button
+                        >确定</n-button
                     >
                     <n-button @click="onAddEditClose">取消</n-button>
                 </template>
@@ -77,14 +79,15 @@ import {
     TreeSelectOption,
     NButton,
 } from "naive-ui";
-import { h, Ref, ref, reactive, onMounted } from "vue";
+import { h, Ref, ref, onMounted } from "vue";
+import { AppstoreAddOutlined } from '@vicons/antd'
 let searchMenuName: Ref<string> = ref("");
 let tableCurrentPage: Ref<number> = ref(1);
 let tablePageSize: Ref<number> = ref(100);
 let showAddEdit: Ref<boolean> = ref(false);
 let addEditTitle: Ref<string> = ref("新增菜单");
 let editId: Ref<string | undefined> = ref(undefined);
-let editInfo = reactive({});
+let editInfo: Ref<any> = ref(undefined);
 const Data = (
     await getMenusList({
         title: searchMenuName.value,
@@ -119,8 +122,7 @@ const onAddEditModal = async (id?: string) => {
     if (id) {
         addEditTitle.value = "编辑菜单";
         editId.value = id;
-        editInfo = reactive((await getMenuInfo(id)).Data);
-        console.log(editInfo);
+        editInfo.value = (await getMenuInfo(id)).Data;
     }
     showAddEdit.value = true;
 };
@@ -282,7 +284,7 @@ const expendKeysHandle = (keys: DataTableRowKey[]) => {
 };
 let menuTree: Ref<TreeSelectOption[]> = ref([
     {
-        id: "",
+        id: null,
         title: "根目录菜单",
         children: [],
     },
@@ -299,7 +301,7 @@ onMounted(() => {
 .form {
     .form_operate {
         display: flex;
-        justify-content: space-between;
+        justify-content: flex-end;
         align-items: center;
         padding: 5px 0;
     }
