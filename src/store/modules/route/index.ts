@@ -1,7 +1,7 @@
 import { BlankLayout, BasicLayout } from "@/Layout";
 import { defineStore } from "pinia";
 import { markRaw, defineAsyncComponent } from "vue";
-import { getMenusTree } from "@/api/setting";
+import { getMenusTree } from "@/api/login";
 interface RouterState {
     menu: AuthRoute.Route[];
 }
