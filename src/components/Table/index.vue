@@ -26,31 +26,33 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, toRefs,watch } from "vue";
+import { ref, reactive, toRefs, watch, useSlots } from "vue";
 import { PaginationProps } from "naive-ui";
 interface BasicTableProps {
   title?: string;
   dataSource: any;
-  Total: number,
+  Total: number;
   columns: any[];
 }
+const slots = useSlots();
+const renderArr = Object.keys(slots);
 const props = defineProps<BasicTableProps>();
-const state = reactive(props)
+const state = reactive(props);
 const { Total } = toRefs(state);
-console.log(props)
+console.log(props);
 const total = ref(Total); //多少条数据
 let page = ref(1); //当前第几页
 let pageSize = ref(10); //每页多少行
-const emit = defineEmits(['changePage','changePageSize']) //子传父
+const emit = defineEmits(["changePage", "changePageSize"]); //子传父
 // 页码发生改变时的回调函数
 const pageChange = (pagecurrent: number) => {
   page.value = pagecurrent;
-  emit('changePage',pagecurrent)
+  emit("changePage", pagecurrent);
 };
 // 页码尺寸发生改变时的回调函数
 const pageSizeChange = (size: number) => {
-  pageSize.value =size;
-  emit('changePageSize',size)
+  pageSize.value = size;
+  emit("changePageSize", size);
 };
 </script>
 

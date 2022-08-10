@@ -3,6 +3,7 @@ import Home from "@/views/Home/index.vue";
 import Login from "@/views/Login/index.vue";
 import { BasicLayout } from "@/Layout";
 import NotFound from "@/components/Error/404.vue";
+// import Test from "@/views/test/index.vue";
 export const constantRoutes: RouteRecordRaw[] = [
     {
         name: "root",

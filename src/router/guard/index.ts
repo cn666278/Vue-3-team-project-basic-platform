@@ -3,7 +3,7 @@ import { getToken } from "@/utils/auth";
 import { getTitle } from "@/utils/common";
 import constantRouter from "./dynamic";
 
-const whitelist: string[] = ["/login", "/404"];
+const whitelist: string[] = ["/login", "/404",'/test'];
 export async function createRouterGuard(router: Router) {
     let oneRun = false;
     router.beforeEach(async (to, from, next) => {

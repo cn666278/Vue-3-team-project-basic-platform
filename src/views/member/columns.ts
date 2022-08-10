@@ -1,5 +1,5 @@
 import { h } from "vue";
-import { NAvatar, NTag } from "naive-ui";
+import { NAvatar, NTag,NButton } from "naive-ui";
 import { formatDateTime } from "@/utils/common";
 export const columns: any[] = [
   {
@@ -57,4 +57,23 @@ export const columns: any[] = [
       );
     },
   },
+  // {
+  //   title: "操作",
+  //   key: "action",
+  //   render (row: any) {
+  //     return h(
+  //       NButton,
+  //       {
+  //         size: 'small',
+  //         type:'error',
+  //         strong:true,
+  //         secondary:true,
+  //         onClick: () => {
+  //           deltableData(row)
+  //         }
+  //       },
+  //       { default: () => '删除' }
+  //     )
+  //   }
+  // },
 ];
