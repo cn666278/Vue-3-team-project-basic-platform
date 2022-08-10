@@ -44,7 +44,11 @@
             auto-focus
             @before-leave="onAddEditClose"
         >
-            <AddEditVue :id="editId" :menu-tree="menuTree" :form-info="editInfo">
+            <AddEditVue
+                :id="editId"
+                :menu-tree="menuTree"
+                :form-info="editInfo"
+            >
                 <template #submit="slotProps">
                     <n-button type="primary" @click="onAddEditSubmit(slotProps)"
                         >新增</n-button
@@ -57,7 +61,13 @@
 </template>
 <script setup lang="ts">
 import AddEditVue from "./addEdit.vue";
-import { getMenusList, getMenusTree, addMenu, updateMenu, getMenuInfo } from "@/api/setting";
+import {
+    getMenusList,
+    getMenusTree,
+    addMenu,
+    updateMenu,
+    getMenuInfo,
+} from "@/api/setting";
 import { transformTozTreeFormat } from "@/utils/common";
 import {
     NTag,
@@ -67,14 +77,14 @@ import {
     TreeSelectOption,
     NButton,
 } from "naive-ui";
-import { h, Ref, ref, onMounted } from "vue";
+import { h, Ref, ref, reactive, onMounted } from "vue";
 let searchMenuName: Ref<string> = ref("");
 let tableCurrentPage: Ref<number> = ref(1);
 let tablePageSize: Ref<number> = ref(100);
 let showAddEdit: Ref<boolean> = ref(false);
 let addEditTitle: Ref<string> = ref("新增菜单");
 let editId: Ref<string | undefined> = ref(undefined);
-let editInfo:Ref<any> = ref(undefined);
+let editInfo = reactive({});
 const Data = (
     await getMenusList({
         title: searchMenuName.value,
@@ -107,10 +117,10 @@ const getTableData = async () => {
 /**编辑新增弹窗事件 */
 const onAddEditModal = async (id?: string) => {
     if (id) {
-        addEditTitle.value = '编辑菜单';
+        addEditTitle.value = "编辑菜单";
         editId.value = id;
-        editInfo.value = (await getMenuInfo(id)).Data;
-        console.log(editInfo.value);
+        editInfo = reactive((await getMenuInfo(id)).Data);
+        console.log(editInfo);
     }
     showAddEdit.value = true;
 };
@@ -135,6 +145,8 @@ const onAddEditSubmit = (slotProps: any) => {
                     }
                 });
             } else {
+                // formData.title = formData.webName;
+                // formData.url = formData.webPath;
                 addMenu(formData).then((res) => {
                     if (res.State == 1) {
                         getTableData();
@@ -243,7 +255,8 @@ const columns: DataTableColumn[] = [
                     type: "info",
                     dashed: true,
                     size: "small",
-                    onClick: () => onAddEditModal(row?.id as string | undefined),
+                    onClick: () =>
+                        onAddEditModal(row?.id as string | undefined),
                 },
                 {
                     default: () => "编辑",

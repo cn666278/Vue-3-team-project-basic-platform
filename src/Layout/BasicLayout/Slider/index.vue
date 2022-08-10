@@ -67,7 +67,6 @@ const routeHandle = watch(route,(nowRoute) => {
     expandedKeys.value = paths;
 });
 const expandedKeysHandle = (keys: string[]) => {
-    console.log(keys);
     expandedKeys.value = keys;
 };
 onMounted(() => {

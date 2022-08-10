@@ -36,6 +36,7 @@ export default defineConfig({
         host: "0.0.0.0",
         port: 9580,
         open: true,
+        hmr: true,
     },
     build: {
         terserOptions: {

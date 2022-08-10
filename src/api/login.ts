@@ -37,3 +37,27 @@ export async function useInfoRequest() {
     })
     return result
 }
+
+interface routeMenuNowMeta {
+    title: string;
+    hidden: boolean;
+    icon: string;
+}
+interface routeMenuNow {
+    name: string;
+    url: string;
+    meta: routeMenuNowMeta;
+    children: routeMenuNow[];
+    component: string;
+}
+/**
+ * @function GetMenusTreeNew 新路由菜单接口
+ * @param jsonData 搜索字段
+ * @returns {String} token
+ */
+ export async function getMenusTreeNew() {
+    const result = await axios<routeMenuNow[]>(url, {
+        targetAPI: 'GetMenusTreeNew',
+    })
+    return result
+}

@@ -1,6 +1,6 @@
 import qs from "qs";
 import Request from "./request";
-import { getToken } from '@/utils/auth/index';
+import { getToken, removeToken } from '@/utils/auth/index';
 const request = new Request({
     baseURL: import.meta.env.VITE_BASE_URL,
     timeout: 1000 * 20,
@@ -22,6 +22,10 @@ export default <T>(
                         });
                     }
                 } else {
+                    if(config.State == -88) {
+                        removeToken();
+                        location.reload();
+                    }
                     window.$message?.error(config.Message, {
                         duration: 3000,
                     });

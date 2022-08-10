@@ -3,27 +3,21 @@ declare namespace AuthRoute {
     declare module 'vue-router' {
         interface AuthRouteMeta extends RouteMeta {
             title: string;
+            hidden: boolean;
             icon: string;
-            noCache: boolean;
-            breadcrumb: boolean;
-            affix: boolean;
         }
     }
-    // type RoutePath = "/" | "/:pathMatch(.*)*";
     interface AuthRouteMeta extends RouteMeta {
         title: string;
+        hidden: boolean;
         icon: string;
-        noCache: boolean;
-        breadcrumb: boolean;
-        affix: boolean;
     }
     interface Route extends RouteRecordRaw {
-        path: string;
         name: string;
-        hidden: boolean;
-        meta: AuthRoute.AuthRouteMeta;
+        url: string;
+        path: string;
+        meta: AuthRouteMeta;
         component: Promise;
-        redirect: RouteLocationRaw;
-        children: Route[];
+        children: route[];
     }
 }

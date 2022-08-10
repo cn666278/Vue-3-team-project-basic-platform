@@ -71,10 +71,22 @@ interface formData {
     isEnable?: boolean;
     needAuth?: boolean;
 }
+// interface formData {
+//     id?: string;
+//     pid?: string;
+//     webName?: string;
+//     webComponent?: string;
+//     webPath?: string;
+//     icon?: string;
+//     sort?: number;
+//     isHidden?: boolean;
+//     isEnable?: boolean;
+//     needAuth?: boolean;
+// }
 let formRef: Ref<FormInst | null> = ref(null);
 const props = defineProps<form>();
 let formData: Ref<formData> = ref({
-    isHidden: true,
+    isHidden: false,
     isEnable: true,
 });
 const rules: FormRules = {
@@ -94,11 +106,9 @@ const rules: FormRules = {
         trigger: "blur",
     },
 };
-watch(props, (nowData: form) => {
-    console.log(props.formInfo);
-    if (props.formInfo) {
-        formData.value = nowData.formInfo as formData;
-    }
-});
+console.log(132131);
+// watch(props, (nowData: form) => {
+//     console.log(props.formInfo);
+// });
 </script>
 <style lang="scss" scoped></style>
