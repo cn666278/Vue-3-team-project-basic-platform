@@ -11,6 +11,10 @@ export default async (router: Router) => {
     }
     const menu: AuthRoute.Route[] = getMenu.value;
     await menu.map((route) => {
-        router.addRoute(route as unknown as RouteRecordRaw);
+        if(route.children == undefined) {
+            router.addRoute('Layout', route as unknown as RouteRecordRaw);
+        } else {
+            router.addRoute(route as unknown as RouteRecordRaw);
+        }
     });
 };
