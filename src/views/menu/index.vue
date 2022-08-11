@@ -130,6 +130,7 @@ const onAddEditModal = async (id?: string) => {
 /**弹窗关闭事件 */
 const onAddEditClose = () => {
     editId.value = undefined;
+    editInfo.value = ref({});
     showAddEdit.value = false;
 };
 

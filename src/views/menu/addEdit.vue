@@ -109,7 +109,9 @@ const rules: FormRules = {
         trigger: "blur",
     },
 };
-formData.value = props.formInfo as formData;
+if(props.formInfo) {
+    formData.value = props.formInfo as formData;
+}
 watch(
     () => props,
     (nowProps) => {
