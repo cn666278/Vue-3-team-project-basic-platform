@@ -45,12 +45,7 @@ export const useRouteStore = defineStore("route-store", {
                 if (route.component == null && route.url[0] != "/") {
                     route.path = `/${route.url}`;
                     route.component = markRaw(BasicLayout);
-                } else if (
-                    route.component != null &&
-                    route.url[0] != "/" &&
-                    route.children != undefined &&
-                    route.children.length > 0
-                ) {
+                } else if (route.component != null && route.url[0] != "/" && route.children == undefined) {
                     route.path = route.url;
                     route.component = markRaw(BlankLayout);
                 } else {
