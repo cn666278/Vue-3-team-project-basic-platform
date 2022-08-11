@@ -7,11 +7,10 @@
                         <AppstoreAddOutlined />
                     </n-icon>
                     新增菜单
-                </n-button
-                >
+                </n-button>
             </n-space>
         </div>
-        <n-divider style="margin: 10px 0;" />
+        <n-divider style="margin: 10px 0" />
         <div class="form_search">
             <n-form inline size="medium" label-placement="left">
                 <n-form-item label="菜单名称">
@@ -80,7 +79,7 @@ import {
     NButton,
 } from "naive-ui";
 import { h, Ref, ref, onMounted } from "vue";
-import { AppstoreAddOutlined } from '@vicons/antd'
+import { AppstoreAddOutlined } from "@vicons/antd";
 let searchMenuName: Ref<string> = ref("");
 let tableCurrentPage: Ref<number> = ref(1);
 let tablePageSize: Ref<number> = ref(100);
@@ -137,12 +136,11 @@ const onAddEditClose = () => {
 /**新增或编辑事件 */
 const onAddEditSubmit = (slotProps: any) => {
     const { formData, validate } = slotProps;
-    console.log(formData);
     validate((error: any) => {
         if (!error) {
+            formData.webName = formData.webComponent;
+            formData.webPath = formData.url;
             if (formData?.id) {
-                formData.title = formData.webName;
-                formData.url = formData.webPath;
                 updateMenu(formData).then((res) => {
                     if (res.State == 1) {
                         getTableData();
@@ -150,8 +148,6 @@ const onAddEditSubmit = (slotProps: any) => {
                     }
                 });
             } else {
-                formData.title = formData.webName;
-                formData.url = formData.webPath;
                 addMenu(formData).then((res) => {
                     if (res.State == 1) {
                         getTableData();
@@ -159,6 +155,7 @@ const onAddEditSubmit = (slotProps: any) => {
                     }
                 });
             }
+            console.log(formData);
         } else {
             console.log("校验没通过");
         }
