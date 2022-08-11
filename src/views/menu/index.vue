@@ -141,6 +141,8 @@ const onAddEditSubmit = (slotProps: any) => {
     validate((error: any) => {
         if (!error) {
             if (formData?.id) {
+                formData.title = formData.webName;
+                formData.url = formData.webPath;
                 updateMenu(formData).then((res) => {
                     if (res.State == 1) {
                         getTableData();
@@ -148,8 +150,8 @@ const onAddEditSubmit = (slotProps: any) => {
                     }
                 });
             } else {
-                // formData.title = formData.webName;
-                // formData.url = formData.webPath;
+                formData.title = formData.webName;
+                formData.url = formData.webPath;
                 addMenu(formData).then((res) => {
                     if (res.State == 1) {
                         getTableData();
