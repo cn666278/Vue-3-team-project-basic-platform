@@ -48,7 +48,7 @@ export const useRouteStore = defineStore("route-store", {
                 } else if (
                     route.component != null &&
                     route.url[0] != "/" &&
-                    route.children &&
+                    route.children != undefined &&
                     route.children.length > 0
                 ) {
                     route.path = route.url;
