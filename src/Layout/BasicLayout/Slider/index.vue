@@ -29,14 +29,14 @@ const routeTransformMenu = (routes: AuthRoute.Route[]): MenuOption[] => {
     let routeMenu: MenuOption[] = [];
     for (let index = 0; index < routes.length; index++) {
         const route = routes[index];
-        if (route.children.length > 0) {
+        if (route.children != undefined && route.children.length > 0) {
             routeTransformMenu(route.children);
         }
         routeMenu.push({
             key: route.name,
             label: route.meta.title,
             children:
-                route.children.length > 0
+                (route.children != undefined && route.children.length > 0)
                     ? routeTransformMenu(route.children)
                     : undefined,
         });

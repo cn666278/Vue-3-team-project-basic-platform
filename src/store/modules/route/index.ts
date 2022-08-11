@@ -52,7 +52,7 @@ export const useRouteStore = defineStore("route-store", {
                     route.path = route.url;
                     route.component = this.AsyncComp(route.component);
                 }
-                if (route.children.length > 0) {
+                if (route.children != undefined && route.children.length > 0) {
                     return this.filterRouteMenu(route.children);
                 }
             });
