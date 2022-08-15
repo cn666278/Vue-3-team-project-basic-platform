@@ -11,7 +11,12 @@
             <n-input v-model:value="formData.name" />
         </n-form-item>
         <n-form-item label="控制器名称" path="controllerName">
-            <n-select v-model:value="formData.controllerName" :options="selectData" />
+            <n-select
+                v-model:value="formData.controllerName"
+                tag
+                filterable
+                :options="selectData"
+            />
         </n-form-item>
         <n-form-item label="接口函数名" path="actionName">
             <n-input v-model:value="formData.actionName" />
@@ -47,7 +52,7 @@ interface formData {
     id?: string;
     name?: string;
     controllerName?: string;
-    actionName?:string;
+    actionName?: string;
     needCheck?: boolean;
     isEnable?: boolean;
 }
@@ -74,7 +79,7 @@ const rules: FormRules = {
         trigger: "blur",
     },
 };
-if(props.formInfo) {
+if (props.formInfo) {
     formData.value = props.formInfo as formData;
 }
 watch(
@@ -83,7 +88,7 @@ watch(
         console.log(nowProps.formInfo);
         formData.value = nowProps.formInfo as formData;
     },
-    {deep: true}
-)
+    { deep: true }
+);
 </script>
 <style lang="scss" scoped></style>
