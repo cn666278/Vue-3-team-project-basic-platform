@@ -70,6 +70,7 @@ declare namespace member {
   }
 }
 declare namespace admin {
+  /**菜单列表返回数据类型 */
   interface menuList {
     id: string;
     title: string;
@@ -82,5 +83,25 @@ declare namespace admin {
     isEnable: boolean;
     createDate: string;
     isHidden: boolean;
+  }
+  
+  /**接口列表请求数据类型 */
+  interface competenceListRequest {
+    controllerName?: string;
+    actionName?: string;
+    isCheck?: boolean;
+    name?: string;
+    currentPage: number;
+    pageSize: number;
+  }
+  /**接口列表返回数据类型 */
+  interface competenceList {
+    id: string;
+    name: string;
+    controllerName: string;
+    actionName: string;
+    needCheck: boolean;
+    isEnable: boolean;
+    createDate: string;
   }
 }

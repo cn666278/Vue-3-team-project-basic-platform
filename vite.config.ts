@@ -39,6 +39,7 @@ export default defineConfig({
         hmr: true,
     },
     build: {
+        chunkSizeWarningLimit: 1500,
         terserOptions: {
             compress: {
                 drop_console: true,

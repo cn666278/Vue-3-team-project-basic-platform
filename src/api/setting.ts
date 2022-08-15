@@ -88,3 +88,66 @@ export async function getMenuInfo(jsonData: string) {
     })
     return result
 }
+
+/**
+ * @function GetCompetenceList 获取接口列表
+ * @param jsonData 查询列表字段
+ * @returns 
+ */
+ export async function getCompetenceList(jsonData: admin.competenceListRequest) {
+    const result = await axios<defaultType.responseList<admin.competenceList[]>>(url, {
+        targetAPI: 'GetCompetenceList',
+        data: jsonData
+    })
+    return result
+}
+
+/**
+ * @function GetCompetenceControllerList 获取控制器集合
+ * @returns 
+ */
+export async function getCompetenceControllerList() {
+    const result = await axios<string[]>(url, {
+        targetAPI: 'GetCompetenceControllerList',
+    })
+    return result
+}
+
+/**
+ * @function GetCompetenceInfo 获取接口详情
+ * @param jsonData 获取接口Id
+ * @returns 
+ */
+ export async function getCompetenceInfo(jsonData: string) {
+    const result = await axios<admin.competenceList>(url, {
+        targetAPI: 'GetCompetenceInfo',
+        data: jsonData
+    })
+    return result
+}
+
+/**
+ * @function AddCompetence 添加接口
+ * @param jsonData 添加接口字段
+ * @returns 
+ */
+ export async function addCompetence(jsonData: admin.competenceList) {
+    const result = await axios(url, {
+        targetAPI: 'AddCompetence',
+        data: jsonData
+    })
+    return result
+}
+
+/**
+ * @function UpdateCompetence 修改接口
+ * @param jsonData 修改接口字段
+ * @returns 
+ */
+export async function updateCompetence(jsonData: admin.competenceList) {
+    const result = await axios(url, {
+        targetAPI: 'UpdateCompetence',
+        data: jsonData
+    })
+    return result
+}

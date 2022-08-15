@@ -68,7 +68,7 @@ const app = useAppStore();
         }
     }
 }
-.layout_content_background {
+.layout_content_content {
     :deep(.n-layout-scroll-container) {
         display: inherit;
         flex-direction: inherit;
