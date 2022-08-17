@@ -6,7 +6,7 @@
                     <n-icon :size="22">
                         <AppstoreAddOutlined />
                     </n-icon>
-                    新增菜单
+                    新增
                 </n-button>
             </n-space>
         </div>
@@ -231,9 +231,10 @@ const page = ref<PaginationProps>({
 const onAddEditModal = async (id?: string) => {
     getControllerList();
     if (id) {
-        addEditTitle.value = "编辑菜单";
+        addEditTitle.value = "编辑接口";
         editId.value = id;
         editInfo.value = (await getCompetenceInfo(id)).Data;
+        console.log(editInfo.value);
     }
     showAddEdit.value = true;
 };

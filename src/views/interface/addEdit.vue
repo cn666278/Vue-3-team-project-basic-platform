@@ -59,6 +59,9 @@ interface formData {
 let formRef: Ref<FormInst | null> = ref(null);
 let props = defineProps<form>();
 let formData: Ref<formData> = ref({
+    name: '',
+    controllerName: '',
+    actionName: '',
     isHidden: false,
     isEnable: true,
 });
@@ -80,13 +83,15 @@ const rules: FormRules = {
     },
 };
 if (props.formInfo) {
+    // console.log(props.formInfo);
     formData.value = props.formInfo as formData;
 }
 watch(
     () => props,
     (nowProps) => {
-        console.log(nowProps.formInfo);
-        formData.value = nowProps.formInfo as formData;
+        if(nowProps.formInfo) {
+            formData.value = nowProps.formInfo as formData;
+        }
     },
     { deep: true }
 );

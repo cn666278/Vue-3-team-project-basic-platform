@@ -6,7 +6,7 @@
                     <n-icon :size="22">
                         <AppstoreAddOutlined />
                     </n-icon>
-                    新增菜单
+                    新增
                 </n-button>
             </n-space>
         </div>
