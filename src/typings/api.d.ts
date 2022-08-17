@@ -10,6 +10,11 @@ declare namespace defaultType {
     HasData: boolean;
     Data: T;
   }
+  interface requestList {
+    name?: string;
+    currentPage?: number;
+    pageSize?: number;
+  }
   interface responseList<T> {
     totalCount: number;
     totalPage: number;

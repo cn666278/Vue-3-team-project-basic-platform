@@ -10,6 +10,7 @@
                 </n-button>
             </n-space>
         </div>
+        <n-divider style="margin: 10px 0" />
         <div class="form_search">
             <n-form size="medium" label-placement="left">
                 <n-grid :cols="4" :x-gap="10">
@@ -228,6 +229,7 @@ const page = ref<PaginationProps>({
 
 /**编辑新增弹窗事件 */
 const onAddEditModal = async (id?: string) => {
+    getControllerList();
     if (id) {
         addEditTitle.value = "编辑菜单";
         editId.value = id;
