@@ -3,6 +3,7 @@ declare namespace defaultType {
     targetAPI: string;
     token?: string;
     data?: object | string;
+    files?: File[]
   }
   interface responseDefaultType<T = any | null> {
     State: number;

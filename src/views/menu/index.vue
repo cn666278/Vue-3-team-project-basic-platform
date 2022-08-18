@@ -98,6 +98,13 @@ const loading: Ref<boolean> = ref(false);
 const menuData: Ref<defaultType.responseList<admin.menuList[]> | undefined> =
     ref(Data);
 const menuDataList: Ref<any> = ref(transformTozTreeFormat(Data.data));
+let menuTree: Ref<TreeSelectOption[]> = ref([
+    {
+        id: null,
+        title: "根目录菜单",
+        children: [],
+    },
+]);
 
 /**获取列表数据 */
 const getTableData = async () => {
@@ -116,8 +123,14 @@ const getTableData = async () => {
         });
 };
 
+const getMenuTreeList = async () => {
+    const { Data } = await getMenusTree();
+    menuTree.value[0].children = Data as unknown as TreeSelectOption[];
+};
+
 /**编辑新增弹窗事件 */
 const onAddEditModal = async (id?: string) => {
+    getMenuTreeList();
     if (id) {
         addEditTitle.value = "编辑菜单";
         editId.value = id;
@@ -281,17 +294,6 @@ const rowKey = (row: admin.menuList) => row.id;
 const expendKeys: Ref<DataTableRowKey[]> = ref([]);
 const expendKeysHandle = (keys: DataTableRowKey[]) => {
     expendKeys.value = keys;
-};
-let menuTree: Ref<TreeSelectOption[]> = ref([
-    {
-        id: null,
-        title: "根目录菜单",
-        children: [],
-    },
-]);
-const getMenuTreeList = async () => {
-    const { Data } = await getMenusTree();
-    menuTree.value[0].children = Data as unknown as TreeSelectOption[];
 };
 onMounted(() => {
     getMenuTreeList();
