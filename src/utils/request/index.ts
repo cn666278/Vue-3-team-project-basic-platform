@@ -7,6 +7,15 @@ const request = new Request({
 });
 
 export default <T>(url: string, jsonData: defaultType.requestDefaultType) => {
+    let formData = new FormData();
+    if (jsonData.files) {
+        formData.append("action", jsonData.targetAPI);
+        formData.append("token", getToken());
+        formData.append("data", JSON.stringify(jsonData.data));
+        jsonData.files.map((file) => {
+            formData.append(file.name, file);
+        });
+    }
     return request.request<defaultType.responseDefaultType<T>>({
         url: url,
         method: "post",
@@ -33,14 +42,15 @@ export default <T>(url: string, jsonData: defaultType.requestDefaultType) => {
                 console.log(error);
             },
         },
-        data: qs.stringify({
-            action: jsonData.targetAPI,
-            token: getToken(),
-            data:
-                typeof jsonData.data == "string"
-                    ? jsonData.data
-                    : JSON.stringify(jsonData.data),
-            files: jsonData.files,
-        }),
+        data: jsonData.files
+            ? formData
+            : qs.stringify({
+                  action: jsonData.targetAPI,
+                  token: getToken(),
+                  data:
+                      typeof jsonData.data == "string"
+                          ? jsonData.data
+                          : JSON.stringify(jsonData.data),
+              }),
     });
 };

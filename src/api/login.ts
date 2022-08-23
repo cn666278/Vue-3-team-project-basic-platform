@@ -61,3 +61,16 @@ interface routeMenuNow {
     })
     return result
 }
+
+/**
+ * @function GetEnumType 获取枚举数组--键值格式
+ * @param jsonData 获取接口Id
+ * @returns 
+ */
+ export async function getEnumType(jsonData: string) {
+    const result = await axios<login.enumType[]>(url, {
+        targetAPI: 'GetEnumType',
+        data: jsonData
+    })
+    return result
+}

@@ -34,6 +34,10 @@ declare namespace login {
   interface loginResponseType extends defaultType.responseDefaultType {
     Data: Auth.Token;
   }
+  interface enumType {
+    id: number;
+    text: string;
+  }
 }
 declare namespace config {
   interface sysConfig {
@@ -109,5 +113,30 @@ declare namespace admin {
     needCheck: boolean;
     isEnable: boolean;
     createDate: string;
+  }
+}
+// 文件上传
+declare namespace updateFile {
+  interface uploadFileListRequest extends defaultType.requestList {
+    eFileType?: number;
+  }
+  interface uploadFileList {
+    id: string;
+    fileType: string;
+    fileName: string;
+    fileExtension: string;
+    fileUrl: string;
+    memberName: string;
+    isEnable: boolean;
+    createDate: string;
+  }
+  interface uploadFilesRequest {
+    eFileType?: number;
+    memo?: string;
+    // files?: File[];
+  }
+  interface uploadFiles {
+    eFileType?: number;
+    fileList: File[],
   }
 }

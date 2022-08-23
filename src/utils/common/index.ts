@@ -39,7 +39,7 @@ export function mergeArray<T extends RouteLocationNormalizedLoaded>(
  * @param formatStr
  * @returns
  */
-export function formatDateTime(inputTime: Date, formatStr?: string): string {
+export function formatDateTime(inputTime: Date | string, formatStr?: string): string {
   let date = new Date(inputTime);
   let y: string | number = date.getFullYear();
   let m: string | number = date.getMonth() + 1;
