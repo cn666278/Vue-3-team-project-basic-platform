@@ -137,6 +137,9 @@ declare namespace updateFile {
   }
   interface uploadFiles {
     eFileType?: number;
-    fileList: File[],
+    fileList: Array<{
+      id: string;
+      url: string;
+    }>,
   }
 }

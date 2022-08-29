@@ -1,5 +1,4 @@
 import { DataTableColumn } from "naive-ui";
-import { Ref } from "vue";
 
 declare module 'naive' {
     export interface formTableColumns extends DataTableColumn {
@@ -17,13 +16,4 @@ interface formSearch {
 interface formTable<T = any> {
     data: T;
     columns: formTableColumns[];
-}
-interface formTableColumns extends DataTableColumn {
-    title: string;
-    key: string;
-    type?: 'default' | 'tag' | 'button';
-    value?: string;
-    tagSuccessValue?: string;
-    tagErrorValue?: string;
-    onClick?: Function;
 }

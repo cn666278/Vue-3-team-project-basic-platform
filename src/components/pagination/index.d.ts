@@ -4,7 +4,7 @@ export interface PaginationType {
     /**总页数 */
     totalPage?: number;
     /**当前页数 */
-    currentPage?: number;
+    currentPage: number;
     /**每页页数 */
-    pageSize?: number;
+    pageSize: number;
 }

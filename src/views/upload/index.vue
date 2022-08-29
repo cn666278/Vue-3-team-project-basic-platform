@@ -123,11 +123,16 @@ const columns: DataTableColumn[] = [
         },
     },
 ];
-const pageOption = ref<PaginationType>({});
+const pageOption = ref<PaginationType>({
+    currentPage: 1,
+    pageSize: 20,
+});
 /**获取表格数据 */
 const getTableData = async () => {
     const Data = (await getUploadFileList(formSearch.value)).Data;
     pageOption.value = {
+        currentPage: Data.currentPage,
+        pageSize: Data.pageSize,
         totalCount: Data.totalCount,
         totalPage: Data.totalPage,
     };
