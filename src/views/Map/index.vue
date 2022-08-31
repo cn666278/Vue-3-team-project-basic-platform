@@ -2,18 +2,18 @@
   <div>
     <TableListTemplate>
       <template #operate>
-        <n-button text @click="addTable"> 新增 </n-button>
+        <n-button text @click="onAddEditModal">
+          <n-icon :size="22">
+            <AppstoreAddOutlined />
+          </n-icon>
+          新增
+        </n-button>
       </template>
       <template #search>
         <table-search :columns="search" @get-table-data="getTableData" />
       </template>
       <template #table>
-        <form-table
-          :columns="columns"
-          :data="tableData"
-          size="small"
-          striped
-        ></form-table>
+        <form-table :columns="columns" :data="tableData" striped></form-table>
       </template>
       <template #page>
         <page
@@ -26,44 +26,37 @@
         />
       </template>
     </TableListTemplate>
-    <Dialog v-model:showModal="showModal1" :option="dialogoption" @close="close">
-    </Dialog>
+    <Dialog
+      v-model:showModal="showAddEdit"
+      :option="dialogOption"
+      @close="onAddEditClose"
+    ></Dialog>
   </div>
 </template>
 <script setup lang="ts">
-import { ref, h, reactive } from "vue";
+import { ref, reactive, h } from "vue";
 import { NTag, NButton, DataTableColumn } from "naive-ui";
-import Dialog from "@/components/dialog/index.vue";
+import { AppstoreAddOutlined } from "@vicons/antd";
 import type { formSearch } from "@/components/TableListTemplate";
 import type { PaginationType } from "@/components/pagination/index";
 import tableSearch from "@/components/tableSearch/index.vue";
 import formTable from "@/components/FormTable/index.vue";
 import page from "@/components/pagination/index.vue";
 import TableListTemplate from "@/components/TableListTemplate/index.vue";
+import Dialog from "@/components/dialog/index.vue";
 import { getMapList } from "@/api/map";
-// 新增弹窗显示
-const showModal1 = ref(false);
-const dialogTitle = ref("");
-// 新增弹窗的变量
-const dialogoption = reactive({
-  ConfirmBtnText: "保存",
-  title: '新增',
-});
-// 点击新增按钮
-function addTable() {
-  showModal1.value = true;
-//   dialogTitle.value = "新增";
-}
-// 关闭新增弹窗
-function close() {
-  showModal1.value = false;
-}
 const searchData = ref<defaultType.requestList>({});
 const pageOption = ref<PaginationType>({
   currentPage: 1,
   pageSize: 20,
 });
 const tableData = ref<map.mapList[]>([]);
+const showAddEdit = ref(false);
+const addEditTitle = ref("新增地图");
+const dialogOption = reactive({
+  ConfirmBtnText: "提交",
+  title: addEditTitle,
+});
 const getTableData = async (jsonData?: defaultType.requestList) => {
   if (jsonData) {
     jsonData.currentPage = pageOption.value?.currentPage;
@@ -91,20 +84,7 @@ const pageSizeHandle = (pageSize: number) => {
   getTableData();
 };
 getTableData();
-// const columns: formTableColumns[] = [
-//     {
-//         title: '地图名称',
-//         key: 'name',
-//     },{
-//         title: '坐标系类型',
-//         key: 'coordinateTypeName',
-//     },{
-//         title: '操作',
-//         key: '',
-//         type: 'button',
-//         value: '编辑',
-//     }
-// ];
+
 const columns: DataTableColumn[] = [
   {
     title: "地图名称",
@@ -155,5 +135,11 @@ const search = ref<formSearch[]>([
     type: "input",
   },
 ]);
+const onAddEditModal = () => {
+    showAddEdit.value = true;
+};
+const onAddEditClose = () => {
+    showAddEdit.value = false;
+};
 </script>
 <style lang="scss"></style>
