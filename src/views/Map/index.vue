@@ -2,7 +2,7 @@
     <div>
         <TableListTemplate>
             <template #operate>
-                <n-button text @click="onAddEditModal()">
+                <n-button text @click="onAddEditModal">
                     <n-icon :size="22">
                         <AppstoreAddOutlined />
                     </n-icon>
@@ -10,7 +10,10 @@
                 </n-button>
             </template>
             <template #search>
-                <table-search :columns="search" @get-table-data="getTableData" />
+                <table-search
+                    :columns="search"
+                    @get-table-data="getTableData"
+                />
             </template>
             <template #table>
                 <form-table
@@ -30,10 +33,15 @@
                 />
             </template>
         </TableListTemplate>
+        <Dialog
+            v-model:showModel="showAddEdit"
+            :option="dialogOption"
+            @close="onAddEditClose"
+        ></Dialog>
     </div>
 </template>
 <script setup lang="ts">
-import { ref, h } from "vue";
+import { ref, reactive, h } from "vue";
 import { NTag, NButton, DataTableColumn } from "naive-ui";
 import { AppstoreAddOutlined } from "@vicons/antd";
 import type { formSearch } from "@/components/TableListTemplate";
@@ -42,6 +50,7 @@ import tableSearch from "@/components/tableSearch/index.vue";
 import formTable from "@/components/FormTable/index.vue";
 import page from "@/components/pagination/index.vue";
 import TableListTemplate from "@/components/TableListTemplate/index.vue";
+import Dialog from "@/components/dialog/index.vue";
 import { getMapList } from "@/api/map";
 const searchData = ref<defaultType.requestList>({});
 const pageOption = ref<PaginationType>({
@@ -51,6 +60,10 @@ const pageOption = ref<PaginationType>({
 const tableData = ref<map.mapList[]>([]);
 const showAddEdit = ref(false);
 const addEditTitle = ref("新增地图");
+const dialogOption = reactive({
+    ConfirmBtnText: "提交",
+    title: addEditTitle,
+});
 const getTableData = async (jsonData?: defaultType.requestList) => {
     if (jsonData) {
         jsonData.currentPage = pageOption.value?.currentPage;
@@ -131,6 +144,10 @@ const search = ref<formSearch[]>([
 ]);
 const onAddEditModal = () => {
     showAddEdit.value = true;
+    console.log(1145141919108);
+};
+const onAddEditClose = () => {
+    showAddEdit.value = false;
 };
 </script>
 <style lang="scss"></style>
