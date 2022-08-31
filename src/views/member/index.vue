@@ -59,9 +59,11 @@ import TableListTemplate from "@/components/TableListTemplate/index.vue";
 import Dialog from "@/components/dialog/index.vue";
 import page from "@/components/pagination/index.vue";
 import { getMemberList } from "@/api/member";
+import { getRoleList } from "@/api/role";
 import { InitData } from "@/typings/member";
 import type { PaginationType } from "@/components/pagination/index";
 import { AppstoreAddOutlined } from "@vicons/antd";
+import { any } from "vue-types";
 // 新增弹窗显示
 const showModal = ref(false);
 const dialogTitle = ref("");
@@ -84,6 +86,7 @@ function confirm() {
   // showModal.value = false;
   submit();
 }
+const rolesList = ref();
 const addschemas: FormSchema[] = [
   {
     field: "account",
@@ -102,37 +105,33 @@ const addschemas: FormSchema[] = [
     componentProps: {
       placeholder: "请输入名称",
       onInput: (e: any) => {},
-    }
+    },
   },
   {
     field: "passWord",
     component: "NInput",
     label: "密码",
     componentProps: {
+      inputProps: {
+        autocomplete: "new-password",
+      },
+      type: "password",
+      showPasswordOn: "click",
       placeholder: "请输入密码",
       onInput: (e: any) => {},
-    }
+    },
   },
   {
-      field: 'roleName',
-      component: 'NSelect',
-      label: '角色',
-      componentProps: {
-        placeholder: '请选择角色',
-        options: [
-          {
-            label: '舒适性',
-            value: 1,
-          },
-          {
-            label: '经济性',
-            value: 2,
-          },
-        ],
-        onUpdateValue: (e: any) => {
-        },
-      },
+    field: "roleName",
+    component: "NSelect",
+    label: "角色",
+    componentProps: {
+      placeholder: "请选择角色",
+      multiple: true,
+      options: rolesList,
+      onUpdateValue: (e: any) => {},
     },
+  },
   {
     field: "phone",
     component: "NInputNumber",
@@ -147,15 +146,13 @@ const addschemas: FormSchema[] = [
     field: "isAdmin",
     component: "NSwitch",
     label: "是否后台用户",
-    componentProps: {
-    },
+    componentProps: {},
   },
   {
     field: "isEnable",
     component: "NSwitch",
     label: "是否启用",
-    componentProps: {
-    },
+    componentProps: {},
   },
 ];
 // 新增表单
@@ -309,7 +306,22 @@ const pageSizeHandle = (pageSize: number) => {
 };
 onMounted(() => {
   getTableData();
+  getRoleData();
 });
+/**获取角色列表 */
+const getRoleData = async () => {
+  let formInline = {
+    name: "",
+    currentPage: 1,
+    pageSize: 999999,
+  };
+  const RoteData = (await getRoleList(formInline)).Data.data;
+  RoteData.map((el)=>{
+    console
+  })
+  rolesList.value=RoteData
+
+};
 /**获取列表数据 */
 const getTableData = async () => {
   console.log(data.selectData);
