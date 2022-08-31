@@ -98,9 +98,9 @@ export default defineComponent({
     const getDropdownList = computed(() => {
       return (
         (toRaw(props.dropDownActions) || [])
-          // .filter((action) => {
-          //   return hasPermission(action.auth as string[]) && isIfShow(action);
-          // })
+          .filter((action) => {
+            return isIfShow(action);
+          })
           .map((action) => {
             const { popConfirm } = action;
             return {
@@ -133,9 +133,9 @@ export default defineComponent({
     const getActions = computed(() => {
       return (
         (toRaw(props.actions) || [])
-          // .filter((action) => {
-          //   return hasPermission(action.auth as string[]) && isIfShow(action);
-          // })
+          .filter((action) => {
+            return isIfShow(action);
+          })
           .map((action) => {
             const { popConfirm } = action;
             //需要展示什么风格，自己修改一下参数

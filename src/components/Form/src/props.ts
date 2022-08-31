@@ -50,7 +50,7 @@ export const basicProps = {
   // 确认按钮配置
   submitButtonOptions: Object as PropType<Partial<ButtonProps>>,
   //展开收起按钮
-  showAdvancedButton: propTypes.bool.def(true),
+  showAdvancedButton: propTypes.bool.def(false),
   // 确认按钮文字
   submitButtonText: {
     type: String,
