@@ -1,26 +1,41 @@
 <template>
-    <TableListTemplate>
-        <template #search>
-            <table-search :columns="search" @get-table-data="getTableData" />
-        </template>
-        <template #table>
-            <form-table :columns="columns" :data="tableData" size="small" striped></form-table>
-        </template>
-        <template #page>
-            <page
-                :current-page="pageOption?.currentPage"
-                :page-size="pageOption?.pageSize"
-                :total-page="pageOption?.totalPage"
-                :total-count="pageOption?.totalCount"
-                @page-change="pageHandle"
-                @page-size-change="pageSizeHandle"
-            />
-        </template>
-    </TableListTemplate>
+    <div>
+        <TableListTemplate>
+            <template #operate>
+                <n-button text @click="onAddEditModal()">
+                    <n-icon :size="22">
+                        <AppstoreAddOutlined />
+                    </n-icon>
+                    新增
+                </n-button>
+            </template>
+            <template #search>
+                <table-search :columns="search" @get-table-data="getTableData" />
+            </template>
+            <template #table>
+                <form-table
+                    :columns="columns"
+                    :data="tableData"
+                    striped
+                ></form-table>
+            </template>
+            <template #page>
+                <page
+                    :current-page="pageOption?.currentPage"
+                    :page-size="pageOption?.pageSize"
+                    :total-page="pageOption?.totalPage"
+                    :total-count="pageOption?.totalCount"
+                    @page-change="pageHandle"
+                    @page-size-change="pageSizeHandle"
+                />
+            </template>
+        </TableListTemplate>
+    </div>
 </template>
 <script setup lang="ts">
 import { ref, h } from "vue";
-import { NTag, NButton, DataTableColumn } from 'naive-ui';
+import { NTag, NButton, DataTableColumn } from "naive-ui";
+import { AppstoreAddOutlined } from "@vicons/antd";
 import type { formSearch } from "@/components/TableListTemplate";
 import type { PaginationType } from "@/components/pagination/index";
 import tableSearch from "@/components/tableSearch/index.vue";
@@ -34,6 +49,8 @@ const pageOption = ref<PaginationType>({
     pageSize: 20,
 });
 const tableData = ref<map.mapList[]>([]);
+const showAddEdit = ref(false);
+const addEditTitle = ref("新增地图");
 const getTableData = async (jsonData?: defaultType.requestList) => {
     if (jsonData) {
         jsonData.currentPage = pageOption.value?.currentPage;
@@ -62,21 +79,7 @@ const pageSizeHandle = (pageSize: number) => {
     getTableData();
 };
 getTableData();
-// const columns: formTableColumns[] = [
-//     {
-//         title: '地图名称',
-//         key: 'name',
-//     },{
-//         title: '坐标系类型',
-//         key: 'coordinateTypeName',
-//     },{
-//         title: '操作',
-//         key: '',
-//         type: 'button',
-//         value: '编辑',
-//     }
-// ];
-const columns:DataTableColumn[] = [
+const columns: DataTableColumn[] = [
     {
         title: "地图名称",
         key: "name",
@@ -92,13 +95,14 @@ const columns:DataTableColumn[] = [
             return h(
                 NTag,
                 {
-                    style: { margin: '5px', },
+                    style: { margin: "5px" },
                     type: row.isDefault ? "success" : "error",
-                }, {
-                    default: () => row.isDefault ? '已默认' : '未默认',
+                },
+                {
+                    default: () => (row.isDefault ? "已默认" : "未默认"),
                 }
-            )
-        }
+            );
+        },
     },
     {
         title: "是否启用",
@@ -107,13 +111,14 @@ const columns:DataTableColumn[] = [
             return h(
                 NTag,
                 {
-                    style: { margin: '5px', },
+                    style: { margin: "5px" },
                     type: row.isEnable ? "success" : "error",
-                }, {
-                    default: () => row.isEnable ? '启用' : '禁用',
+                },
+                {
+                    default: () => (row.isEnable ? "启用" : "禁用"),
                 }
-            )
-        }
+            );
+        },
     },
 ];
 const search = ref<formSearch[]>([
@@ -124,5 +129,8 @@ const search = ref<formSearch[]>([
         type: "input",
     },
 ]);
+const onAddEditModal = () => {
+    showAddEdit.value = true;
+};
 </script>
 <style lang="scss"></style>

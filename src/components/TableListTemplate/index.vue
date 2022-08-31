@@ -1,7 +1,9 @@
 <template>
     <div class="form">
         <div class="form_operate">
-            <slot name="operate"></slot>
+            <n-space justify="end">
+                <slot name="operate"></slot>
+            </n-space>
         </div>
         <n-divider style="margin: 10px 0" />
         <div class="form_search">
@@ -12,6 +14,9 @@
         </div>
         <div class="form_page">
             <slot name="page"></slot>
+        </div>
+        <div>
+            <slot name="model"></slot>
         </div>
     </div>
 </template>
