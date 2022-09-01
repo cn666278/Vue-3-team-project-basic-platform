@@ -111,6 +111,7 @@ const pageSizeHandle = (pageSize: number) => {
 };
 getTableData();
 getCoordinateType();
+console.log(coordinateTypeList.value);
 /**表格格式 */
 const columns: DataTableColumn[] = [
     {
@@ -201,8 +202,40 @@ const addEditForm: FormSchema[] = [
         label: '坐标系类型',
         component: "NSelect",
         componentProps: {
-            // labelFil
+            labelField: 'text',
+            valueField: 'id',
+            options: coordinateTypeList,
+        },
+        giProps: {
+            span: 3,
+        },
+    },
+    {
+        field: 'isEnable',
+        label: '是否启用',
+        component: 'NSwitch',
+    },
+    {
+        field: 'isDefault',
+        label: '是否默认',
+        component: 'NSwitch',
+    },
+    {
+        field: 'memo',
+        label: '备注',
+        component: 'NInput',
+        componentProps: {
+            type: 'textarea',
+            autoSize: true,
+        },
+        giProps: {
+            span: 3,
         }
+    },
+    {
+        field: 'paramList',
+        label: '地图参数',
+        // component: 
     }
 ];
 /**增删改查表单 */
