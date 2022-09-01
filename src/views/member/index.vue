@@ -48,6 +48,14 @@
     >
       <BasicForm @register="addregister" @submit="addSubmit"> </BasicForm>
     </Dialog>
+    <Dialog
+      v-model:showModal="editshowModal"
+      :option="dialogoption"
+      @close="editclose"
+      @confirm="editconfirm"
+    >
+      <BasicForm @register="editregister" @submit="editSubmit"> </BasicForm>
+    </Dialog>
   </div>
 </template>
 <script setup lang="ts">
@@ -58,10 +66,23 @@ import { BasicForm, FormSchema, useForm } from "@/components/Form/index";
 import TableListTemplate from "@/components/TableListTemplate/index.vue";
 import Dialog from "@/components/dialog/index.vue";
 import page from "@/components/pagination/index.vue";
-import { getMemberList } from "@/api/member";
+import { MD5Encrypt } from "@/utils/login";
+import {
+  getMemberList,
+  addMember,
+  getMemberInfo,
+  updateMember,
+  updateMemberPwd,
+  setMemberIsEnable
+} from "@/api/member";
+import { getRoleList } from "@/api/role";
 import { InitData } from "@/typings/member";
 import type { PaginationType } from "@/components/pagination/index";
 import { AppstoreAddOutlined } from "@vicons/antd";
+import { useMessage, useDialog } from "naive-ui";
+import { values } from "lodash";
+const message = useMessage();
+const dialog = useDialog();
 // 新增弹窗显示
 const showModal = ref(false);
 const dialogTitle = ref("");
@@ -74,6 +95,14 @@ const dialogoption = reactive({
 function addTable() {
   showModal.value = true;
   dialogTitle.value = "新增";
+  setTimeout(() => {
+    updateSchema({
+      field: "passWord",
+      giProps: {
+        span: 1,
+      },
+    });
+  }, 10);
 }
 // 关闭新增弹窗
 function close() {
@@ -84,7 +113,15 @@ function confirm() {
   // showModal.value = false;
   submit();
 }
+const rolesList = ref();
 const addschemas: FormSchema[] = [
+  {
+    field: "id",
+    label: "",
+    giProps: {
+      span: 0,
+    },
+  },
   {
     field: "account",
     component: "NInput",
@@ -102,64 +139,70 @@ const addschemas: FormSchema[] = [
     componentProps: {
       placeholder: "请输入名称",
       onInput: (e: any) => {},
-    }
+    },
   },
   {
     field: "passWord",
     component: "NInput",
     label: "密码",
     componentProps: {
+      inputProps: {
+        autocomplete: "new-password",
+      },
+      type: "password",
+      showPasswordOn: "click",
       placeholder: "请输入密码",
       onInput: (e: any) => {},
-    }
+    },
+    rules: [{ required: true, message: "请输入密码", trigger: ["blur"] }],
   },
   {
-      field: 'roleName',
-      component: 'NSelect',
-      label: '角色',
-      componentProps: {
-        placeholder: '请选择角色',
-        options: [
-          {
-            label: '舒适性',
-            value: 1,
-          },
-          {
-            label: '经济性',
-            value: 2,
-          },
-        ],
-        onUpdateValue: (e: any) => {
-        },
-      },
+    field: "roleIdList",
+    component: "NSelect",
+    label: "角色",
+    componentProps: {
+      labelField: "name",
+      valueField: "id",
+      placeholder: "请选择角色",
+      multiple: true,
+      options: rolesList,
+      onUpdateValue: (e: any) => {},
     },
+    rules: [
+      {
+        type: "array",
+        required: true,
+        message: "请选择角色",
+        trigger: ["blur", "change"],
+      },
+    ],
+  },
   {
     field: "phone",
-    component: "NInputNumber",
-    label: "手机",
+    component: "NInput",
+    label: "手机号",
     componentProps: {
       placeholder: "请输入手机号码",
       showButton: false,
       onInput: (e: any) => {},
     },
+    rules: [{ required: true, message: "请输入手机号", trigger: ["blur"] }],
   },
   {
     field: "isAdmin",
     component: "NSwitch",
     label: "是否后台用户",
-    componentProps: {
-    },
+    componentProps: {},
   },
   {
     field: "isEnable",
     component: "NSwitch",
     label: "是否启用",
-    componentProps: {
-    },
+    componentProps: {},
   },
 ];
 // 新增表单
-const [addregister, { setFieldsValue, submit }] = useForm({
+const [addregister, { setFieldsValue, submit, updateSchema }] = useForm({
   gridProps: { cols: 1 },
   collapsedRows: 3,
   labelWidth: 100,
@@ -167,28 +210,74 @@ const [addregister, { setFieldsValue, submit }] = useForm({
   showActionButtonGroup: false,
   schemas: addschemas,
 });
-function addSubmit(values: Recordable) {
-  console.log(values);
+async function addSubmit(values: Recordable) {
+  if (values.id === undefined) {
+    // let res = await addMember(values);
+    values.passWord = MD5Encrypt(values.passWord);
+    addMember(values).then((res) => {
+      showModal.value = false;
+      // message.success("新建成功");
+      getTableData();
+    });
+  } else {
+    console.log(values);
+    updateMember(values).then((res) => {
+      showModal.value = false;
+      // message.success("编辑成功");
+      getTableData();
+    });
+  }
 }
-// 编辑弹窗显示
+// 修改密码弹窗显示
 const editshowModal = ref(false);
-
-// 点击编辑按钮
-function editTable() {
-  editshowModal.value = true;
-  dialogTitle.value = "编辑用户";
-}
-// 关闭编辑弹窗
+// 关闭修改密码弹窗
 function editclose() {
   editshowModal.value = false;
 }
-// 保存编辑弹窗
+// 保存修改密码弹窗
 function editconfirm() {
   // showModal.value = false;
-  // submit();
+  editMethods.submit();
 }
-function editSubmit(values: Recordable) {
-  console.log(values);
+const editschemas: FormSchema[] = [
+  {
+    field: "memberId",
+    label: "",
+    giProps: {
+      span: 0,
+    },
+  },
+  {
+    field: "newPwd",
+    component: "NInput",
+    label: "新密码",
+    componentProps: {
+      inputProps: {
+        autocomplete: "new-password",
+      },
+      type: "password",
+      showPasswordOn: "click",
+      placeholder: "请输入密码",
+      onInput: (e: any) => {},
+    },
+    rules: [{ required: true, message: "请输入密码", trigger: ["blur"] }],
+  },
+];
+// 修改密码表单
+const [editregister, editMethods] = useForm({
+  gridProps: { cols: 1 },
+  collapsedRows: 3,
+  labelWidth: 100,
+  layout: "horizontal",
+  showActionButtonGroup: false,
+  schemas: editschemas,
+});
+async function editSubmit(values: Recordable) {
+  // console.log(values);
+  values.newPwd = MD5Encrypt(values.newPwd);
+  updateMemberPwd(values).then(() => {
+    editshowModal.value = false;
+  });
 }
 const actionColumn = reactive({
   title: "操作",
@@ -241,23 +330,71 @@ const actionColumn = reactive({
   },
 });
 function Editpassword(record: Recordable) {
-  console.log("点击了修改密码", record);
+  // console.log("点击了修改密码", record);
+  let editdata = {
+    memberId: record.id,
+  };
+  editshowModal.value = true;
+  dialogTitle.value = "修改密码";
+  setTimeout(() => {
+    editMethods.setFieldsValue(editdata);
+  }, 10);
 }
 
-function handleEdit(record: Recordable) {
+async function handleEdit(record: Recordable) {
   // console.log("点击了编辑用户", record);
   showModal.value = true;
   dialogTitle.value = "编辑用户";
+  let resdata = (await getMemberInfo(record.id)).Data;
   setTimeout(() => {
-    setFieldsValue(record);
-  }, 0);
+    updateSchema({
+      field: "passWord",
+      giProps: {
+        span: 0,
+      },
+    });
+    setFieldsValue(resdata);
+  }, 10);
 }
 function handleIsenable(record: Recordable) {
-  console.log("点击了启用/禁用", record);
+  // console.log("点击了启用/禁用", record);
+  if (record.isEnable === false) {
+    dialog.create({
+      title: "警告",
+      content: "您确定启用该用户？",
+      positiveText: "确定",
+      negativeText: "取消",
+      onPositiveClick: () => {
+        let opendata={
+          id:record.id,
+          isEnable:true
+        }
+        setMemberIsEnable(opendata).then(()=>{
+          getTableData()
+        })
+       
+      },
+      onNegativeClick: () => {},
+    });
+  }else{
+    dialog.create({
+      title: "警告",
+      content: "您确定禁用该用户？",
+      positiveText: "确定",
+      negativeText: "取消",
+      onPositiveClick: () => {
+        let offdata={
+          id:record.id,
+          isEnable:false
+        }
+        setMemberIsEnable(offdata).then(()=>{
+          getTableData()
+        })
+      },
+      onNegativeClick: () => {},
+    });
+  }
 }
-// const loadDataTable = async (res: any) => {
-//   return await getMemberList({ ...data.selectData, ...res });
-// };
 // 搜索数据
 const schemas: FormSchema[] = [
   {
@@ -309,7 +446,18 @@ const pageSizeHandle = (pageSize: number) => {
 };
 onMounted(() => {
   getTableData();
+  getRoleData();
 });
+/**获取角色列表 */
+const getRoleData = async () => {
+  let formInline = {
+    name: "",
+    currentPage: 1,
+    pageSize: 999999,
+  };
+  const RoteData = (await getRoleList(formInline)).Data.data;
+  rolesList.value = RoteData;
+};
 /**获取列表数据 */
 const getTableData = async () => {
   console.log(data.selectData);

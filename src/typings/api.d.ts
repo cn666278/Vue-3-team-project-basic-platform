@@ -78,6 +78,19 @@ declare namespace member {
     isEnable: boolean;
     createDate: string;
   }
+  interface memberInfo {
+    id: string;
+    account: string;
+    nick: number;
+    phone: string;
+    roleName: string;
+    isAdmin: boolean;
+    isEnable: boolean;
+    createDate?: string;
+    img?: string;
+    loginDate?: string;
+    roleIdList?: array;
+  }
 }
 declare namespace admin {
   /**菜单列表返回数据类型 */

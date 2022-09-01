@@ -64,8 +64,8 @@ import { getMapList } from "@/api/map";
 import { getEnumType } from '@/api/login';
 const searchData = ref<defaultType.requestList>({});
 const pageOption = ref<PaginationType>({
-    currentPage: 1,
-    pageSize: 20,
+  currentPage: 1,
+  pageSize: 20,
 });
 const tableData = ref<map.mapList[]>([]);
 const showAddEdit = ref(false);
@@ -77,23 +77,22 @@ const dialogOption = ref({
 const coordinateTypeList = ref<login.enumType[]>([]);
 /**获取表单数据 */
 const getTableData = async (jsonData?: defaultType.requestList) => {
-    if (jsonData) {
-        jsonData.currentPage = pageOption.value?.currentPage;
-        jsonData.pageSize = pageOption.value?.pageSize;
-        searchData.value = jsonData;
-    }
-    const Data = (
-        await getMapList(jsonData ? jsonData : { ...pageOption.value })
-    ).Data;
-    tableData.value = Data.data;
-    let pageData: PaginationType = {
-        currentPage: Data.currentPage,
-        pageSize: Data.pageSize,
-        totalCount: Data.totalCount,
-        totalPage: Data.totalPage,
-    };
-    pageOption.value = pageData;
-    return Data.data;
+  if (jsonData) {
+    jsonData.currentPage = pageOption.value?.currentPage;
+    jsonData.pageSize = pageOption.value?.pageSize;
+    searchData.value = jsonData;
+  }
+  const Data = (await getMapList(jsonData ? jsonData : { ...pageOption.value }))
+    .Data;
+  tableData.value = Data.data;
+  let pageData: PaginationType = {
+    currentPage: Data.currentPage,
+    pageSize: Data.pageSize,
+    totalCount: Data.totalCount,
+    totalPage: Data.totalPage,
+  };
+  pageOption.value = pageData;
+  return Data.data;
 };
 /**获取坐标系枚举 */
 const getCoordinateType = async () => {
@@ -101,68 +100,68 @@ const getCoordinateType = async () => {
 };
 /**分页页数监听 */
 const pageHandle = (page: number) => {
-    pageOption.value.currentPage = page;
-    getTableData();
+  pageOption.value.currentPage = page;
+  getTableData();
 };
 /**每页页数监听 */
 const pageSizeHandle = (pageSize: number) => {
-    pageOption.value.pageSize = pageSize;
-    getTableData();
+  pageOption.value.pageSize = pageSize;
+  getTableData();
 };
 getTableData();
 getCoordinateType();
 console.log(coordinateTypeList.value);
 /**表格格式 */
 const columns: DataTableColumn[] = [
-    {
-        title: "地图名称",
-        key: "name",
-    },
-    {
-        title: "坐标系类型",
-        key: "coordinateTypeName",
-    },
-    {
-        title: "是否默认",
-        key: "isDefault",
-        render(row) {
-            return h(
-                NTag,
-                {
-                    style: { margin: "5px" },
-                    type: row.isDefault ? "success" : "error",
-                },
-                {
-                    default: () => (row.isDefault ? "已默认" : "未默认"),
-                }
-            );
+  {
+    title: "地图名称",
+    key: "name",
+  },
+  {
+    title: "坐标系类型",
+    key: "coordinateTypeName",
+  },
+  {
+    title: "是否默认",
+    key: "isDefault",
+    render(row) {
+      return h(
+        NTag,
+        {
+          style: { margin: "5px" },
+          type: row.isDefault ? "success" : "error",
         },
+        {
+          default: () => (row.isDefault ? "已默认" : "未默认"),
+        }
+      );
     },
-    {
-        title: "是否启用",
-        key: "isEnable",
-        render(row) {
-            return h(
-                NTag,
-                {
-                    style: { margin: "5px" },
-                    type: row.isEnable ? "success" : "error",
-                },
-                {
-                    default: () => (row.isEnable ? "启用" : "禁用"),
-                }
-            );
+  },
+  {
+    title: "是否启用",
+    key: "isEnable",
+    render(row) {
+      return h(
+        NTag,
+        {
+          style: { margin: "5px" },
+          type: row.isEnable ? "success" : "error",
         },
+        {
+          default: () => (row.isEnable ? "启用" : "禁用"),
+        }
+      );
     },
+  },
 ];
 /**搜索 */
 const search = ref<formSearch[]>([
-    {
-        label: "关键字搜索",
-        key: "name",
-        value: "",
-        type: "input",
-    },
+  {
+    label: "关键字搜索",
+    key: "name",
+    value: "",
+    type: "input",
+  },
 ]);
 /**表单列 */
 const addEditForm: FormSchema[] = [
