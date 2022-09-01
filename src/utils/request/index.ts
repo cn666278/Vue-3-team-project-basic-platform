@@ -6,7 +6,11 @@ const request = new Request({
     timeout: 1000 * 20,
 });
 
-export default <T>(url: string, jsonData: defaultType.requestDefaultType) => {
+interface configOption {
+    closeMessage?: boolean;
+}
+
+export default <T>(url: string, jsonData: defaultType.requestDefaultType, option?: configOption) => {
     let formData = new FormData();
     if (jsonData.files) {
         formData.append("action", jsonData.targetAPI);
@@ -23,9 +27,11 @@ export default <T>(url: string, jsonData: defaultType.requestDefaultType) => {
             responseInterceptors(config: any) {
                 if (config.State == 1) {
                     if (config.Message != "") {
-                        window.$message?.success(config.Message, {
-                            duration: 3000,
-                        });
+                        if(!option?.closeMessage) {
+                            window.$message?.success(config.Message, {
+                                duration: 3000,
+                            });
+                        }
                     }
                 } else {
                     if (config.State == -88) {

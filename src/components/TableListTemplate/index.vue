@@ -16,7 +16,7 @@
             <slot name="page"></slot>
         </div>
         <div>
-            <slot name="model"></slot>
+            <slot name="modal"></slot>
         </div>
     </div>
 </template>
