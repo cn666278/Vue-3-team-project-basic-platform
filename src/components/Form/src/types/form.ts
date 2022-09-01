@@ -5,6 +5,7 @@ import type { ButtonProps } from 'naive-ui/lib/button';
 
 export interface FormSchema {
   field: string;
+  isshow?:Boolean;
   label: string;
   labelMessage?: string;
   labelMessageStyle?: object | string;
@@ -47,6 +48,8 @@ export interface FormProps {
 export interface FormActionType {
   submit: () => Promise<any>;
   setProps: (formProps: Partial<FormProps>) => Promise<void>;
+  updateSchema: (data: Partial<FormSchema> | Partial<FormSchema>[]) => Promise<void>;
+  resetSchema: (data: Partial<FormSchema> | Partial<FormSchema>[]) => Promise<void>;
   setFieldsValue: <T>(values: T) => Promise<void>;
   clearValidate: (name?: string | string[]) => Promise<void>;
   getFieldsValue: () => Recordable;

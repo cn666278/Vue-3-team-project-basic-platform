@@ -1,7 +1,9 @@
-import type { ComputedRef, Ref } from 'vue';
-import type { FormProps, FormSchema, FormActionType } from '../types/form';
-import { unref, toRaw } from 'vue';
-import { isFunction } from '@/utils/is';
+import type { ComputedRef, Ref } from "vue";
+import type { FormProps, FormSchema, FormActionType } from "../types/form";
+import { unref, toRaw } from "vue";
+import { isArray, isFunction, isObject,} from "@/utils/is";
+import { deepMerge } from "@/utils/common";
+import { uniqBy } from "lodash-es";
 
 declare type EmitType = (event: string, ...args: any[]) => void;
 
@@ -14,6 +16,7 @@ interface UseFormActionContext {
   defaultFormModel: Recordable;
   loadingSub: Ref<boolean>;
   handleFormValues: Function;
+  schemaRef: Ref<FormSchema[]>;
 }
 
 export function useFormEvents({
@@ -22,6 +25,7 @@ export function useFormEvents({
   formModel,
   getSchema,
   formElRef,
+  schemaRef,
   defaultFormModel,
   loadingSub,
   handleFormValues,
@@ -45,14 +49,40 @@ export function useFormEvents({
     try {
       await validate();
       loadingSub.value = false;
-      emit('submit', formModel);
+      emit("submit", formModel);
       return;
     } catch (error) {
       loadingSub.value = false;
       return;
     }
   }
-
+  //更新视图
+  async function updateSchema(data: Partial<FormSchema> | Partial<FormSchema>[]) {
+    console.log(data)
+    let updateData: Partial<FormSchema>[] = [];
+    if (isObject(data)) {
+      updateData.push(data as FormSchema);
+    }
+    if (isArray(data)) {
+      updateData = [...data];
+    }
+    const hasField = updateData.every(
+      (item) =>
+        (Reflect.has(item, "field") && item.field)
+    );
+    const schema: FormSchema[] = [];
+    updateData.forEach((item) => {
+      unref(getSchema).forEach((val) => {
+        if (val.field === item.field) {
+          const newSchema = deepMerge(val, item);
+          schema.push(newSchema as FormSchema);
+        } else {
+          schema.push(val);
+        }
+      });
+    });
+    schemaRef.value = uniqBy(schema, "field");
+  }
   //清空校验
   async function clearValidate() {
     // @ts-ignore
@@ -71,7 +101,7 @@ export function useFormEvents({
     });
     await clearValidate();
     const fromValues = handleFormValues(toRaw(unref(formModel)));
-    emit('reset', fromValues);
+    emit("reset", fromValues);
     submitOnReset && (await handleSubmit());
   }
 
@@ -99,6 +129,7 @@ export function useFormEvents({
   return {
     handleSubmit,
     validate,
+    updateSchema,
     resetFields,
     getFieldsValue,
     clearValidate,

@@ -1,4 +1,4 @@
-import type { FormProps, FormActionType, UseFormReturnType } from '../types/form';
+import type { FormProps, FormActionType, UseFormReturnType, FormSchema } from '../types/form';
 import type { DynamicProps } from '@/typings/utils';
 
 import { ref, onUnmounted, unref, nextTick, watch } from 'vue';
@@ -49,7 +49,14 @@ export function useForm(props?: Props): UseFormReturnType {
       const form = await getForm();
       await form.setProps(formProps);
     },
-
+    resetSchema: async (data: Partial<FormSchema> | Partial<FormSchema>[]) => {
+      const form = await getForm();
+      form.resetSchema(data);
+    },
+    updateSchema: async (data: Partial<FormSchema> | Partial<FormSchema>[]) => {
+      const form = await getForm();
+      form.updateSchema(data);
+    },
     resetFields: async () => {
       getForm().then(async (form) => {
         await form.resetFields();
