@@ -92,6 +92,26 @@ declare namespace member {
     roleIdList?: array;
   }
 }
+// 设备管理
+declare namespace deviceType {
+  // 设备管理搜索的数据
+  interface deviceTypedata {
+    name?: string;
+    currentPage?: number;
+    pageSize?: number;
+  }
+  // 设备管理得到的数据
+  interface deviceTypeList {
+    id: string;
+    name: string;
+    manufacturer: number;
+    deviceModel: string;
+    version: string;
+    memo: string;
+    isEnable: boolean;
+    createDate: string;
+  }
+}
 declare namespace admin {
   /**菜单列表返回数据类型 */
   interface menuList {

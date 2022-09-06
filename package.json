@@ -15,6 +15,7 @@
     "echarts": "^5.3.3",
     "js-cookie": "^3.0.1",
     "lodash-es": "^4.17.21",
+    "moment": "^2.29.4",
     "naive-ui": "^2.28.2",
     "pinia": "^2.0.14",
     "pinia-plugin-persistedstate": "^1.6.3",

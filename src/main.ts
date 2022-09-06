@@ -5,6 +5,7 @@ import { setupStore } from "./store";
 import { setupNaive } from "@/plugins";
 import "virtual:svg-icons-register";
 import "@/styles/index.scss";
+
 // createApp(App).mount('#app')
 async function setupApp() {
   const app = createApp(App);
