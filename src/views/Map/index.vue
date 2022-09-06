@@ -2,7 +2,7 @@
     <div>
         <TableListTemplate>
             <template #operate>
-                <n-button text @click="onAddEditModal">
+                <n-button text @click="onAddEditModal()">
                     <n-icon :size="22">
                         <AppstoreAddOutlined />
                     </n-icon>
@@ -12,7 +12,7 @@
             <template #search>
                 <table-search
                     :columns="search"
-                    @get-table-data="getTableData"
+                    @get-table-data="onSearch"
                 />
             </template>
             <template #table>
@@ -36,13 +36,34 @@
                 <Dialog
                     v-model:showModal="showAddEdit"
                     :option="dialogOption"
+                    width="650px"
                     @close="onAddEditClose"
                     @confirm="onAddEditConfirm"
                 >
                     <BasicForm
                         @register="addRegister"
                         @submit="onAddEditSubmit"
-                    ></BasicForm>
+                    >
+                        <template #mapParamList="{ model, field }">
+                            <n-dynamic-input
+                                v-model:value="model[field]"
+                                @create="onMapParamAdd"
+                            >
+                                <template #default="{ value }">
+                                    <n-space>
+                                        <n-input
+                                            v-model:value="value.name"
+                                            placeholder="请输入参数名"
+                                        />
+                                        <n-input
+                                            v-model:value="value.val"
+                                            placeholder="请输入参数值"
+                                        />
+                                    </n-space>
+                                </template>
+                            </n-dynamic-input>
+                        </template>
+                    </BasicForm>
                 </Dialog>
             </template>
         </TableListTemplate>
@@ -52,20 +73,18 @@
 import { ref, h } from "vue";
 import { NTag, NButton, DataTableColumn } from "naive-ui";
 import { AppstoreAddOutlined } from "@vicons/antd";
-import type { formSearch } from "@/components/TableListTemplate";
+import { TableListTemplate, formSearch, tableSearch } from "@/components/TableListTemplate";
 import type { PaginationType } from "@/components/pagination/index";
-import tableSearch from "@/components/tableSearch/index.vue";
 import formTable from "@/components/FormTable/index.vue";
 import page from "@/components/pagination/index.vue";
-import TableListTemplate from "@/components/TableListTemplate/index.vue";
 import Dialog from "@/components/dialog/index.vue";
 import { BasicForm, FormSchema, useForm } from "@/components/Form/index";
-import { getMapList } from "@/api/map";
-import { getEnumType } from '@/api/login';
+import { getMapList, getMapInfo, addMap, updateMap } from "@/api/map";
+import { getEnumType } from "@/api/login";
 const searchData = ref<defaultType.requestList>({});
 const pageOption = ref<PaginationType>({
-  currentPage: 1,
-  pageSize: 20,
+    currentPage: 1,
+    pageSize: 20,
 });
 const tableData = ref<map.mapList[]>([]);
 const showAddEdit = ref(false);
@@ -77,91 +96,113 @@ const dialogOption = ref({
 const coordinateTypeList = ref<login.enumType[]>([]);
 /**获取表单数据 */
 const getTableData = async (jsonData?: defaultType.requestList) => {
-  if (jsonData) {
-    jsonData.currentPage = pageOption.value?.currentPage;
-    jsonData.pageSize = pageOption.value?.pageSize;
-    searchData.value = jsonData;
-  }
-  const Data = (await getMapList(jsonData ? jsonData : { ...pageOption.value }))
-    .Data;
-  tableData.value = Data.data;
-  let pageData: PaginationType = {
-    currentPage: Data.currentPage,
-    pageSize: Data.pageSize,
-    totalCount: Data.totalCount,
-    totalPage: Data.totalPage,
-  };
-  pageOption.value = pageData;
-  return Data.data;
+    if (jsonData) {
+        jsonData.currentPage = pageOption.value?.currentPage;
+        jsonData.pageSize = pageOption.value?.pageSize;
+        searchData.value = jsonData;
+    }
+    const Data = (
+        await getMapList(jsonData ? jsonData : { ...pageOption.value })
+    ).Data;
+    tableData.value = Data.data;
+    let pageData: PaginationType = {
+        currentPage: Data.currentPage,
+        pageSize: Data.pageSize,
+        totalCount: Data.totalCount,
+        totalPage: Data.totalPage,
+    };
+    pageOption.value = pageData;
+    return Data.data;
+};
+const onSearch = () => {
+    pageOption.value.currentPage = 1;
+    getTableData();
 };
 /**获取坐标系枚举 */
 const getCoordinateType = async () => {
-    coordinateTypeList.value = (await getEnumType('ECoordinateType')).Data;
+    coordinateTypeList.value = (await getEnumType("ECoordinateType")).Data;
 };
 /**分页页数监听 */
 const pageHandle = (page: number) => {
-  pageOption.value.currentPage = page;
-  getTableData();
+    pageOption.value.currentPage = page;
+    getTableData();
 };
 /**每页页数监听 */
 const pageSizeHandle = (pageSize: number) => {
-  pageOption.value.pageSize = pageSize;
-  getTableData();
+    pageOption.value.pageSize = pageSize;
+    getTableData();
 };
-getTableData();
+onSearch();
 getCoordinateType();
-console.log(coordinateTypeList.value);
 /**表格格式 */
 const columns: DataTableColumn[] = [
-  {
-    title: "地图名称",
-    key: "name",
-  },
-  {
-    title: "坐标系类型",
-    key: "coordinateTypeName",
-  },
-  {
-    title: "是否默认",
-    key: "isDefault",
-    render(row) {
-      return h(
-        NTag,
-        {
-          style: { margin: "5px" },
-          type: row.isDefault ? "success" : "error",
-        },
-        {
-          default: () => (row.isDefault ? "已默认" : "未默认"),
-        }
-      );
+    {
+        title: "地图名称",
+        key: "name",
     },
-  },
-  {
-    title: "是否启用",
-    key: "isEnable",
-    render(row) {
-      return h(
-        NTag,
-        {
-          style: { margin: "5px" },
-          type: row.isEnable ? "success" : "error",
-        },
-        {
-          default: () => (row.isEnable ? "启用" : "禁用"),
-        }
-      );
+    {
+        title: "坐标系类型",
+        key: "coordinateTypeName",
     },
-  },
+    {
+        title: "是否默认",
+        key: "isDefault",
+        render(row) {
+            return h(
+                NTag,
+                {
+                    style: { margin: "5px" },
+                    type: row.isDefault ? "success" : "error",
+                },
+                {
+                    default: () => (row.isDefault ? "已默认" : "未默认"),
+                }
+            );
+        },
+    },
+    {
+        title: "是否启用",
+        key: "isEnable",
+        render(row) {
+            return h(
+                NTag,
+                {
+                    style: { margin: "5px" },
+                    type: row.isEnable ? "success" : "error",
+                },
+                {
+                    default: () => (row.isEnable ? "启用" : "禁用"),
+                }
+            );
+        },
+    },
+    {
+        title: '操作',
+        key: '',
+        render(row) {
+            return h(
+                NButton,
+                {
+                    type: "info",
+                    dashed: true,
+                    size: "small",
+                    onClick: () => onAddEditModal(row.id as string)
+                },
+                {
+                    default: () => "编辑"
+                }
+            );
+        },
+    }
 ];
 /**搜索 */
 const search = ref<formSearch[]>([
-  {
-    label: "关键字搜索",
-    key: "name",
-    value: "",
-    type: "input",
-  },
+    {
+        label: "关键字搜索",
+        key: "name",
+        value: "",
+        type: "input",
+    },
 ]);
 /**表单列 */
 const addEditForm: FormSchema[] = [
@@ -179,7 +220,7 @@ const addEditForm: FormSchema[] = [
         componentProps: {
             placeholder: "请输入地图名称",
         },
-        giProps: {span: 3},
+        giProps: { span: 3 },
         rules: [
             { required: true, message: "请输入地图名称", trigger: ["blur"] },
         ],
@@ -191,18 +232,19 @@ const addEditForm: FormSchema[] = [
         componentProps: {
             placeholder: "请输入地图标识",
         },
-        giProps: {span: 3},
+        giProps: { span: 3 },
         rules: [
             { required: true, message: "请输入地图标识", trigger: ["blur"] },
         ],
     },
     {
-        field: 'coordinateType',
-        label: '坐标系类型',
+        field: "coordinateType",
+        label: "坐标系类型",
+        defaultValue: 0,
         component: "NSelect",
         componentProps: {
-            labelField: 'text',
-            valueField: 'id',
+            labelField: "text",
+            valueField: "id",
             options: coordinateTypeList,
         },
         giProps: {
@@ -210,32 +252,41 @@ const addEditForm: FormSchema[] = [
         },
     },
     {
-        field: 'isEnable',
-        label: '是否启用',
-        component: 'NSwitch',
+        field: "isEnable",
+        label: "是否启用",
+        component: "NSwitch",
     },
     {
-        field: 'isDefault',
-        label: '是否默认',
-        component: 'NSwitch',
+        field: "isDefault",
+        label: "是否默认",
+        component: "NSwitch",
     },
     {
-        field: 'memo',
-        label: '备注',
-        component: 'NInput',
+        field: "memo",
+        label: "备注",
+        component: "NInput",
         componentProps: {
-            type: 'textarea',
+            type: "textarea",
             autoSize: true,
         },
         giProps: {
             span: 3,
-        }
+        },
     },
     {
-        field: 'paramList',
-        label: '地图参数',
-        // component: 
-    }
+        field: "paramList",
+        label: "地图参数",
+        defaultValue: [
+            {
+                name: "",
+                val: "",
+            },
+        ],
+        slot: "mapParamList",
+        giProps: {
+            span: 3,
+        },
+    },
 ];
 /**增删改查表单 */
 const [addRegister, { setFieldsValue, submit }] = useForm({
@@ -245,17 +296,43 @@ const [addRegister, { setFieldsValue, submit }] = useForm({
     showActionButtonGroup: false,
     schemas: addEditForm,
 });
-const onAddEditModal = () => {
+const onAddEditModal = async (id?: string) => {
     showAddEdit.value = true;
+    if(id) {
+        let mapInfoData = (await getMapInfo(id)).Data;
+        setFieldsValue(mapInfoData);
+    }
 };
 const onAddEditConfirm = () => {
     submit();
 };
-const onAddEditSubmit = (values: Recordable) => {
-    console.log(values);
+const onAddEditSubmit = (values: map.mapInfo) => {
+    if(values.id) {
+        updateMap(values).then(res => {
+            if(res.State == 1) {
+                window.$message?.success("编辑成功");
+                onSearch();
+                onAddEditClose();
+            }
+        })
+    } else {
+        addMap(values).then(res => {
+            if(res.State == 1) {
+                window.$message?.success("添加成功");
+                onSearch();
+                onAddEditClose();
+            }
+        })
+    }
 };
 const onAddEditClose = () => {
     showAddEdit.value = false;
+};
+const onMapParamAdd = () => {
+    return {
+        name: "",
+        val: "",
+    };
 };
 </script>
 <style lang="scss"></style>

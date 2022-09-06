@@ -25,5 +25,4 @@ export type ComponentType =
   | 'NIconPicker'
   | 'NRender'
   | 'NSlider'
-  | 'NRate'
-  | 'NDynamicInput';
+  | 'NRate';
