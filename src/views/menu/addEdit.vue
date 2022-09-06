@@ -74,18 +74,6 @@ interface formData {
     isEnable?: boolean;
     needAuth?: boolean;
 }
-// interface formData {
-//     id?: string;
-//     pid?: string;
-//     webName?: string;
-//     webComponent?: string;
-//     webPath?: string;
-//     icon?: string;
-//     sort?: number;
-//     isHidden?: boolean;
-//     isEnable?: boolean;
-//     needAuth?: boolean;
-// }
 let formRef: Ref<FormInst | null> = ref(null);
 let props = defineProps<form>();
 let formData: Ref<formData> = ref({
@@ -115,8 +103,9 @@ if(props.formInfo) {
 watch(
     () => props,
     (nowProps) => {
-        console.log(nowProps.formInfo);
-        formData.value = nowProps.formInfo as formData;
+        if(nowProps.formInfo) {
+            formData.value = nowProps.formInfo as formData;
+        }
     },
     {deep: true}
 )

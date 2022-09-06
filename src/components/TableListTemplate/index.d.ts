@@ -7,13 +7,13 @@ declare module 'naive' {
         type?: 'default' | 'tag' | 'button';
     }
 }
-interface formSearch {
+export interface formSearch {
     label: string;
     key: string;
     value: any;
     type: 'input' | 'select' | 'dateTime';
 }
-interface formTable<T = any> {
+export interface formTable<T = any> {
     data: T;
     columns: formTableColumns[];
 }

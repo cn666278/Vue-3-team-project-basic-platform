@@ -5,6 +5,7 @@
         :page-count="pageProps.totalPage"
         :page-size="pageProps.pageSize"
         :page-sizes="[1,10,20,50,100]"
+        v-bind="attrs"
         @update-page="pageHandle"
         @update-page-size="pageSizeHandle"
     >
@@ -14,7 +15,7 @@
     </n-pagination>
 </template>
 <script setup lang="ts">
-import { ref, watch } from "vue";
+import { ref, useAttrs, watch } from "vue";
 interface PaginationType {
     totalCount?: number;
     totalPage?: number;
@@ -24,6 +25,7 @@ interface PaginationType {
 const props = defineProps<PaginationType>();
 const emits = defineEmits(['pageChange', 'pageSizeChange']);
 const pageProps = ref<PaginationType>(props);
+const attrs = useAttrs();
 const pageHandle = (page: number) => {
     emits('pageChange', page);
 }

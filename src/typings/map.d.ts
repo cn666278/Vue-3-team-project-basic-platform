@@ -6,13 +6,24 @@ declare namespace map {
         memo: string;
         coordinateType: number;
         coordinateTypeName: string;
-        paramList: {
-            name: string;
-            val: string;
-            sort: string;
-        }[],
+        paramList: paramData[],
         isDefault: boolean;
         isEnable: boolean;
         createDate: string;
+    }
+    interface mapInfo {
+        id?: string;
+        name: string;
+        code: string;
+        coordinateType: number;
+        memo: string;
+        paramList: paramData[],
+        isDefault: boolean;
+        isEnable: boolean;
+    }
+    interface paramData {
+        name: string;
+        val: string;
+        sort: string;
     }
 }
