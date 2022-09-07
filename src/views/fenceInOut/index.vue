@@ -1,16 +1,6 @@
 <template>
   <div>
     <TableListTemplate>
-      <template #operate>
-        <n-space justify="end">
-          <n-button text @click="downloadJT808">
-            <n-icon :size="20">
-              <AppstoreAddOutlined />
-            </n-icon>
-            下载
-          </n-button>
-        </n-space>
-      </template>
       <template #search>
         <BasicForm
           @register="register"
@@ -29,6 +19,13 @@
         ></BasicTable>
       </template>
       <template #page>
+        <!-- <page
+            :current-page="pageOption?.currentPage"
+            :page-size="pageOption?.pageSize"
+            @page-change="pageHandle"
+            @page-size-change="pageSizeHandle"
+            simple
+          /> -->
         <n-pagination
           :page="pageOption?.currentPage"
           :page-size="pageOption?.pageSize"
@@ -46,20 +43,81 @@
 </template>
 <script setup lang="ts">
 import { h, onMounted, reactive, ref } from "vue";
-import { columns } from "./columns";
-import { BasicTable, TableAction } from "@/components/BasicTable";
+import { BasicTable } from "@/components/BasicTable";
 import { BasicForm, FormSchema, useForm } from "@/components/Form/index";
 import TableListTemplate from "@/components/TableListTemplate/index.vue";
-import page from "@/components/pagination/index.vue";
-import { getDeviceMsgLogList, getEnumType,downloadDeviceMsgLogs } from "@/api/interfaceLog";
+import { getMapFenceRecordList } from "@/api/mapFence";
 import type { PaginationType } from "@/components/pagination/index";
-import { AppstoreAddOutlined } from "@vicons/antd";
+import { formatDateTime } from "@/utils/common";
 import moment from "moment";
-const searchData = ref<deviceMsgLog.deviceMsgLogdata>({});
-const tableData = ref<deviceMsgLog.deviceMsgLogList[]>([]);
-const protocolData = ref();
+import { NTag } from "naive-ui";
+const searchData = ref<MapFenceRecord.MapFenceRecorddata>({});
+const tableData = ref<MapFenceRecord.MapFenceRecordList[]>([]);
 const beginDate = ref();
 const endDate = ref();
+const columns: any[] = [
+  {
+    title: "设备号",
+    key: "terminalNo",
+    width: 130,
+  },
+  {
+    title: "车牌号",
+    key: "carNumber",
+    width: 120,
+  },
+  {
+    title: "围栏编号",
+    key: "mapFenceCode",
+    width: 120,
+  },
+  {
+    title: "围栏名称",
+    key: "mapFenceName",
+    width: 120,
+  },
+  {
+    title: "围栏标识",
+    key: "ieFlag",
+    width: 120,
+    render(row: { ieFlag: any }) {
+      return h(
+        NTag,
+        {
+          type: row.ieFlag===1 ? "success" : "error",
+          size: "small",
+        },
+        {
+          default: () => (row.ieFlag===1 ? "进入" : "离开"),
+        }
+      );
+    },
+  },
+  {
+    title: "经纬度",
+    key: "lngLat",
+    width: 200,
+    render(row: any) {
+      return row.lng + "," + row.lat;
+    },
+  },
+  {
+    title: "设备时间",
+    key: "deviceDate",
+    width: 200,
+    render(row: { deviceDate: any }) {
+      return formatDateTime(row.deviceDate);
+    },
+  },
+  {
+    title: "发生时间",
+    key: "serverDate",
+    width: 200,
+    render(row: { serverDate: any }) {
+      return formatDateTime(row.serverDate);
+    },
+  },
+];
 // 搜索数据
 const schemas: FormSchema[] = [
   {
@@ -68,18 +126,6 @@ const schemas: FormSchema[] = [
     label: "设备号",
     componentProps: {
       placeholder: "请输入设备号",
-    },
-  },
-  {
-    field: "protocol",
-    component: "NSelect",
-    label: "协议",
-    componentProps: {
-      labelField: "text",
-      valueField: "id",
-      placeholder: "请选择协议",
-      options: protocolData,
-      onUpdateValue: (e: any) => {},
     },
   },
   {
@@ -119,27 +165,14 @@ const [register, { setFieldsValue }] = useForm({
   schemas,
 });
 // 搜索查询
-function downloadJT808() {
-  downloadDeviceMsgLogs(data.selectData).then((res) => {
-    if (res.State == 1) {
-      window.location.href = res.Data.url;
-    }
-  });
-}
-// 搜索查询
 function handleSubmit(values: Recordable) {
   data.selectData.terminalNo = values.terminalNo;
-  data.selectData.protocol = values.protocol;
-  //   data.selectData.beginTime=moment(values.beginTime).format('YYYY-MM-DD HH:mm:ss');
-  //   console.log(values);
-  //   data.selectData.endTime=values.endTime;
   getTableData();
 }
 // 搜索重置
 function handleReset(values: Recordable) {
   Object.keys(data.selectData).forEach((key) => {
     if (key !== "currentPage" && key !== "pageSize") {
-      //   console.log(key);
       data.selectData[key] = undefined;
     }
   });
@@ -163,36 +196,23 @@ const pageSizeHandle = (pageSize: number) => {
   getTableData();
 };
 onMounted(() => {
-  getprotocolData();
-  //   设置搜索表单的初始值
-  let resdata = {
-    protocol: 1,
-  };
   beginDate.value = moment().format("YYYY-MM-DD 00:00:00");
   endDate.value = moment().format("YYYY-MM-DD 23:59:59");
   setTimeout(() => {
-    setFieldsValue(resdata);
     data.selectData.beginTime = beginDate.value;
     data.selectData.endTime = endDate.value;
-    data.selectData.protocol = resdata.protocol;
     getTableData();
   }, 10);
 });
-
-/**获取枚举列表 */
-const getprotocolData = async () => {
-  const RoteData = (await getEnumType("EProtocol")).Data;
-  protocolData.value = RoteData;
-};
 /**获取列表数据 */
 const getTableData = async () => {
-  //   console.log(data.selectData);
+//   console.log(data.selectData);
   if (data.selectData) {
     data.selectData.currentPage = pageOption.value?.currentPage;
     data.selectData.pageSize = pageOption.value?.pageSize;
   }
   const Data = (
-    await getDeviceMsgLogList(
+    await getMapFenceRecordList(
       data.selectData ? data.selectData : { ...pageOption.value }
     )
   ).Data;

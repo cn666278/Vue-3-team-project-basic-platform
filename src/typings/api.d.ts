@@ -112,6 +112,29 @@ declare namespace deviceType {
     createDate: string;
   }
 }
+declare namespace AlarmMessage {
+  // 搜索的数据
+  interface AlarmMessagedata {
+    alarmType ?: int;
+    terminalNo ?: string;
+    beginTime?: string;
+    endTime?: string;
+    name?: string;
+    currentPage?: number;
+    pageSize?: number;
+  }
+  // 得到的数据
+  interface AlarmMessageList {
+    message: string;
+    deviceId: string;
+    terminalNo: string;
+    eType: int;
+    lat: string;
+    lng: string;
+    createDate: string;
+  }
+}
+
 declare namespace admin {
   /**菜单列表返回数据类型 */
   interface menuList {

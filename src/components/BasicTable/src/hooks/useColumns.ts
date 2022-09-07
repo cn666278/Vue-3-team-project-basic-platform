@@ -52,7 +52,7 @@ export function useColumns(propsRef: ComputedRef<BasicTableProps>) {
       // })
       .map((column) => {
         //默认 ellipsis 为true
-        column.ellipsis = typeof column.ellipsis === 'undefined' ? { tooltip: true } : false;
+        column.ellipsis = typeof column.ellipsis === 'undefined' ? { tooltip: true } : column.ellipsis;
         const { edit } = column;
         if (edit) {
           // column.render = renderEditCell(column);

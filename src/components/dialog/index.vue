@@ -11,7 +11,7 @@
       }"
     >
       <slot> </slot>
-      <template #action>
+      <template #action v-if="props.btnShow">
         <n-space>
           <n-button @click="handleClose">取消</n-button>
           <n-button type="primary" @click="onConfirm">{{
@@ -30,10 +30,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-  //   title: {
-  //     type: String,
-  //     default: "",
-  //   },
+  btnShow: {
+    type: Boolean,
+    default: true,
+  },
   width: {
     type: String,
     default: "600px",
@@ -54,7 +54,7 @@ const dialogTitle = computed(() => {
 // 双向绑定
 const modelValue = computed({
   get: () => props.showModal,
-  set: () => emits("close"), 
+  set: () => emits("close"),
 });
 const showModal = isRef(props.showModal) ? props.showModal : modelValue;
 // 子传父
