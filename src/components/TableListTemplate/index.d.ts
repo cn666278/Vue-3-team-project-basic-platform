@@ -1,5 +1,5 @@
 import { DataTableColumn } from "naive-ui";
-
+export type { PaginationType } from "@/components/pagination/index";
 declare module 'naive' {
     export interface formTableColumns extends DataTableColumn {
         title: string;

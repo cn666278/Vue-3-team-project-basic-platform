@@ -23,11 +23,12 @@
                 ></form-table>
             </template>
             <template #page>
-                <page
+                <pagination
                     :current-page="pageOption?.currentPage"
                     :page-size="pageOption?.pageSize"
                     :total-page="pageOption?.totalPage"
                     :total-count="pageOption?.totalCount"
+                    simple
                     @page-change="pageHandle"
                     @page-size-change="pageSizeHandle"
                 />
@@ -73,14 +74,12 @@
 import { ref, h } from "vue";
 import { NTag, NButton, DataTableColumn } from "naive-ui";
 import { AppstoreAddOutlined } from "@vicons/antd";
-import { TableListTemplate, formSearch, tableSearch } from "@/components/TableListTemplate";
-import type { PaginationType } from "@/components/pagination/index";
-import formTable from "@/components/FormTable/index.vue";
-import page from "@/components/pagination/index.vue";
-import Dialog from "@/components/dialog/index.vue";
+import { TableListTemplate, formSearch, tableSearch, formTable, Dialog, pagination, PaginationType } from "@/components/TableListTemplate";
+// import page from "@/components/pagination/index.vue";
 import { BasicForm, FormSchema, useForm } from "@/components/Form/index";
 import { getMapList, getMapInfo, addMap, updateMap } from "@/api/map";
 import { getEnumType } from "@/api/login";
+import Pagination from "@/components/pagination/index.vue";
 const searchData = ref<defaultType.requestList>({});
 const pageOption = ref<PaginationType>({
     currentPage: 1,

@@ -2,9 +2,11 @@
     <n-pagination
         show-size-picker
         :page="pageProps.currentPage"
-        :page-count="pageProps.totalPage"
+        :page-count="pageProps.simple ? undefined : pageProps.totalPage"
         :page-size="pageProps.pageSize"
         :page-sizes="[1,10,20,50,100]"
+        :item-count="pageProps.simple ? pageProps.totalCount : undefined"
+        :simple="pageProps.simple"
         v-bind="attrs"
         @update-page="pageHandle"
         @update-page-size="pageSizeHandle"
@@ -21,6 +23,7 @@ interface PaginationType {
     totalPage?: number;
     currentPage?: number;
     pageSize?: number;
+    simple?: boolean;
 }
 const props = defineProps<PaginationType>();
 const emits = defineEmits(['pageChange', 'pageSizeChange']);

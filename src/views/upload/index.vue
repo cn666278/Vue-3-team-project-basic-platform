@@ -44,6 +44,7 @@
                 :page-size="formSearch.pageSize"
                 :total-count="pageOption.totalCount"
                 :total-page="pageOption.totalPage"
+                simple
                 @page-change="pageHandle"
                 @page-size-change="pageSizeHandle"
             />
