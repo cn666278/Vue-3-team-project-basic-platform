@@ -224,9 +224,6 @@
       label: "设备类型名称",
       componentProps: {
         placeholder: "请输入设备类型名称",
-        onInput: (e: any) => {
-          console.log(e);
-        },
       },
     },
   ];
@@ -245,7 +242,6 @@
   function handleReset(values: Recordable) {
     Object.keys(data.selectData).forEach((key) => {
       if (key !== "currentPage" && key !== "pageSize") {
-        console.log(key);
         data.selectData[key] = undefined;
       }
     });
@@ -273,7 +269,6 @@
   });
   /**获取列表数据 */
   const getTableData = async () => {
-    console.log(data.selectData);
     if (data.selectData) {
       data.selectData.currentPage = pageOption.value?.currentPage;
       data.selectData.pageSize = pageOption.value?.pageSize;

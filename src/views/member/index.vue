@@ -459,7 +459,6 @@ const getRoleData = async () => {
 };
 /**获取列表数据 */
 const getTableData = async () => {
-  console.log(data.selectData);
   if (data.selectData) {
     data.selectData.currentPage = pageOption.value?.currentPage;
     data.selectData.pageSize = pageOption.value?.pageSize;
