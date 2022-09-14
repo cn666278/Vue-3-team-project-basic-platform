@@ -3,6 +3,7 @@ lockfileVersion: 5.4
 specifiers:
   '@types/crypto-js': ^4.1.1
   '@types/js-cookie': ^3.0.2
+  '@types/leaflet': ^1.7.11
   '@types/node': ^18.6.1
   '@types/qs': ^6.9.7
   '@vicons/antd': ^0.12.0
@@ -13,7 +14,10 @@ specifiers:
   crypto-js: ^4.1.1
   echarts: ^5.3.3
   js-cookie: ^3.0.1
+  leaflet: ^1.8.0
+  leaflet.chinatmsproviders: ^3.0.6
   lodash-es: ^4.17.21
+  moment: ^2.29.4
   naive-ui: ^2.33.2
   pinia: ^2.0.14
   pinia-plugin-persistedstate: ^1.6.3
@@ -37,7 +41,10 @@ dependencies:
   crypto-js: registry.npmmirror.com/crypto-js/4.1.1
   echarts: registry.npmmirror.com/echarts/5.3.3
   js-cookie: registry.npmmirror.com/js-cookie/3.0.1
+  leaflet: registry.npmmirror.com/leaflet/1.8.0
+  leaflet.chinatmsproviders: registry.npmmirror.com/leaflet.chinatmsproviders/3.0.6
   lodash-es: registry.npmmirror.com/lodash-es/4.17.21
+  moment: registry.npmmirror.com/moment/2.29.4
   naive-ui: registry.npmmirror.com/naive-ui/2.33.2_vue@3.2.37
   pinia: registry.npmmirror.com/pinia/2.0.14_j6bzmzd4ujpabbp5objtwxyjp4
   pinia-plugin-persistedstate: registry.npmmirror.com/pinia-plugin-persistedstate/1.6.3_pinia@2.0.14
@@ -52,6 +59,7 @@ dependencies:
 devDependencies:
   '@types/crypto-js': registry.npmmirror.com/@types/crypto-js/4.1.1
   '@types/js-cookie': registry.npmmirror.com/@types/js-cookie/3.0.2
+  '@types/leaflet': registry.npmmirror.com/@types/leaflet/1.7.11
   '@types/qs': registry.npmmirror.com/@types/qs/6.9.7
   '@vicons/antd': registry.npmmirror.com/@vicons/antd/0.12.0
   '@vicons/utils': registry.npmmirror.com/@vicons/utils/0.1.4_vue@3.2.37
@@ -177,6 +185,12 @@ packages:
     version: 4.1.1
     dev: true
 
+  registry.npmmirror.com/@types/geojson/7946.0.10:
+    resolution: {integrity: sha512-Nmh0K3iWQJzniTuPRcJn5hxXkfB1T1pgB89SBig5PlJQU5yocazeu4jATJlaA0GYFKWMqDdvYemoSnF2pXgLVA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/geojson/-/geojson-7946.0.10.tgz}
+    name: '@types/geojson'
+    version: 7946.0.10
+    dev: true
+
   registry.npmmirror.com/@types/js-cookie/3.0.2:
     resolution: {integrity: sha512-6+0ekgfusHftJNYpihfkMu8BWdeHs9EOJuGcSofErjstGPfPGEu9yTu4t460lTzzAMl2cM5zngQJqPMHbbnvYA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/js-cookie/-/js-cookie-3.0.2.tgz}
     name: '@types/js-cookie'
@@ -189,6 +203,14 @@ packages:
     version: 3.1.4
     dependencies:
       '@types/node': registry.npmmirror.com/@types/node/18.6.1
+    dev: true
+
+  registry.npmmirror.com/@types/leaflet/1.7.11:
+    resolution: {integrity: sha512-VwAYom2pfIAf/pLj1VR5aLltd4tOtHyvfaJlNYCoejzP2nu52PrMi1ehsLRMUS+bgafmIIKBV1cMfKeS+uJ0Vg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/@types/leaflet/-/leaflet-1.7.11.tgz}
+    name: '@types/leaflet'
+    version: 1.7.11
+    dependencies:
+      '@types/geojson': registry.npmmirror.com/@types/geojson/7946.0.10
     dev: true
 
   registry.npmmirror.com/@types/lodash-es/4.17.6:
@@ -2403,6 +2425,18 @@ packages:
       package-json: registry.npmmirror.com/package-json/4.0.1
     dev: true
 
+  registry.npmmirror.com/leaflet.chinatmsproviders/3.0.6:
+    resolution: {integrity: sha512-B4UPSn2MT//RkFoyrVjwqQyfKuf4tSmMjJDKQ6nqwCCGgirYKRWHafSH9JmA88WoG5pkuMXBcKQhY32FobxU/g==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/leaflet.chinatmsproviders/-/leaflet.chinatmsproviders-3.0.6.tgz}
+    name: leaflet.chinatmsproviders
+    version: 3.0.6
+    dev: false
+
+  registry.npmmirror.com/leaflet/1.8.0:
+    resolution: {integrity: sha512-gwhMjFCQiYs3x/Sf+d49f10ERXaEFCPr+nVTryhAW8DWbMGqJqt9G4XuIaHmFW08zYvhgdzqXGr8AlW8v8dQkA==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/leaflet/-/leaflet-1.8.0.tgz}
+    name: leaflet
+    version: 1.8.0
+    dev: false
+
   registry.npmmirror.com/listify/1.0.3:
     resolution: {integrity: sha512-083swF7iH7bx8666zdzBColpgEuy46HjN3r1isD4zV6Ix7FuHfb/2/WVnl4CH8hjuoWeFF7P5KkKNXUnJCFEJg==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/listify/-/listify-1.0.3.tgz}
     name: listify
@@ -2648,6 +2682,12 @@ packages:
     dependencies:
       minimist: registry.npmmirror.com/minimist/1.2.6
     dev: true
+
+  registry.npmmirror.com/moment/2.29.4:
+    resolution: {integrity: sha512-5LC9SOxjSc2HF6vO2CyuTDNivEdoz2IvyJJGj6X8DJ0eFyfszE0QiEd+iXmBvUP3WHxSjFH/vIsA0EN00cgr8w==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/moment/-/moment-2.29.4.tgz}
+    name: moment
+    version: 2.29.4
+    dev: false
 
   registry.npmmirror.com/ms/2.0.0:
     resolution: {integrity: sha512-Tpp60P6IUJDTuOq/5Z8cdskzJujfwqfOTkrwIwj7IRISpnkJnT6SyJ4PCPnGMoFjC9ddhal5KVIYtAt97ix05A==, registry: https://registry.npm.taobao.org/, tarball: https://registry.npmmirror.com/ms/-/ms-2.0.0.tgz}

@@ -28,7 +28,6 @@
                     :page-size="pageOption?.pageSize"
                     :total-page="pageOption?.totalPage"
                     :total-count="pageOption?.totalCount"
-                    simple
                     @page-change="pageHandle"
                     @page-size-change="pageSizeHandle"
                 />

@@ -21,7 +21,6 @@ import {
     useRoute,
     useRouter,
     RouteLocationNormalizedLoaded,
-    RouteRecordName,
 } from "vue-router";
 import { useAppStore } from "@/store";
 const route = useRoute();
@@ -52,7 +51,7 @@ const tagTabCloseHandle = (key: string, event: MouseEvent) => {
             currentKey == app.tabRouteList.length ||
             currentKey == app.tabRouteList.length - 1
         ) {
-            router.push({ name: lastRoute.name as RouteRecordName });
+            router.push({ path: lastRoute.path });
         }
     }
 };

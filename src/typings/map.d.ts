@@ -26,4 +26,11 @@ declare namespace map {
         val: string;
         sort: string;
     }
+    interface mapDataList {
+        id: string;
+        name: string;
+        code: string;
+        eCoordinateType: number;
+        isDefault: boolean;
+    }
 }
