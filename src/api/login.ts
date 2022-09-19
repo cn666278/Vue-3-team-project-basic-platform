@@ -74,3 +74,14 @@ interface routeMenuNow {
     })
     return result
 }
+
+/**
+ * @function GetConfig 获取配置信息
+ * @returns 
+ */
+export async function getConfig() {
+    const result = await axios<system.webSocketConfig>(url, {
+        targetAPI: 'GetConfig',
+    })
+    return result
+}

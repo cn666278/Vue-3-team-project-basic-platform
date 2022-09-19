@@ -209,18 +209,19 @@ declare namespace unAuth {
     status: number;
     sort: number;
   }
+  interface groupList {
+    id: string;
+    pid: string;
+    name: string;
+    count: number;
+    onlineCount: number;
+    deviceList: deviceList[]
+  }
   interface  mapTreeList {
     count: number;
     driveCount: number;
     stopCount: number;
     offLineCount: number;
-    groupList: {
-      id: string;
-      pid: string;
-      name: string;
-      count: number;
-      onlineCount: number;
-      deviceList: deviceList[]
-    }[]
+    groupList: groupList[]
   }
 }

@@ -7,11 +7,11 @@
             :date-locale="dateZhCN"
             size="small"
         >
-            <n-theme-editor>
-                <naive-global>
-                    <router-view />
-                </naive-global>
-            </n-theme-editor>
+            <!-- <n-theme-editor> -->
+            <naive-global>
+                <router-view />
+            </naive-global>
+            <!-- </n-theme-editor> -->
         </n-config-provider>
     </suspense>
 </template>
@@ -20,9 +20,10 @@ import NaiveGlobal from "@/components/naiveGlobal/index.vue";
 import { zhCN, dateZhCN, NThemeEditor } from "naive-ui";
 import type { GlobalThemeOverrides } from "naive-ui";
 import { useThemeStore } from "@/store";
-import * as echarts from 'echarts'
-import { provide } from 'vue'
-provide('ec',echarts)//provide
+import webSocket from "@/utils/webSocket";
+import * as echarts from "echarts";
+import { provide } from "vue";
+provide("ec", echarts); //provide
 let themeOverrides: GlobalThemeOverrides = {
     common: {
         primaryColor: "#002FA7",
@@ -32,6 +33,16 @@ let themeOverrides: GlobalThemeOverrides = {
     },
 };
 const theme = useThemeStore();
+
+/**全局挂载websocket */
+const onMessageList: Function[] = [];
+provide("onMessageList", onMessageList);
+const onMessage = (event: any) => {
+    onMessageList.forEach((f) => {
+        f.call(null, event);
+    });
+};
+webSocket(onMessage);
 </script>
 <style>
 body {

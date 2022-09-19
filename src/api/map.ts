@@ -81,3 +81,16 @@ export async function getMapParamInfo(id: string) {
     });
     return result
 }
+
+/**
+ * @function GetMapDeviceListInfo 获取地图勾选的设备详情--地图左侧点击
+ * @param {map.mapDeviceListInfoRequest} jsonData 
+ * @returns 
+ */
+export async function getMapDeviceListInfo(jsonData: map.mapDeviceListInfoRequest) {
+    const result = await axios<map.mapDeviceListInfo>('/UnAuth', {
+        targetAPI: 'GetMapDeviceListInfo',
+        data: jsonData,
+    });
+    return result
+}

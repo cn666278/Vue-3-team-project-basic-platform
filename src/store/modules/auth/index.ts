@@ -1,16 +1,24 @@
 import { defineStore } from "pinia";
 import { getToken, setToken, removeToken } from "@/utils/auth/index";
-import { loginRequest, useInfoRequest } from "@/api/login";
+import { loginRequest, useInfoRequest, getConfig } from "@/api/login";
 import { MD5Encrypt } from "@/utils/login";
 
 interface AuthState {
     userInfo?: Auth.UserInfo;
     token: Auth.Token;
+    socketConfig?: system.webSocketConfig;
 }
 export const useAuthStore = defineStore("auth-store", {
     state: (): AuthState => ({
         token: getToken(),
+        userInfo: undefined,
+        socketConfig: undefined,
     }),
+    getters: {
+        getSocketConfigData: (state) => {
+            return state.socketConfig;
+        },
+    },
     actions: {
         /**登陆 */
         async login(userName: string, passWord: string) {
@@ -34,6 +42,11 @@ export const useAuthStore = defineStore("auth-store", {
         async getUserSession() {
             const { Data } = await useInfoRequest();
             this.userInfo = Data;
+        },
+        /**获取socket配置信息 */
+        async getSocketConfig() {
+            const { Data } = await getConfig();
+            this.socketConfig = Data;
         },
     },
 });

@@ -6,4 +6,8 @@ declare namespace system {
         headerInverted: boolean;
         sideWidth: number;
     }
+    interface webSocketConfig {
+        webSocketURL: string;
+        mapPointCD: number;
+    }
 }

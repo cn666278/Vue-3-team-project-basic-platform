@@ -33,4 +33,23 @@ declare namespace map {
         eCoordinateType: number;
         isDefault: boolean;
     }
+    interface mapDeviceListInfoRequest {
+        deviceIdList: string[];
+        coordinateType: number;
+    }
+    interface mapDeviceListInfo {
+        name: string;
+        deviceId: string;
+        deviceTypeName: string;
+        terminalNo: string;
+        carNumber: string;
+        speed: number;
+        altitude: number;
+        direction: number;
+        isDrive: boolean;
+        isOnline: boolean;
+        locationDate: string;
+        lat: string;
+        lng: string;
+    }
 }

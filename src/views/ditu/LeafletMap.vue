@@ -41,7 +41,10 @@ const initMap = async () => {
         }
     );
 };
-defineExpose({ initMap });
+const initCar = () => {
+    
+};
+defineExpose({ initMap, initCar });
 </script>
 <style lang="scss" scoped>
     .Map {
