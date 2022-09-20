@@ -1,12 +1,11 @@
 import { useAuthStore } from "@/store";
 import { getToken } from "@/utils/auth";
-import { ref } from "vue";
 
+let socket: WebSocket;
 export default async (onMessage: Function) => {
     const authStore = useAuthStore();
     const SocketUrl = authStore.getSocketConfigData?.webSocketURL as string;
-    let socket: WebSocket;
-    let lockReconnect = ref(false);
+    let lockReconnect = false;
     let timer: ReturnType<typeof setTimeout>;
     /**创建socket */
     const createSocket = (url: string) => {
@@ -20,12 +19,12 @@ export default async (onMessage: Function) => {
     }
 
     const reconnect = () => {
-        if(lockReconnect.value) return;
-        lockReconnect.value = true;
+        if(lockReconnect) return;
+        lockReconnect = true;
         clearTimeout(timer);
         timer = setTimeout(() => {
             createSocket(SocketUrl);
-            lockReconnect.value = false;
+            lockReconnect = false;
         }, 4000);
 
     }
@@ -40,7 +39,7 @@ export default async (onMessage: Function) => {
 
         /**接收消息回调 */
         socket.onmessage = function (event) {
-            console.log("WebSocket: 收到一条消息", event.data);
+            // console.log("WebSocket: 收到一条消息", event.data);
             const isHeart = /pong/.test(event.data);
             if(onMessage && !isHeart) { // 触发自定义onMessage
                 onMessage.call(null, event);
@@ -78,7 +77,7 @@ export default async (onMessage: Function) => {
             clearTimeout(this.timeoutObj);
             clearTimeout(this.serverTimeoutObj);
             this.timeoutObj = setTimeout(() => {    //发送心跳
-                socketSend('heartbeat', 99, socket);
+                socketSend('heartbeat', 99);
                 this.serverTimeoutObj = setTimeout(() => {
                     console.log("关闭服务");
                     socket.close();
@@ -97,13 +96,19 @@ export default async (onMessage: Function) => {
  * @param {Array} dataList 要订阅的设备号数组
  * @param {number} type webSocket发送数据类型(99为心跳, 100为订阅位置)
  * @param {number} eCoordinateType 后台即将发送的坐标系枚举(WGS84 : 0,GCJ02 : 1,BD09 : 2)
- * @param {Object} ws webSocket对象
  */
-export function socketSend(data: string[] | string, type: number, ws: WebSocket) {
+interface sendData {
+    eCoordinateType: number;
+    terminalNoList: string | number[];
+}
+export function socketSend(data: sendData | string, type: number) {
     let sendData = {
         type: type,
         token: getToken(),
-        data: data,
+        data: typeof data === 'string' ? data : {
+            businessCode: 'sys',
+            ...data
+        },
     };
-    ws.send(JSON.stringify(sendData));
+    socket.send(JSON.stringify(sendData));
 }

@@ -39,10 +39,17 @@
                 :data="tableData"
                 :columns="columns"
                 :loading="loading"
-                :pagination="page"
-                @update:page="handlePageChange"
-                @update:page-size="handlePageSizeChange"
             />
+        </div>
+        <div class="form_page">
+            <pagination
+                    :current-page="pageOption?.currentPage"
+                    :page-size="pageOption?.pageSize"
+                    :total-page="pageOption?.totalPage"
+                    :total-count="pageOption?.totalCount"
+                    @page-change="pageHandle"
+                    @page-size-change="pageSizeHandle"
+                />
         </div>
         <n-modal
             v-model:show="showAddEdit"
@@ -71,6 +78,7 @@
 </template>
 <script setup lang="ts">
 import AddEditVue from "./addEdit.vue";
+import { pagination, PaginationType } from '@/components/pagination';
 import {
     getCompetenceList,
     getCompetenceControllerList,
@@ -81,26 +89,27 @@ import {
 import { ref, h } from "vue";
 import {
     DataTableColumn,
-    PaginationProps,
     SelectOption,
     NTag,
     NButton,
 } from "naive-ui";
 import { AppstoreAddOutlined } from "@vicons/antd";
 let loading = ref<boolean>(false);
-/**列表搜索值 */
-let formSearch = ref<admin.competenceListRequest>({
+/**页数 */
+const pageOption = ref<PaginationType>({
     currentPage: 1,
     pageSize: 20,
+});
+/**列表搜索值 */
+let formSearch = ref<admin.competenceListRequest>({
+    currentPage: pageOption.value.currentPage,
+    pageSize: pageOption.value.pageSize,
 });
 
 /**控制器列表 */
 let controllerList = ref<SelectOption[]>([]);
 
 /**列表数据 */
-let tableOriginData = ref<defaultType.responseList<
-    admin.competenceList[]
-> | null>(null);
 let tableData = ref<admin.competenceList[]>([]);
 /**弹出框 */
 let editId = ref<string | undefined>("");
@@ -111,10 +120,18 @@ let editInfo = ref<any>(undefined);
 /**获取表格数据 */
 const getTableData = async () => {
     loading.value = true;
+    formSearch.value.currentPage = pageOption.value.currentPage;
+    formSearch.value.pageSize = pageOption.value.pageSize;
     const Data = (await getCompetenceList(formSearch.value)).Data;
     loading.value = false;
-    tableOriginData.value = Data;
     tableData.value = Data.data;
+    let pageData: PaginationType = {
+        currentPage: Data.currentPage,
+        pageSize: Data.pageSize,
+        totalCount: Data.totalCount,
+        totalPage: Data.totalPage,
+    };
+    pageOption.value = pageData;
 };
 
 /**获取控制器列表 */
@@ -199,33 +216,15 @@ const columns: DataTableColumn[] = [
     },
 ];
 /**页数改变触发事件 */
-const handlePageChange = (page: number) => {
-    formSearch.value.currentPage = page;
+const pageHandle = (page: number) => {
+    pageOption.value.currentPage = page;
     getTableData();
 };
 /**页数大小改变触发事件 */
-const handlePageSizeChange = (pageSize: number) => {
-    formSearch.value.pageSize = pageSize;
+const pageSizeHandle = (pageSize: number) => {
+    pageOption.value.pageSize = pageSize;
     getTableData();
 };
-/**页数 */
-const page = ref<PaginationProps>({
-    itemCount: tableOriginData.value?.totalCount,
-    pageCount: tableOriginData.value?.totalPage,
-    pageSize: tableOriginData.value?.pageSize,
-    pageSizes: [10, 20, 50, 100],
-    pageSlot: 5,
-    showSizePicker: true,
-    prefix: () => {
-        return h(
-            "span",
-            {},
-            {
-                default: () => `共${tableOriginData.value?.totalCount}条`,
-            }
-        );
-    },
-});
 
 /**编辑新增弹窗事件 */
 const onAddEditModal = async (id?: string) => {
@@ -269,7 +268,7 @@ const onAddEditSubmit = async (slotProps: any) => {
 /**弹窗关闭事件 */
 const onAddEditClose = () => {
     editId.value = undefined;
-    editInfo.value = ref({});
+    editInfo.value = undefined;
     showAddEdit.value = false;
 };
 </script>
@@ -283,6 +282,13 @@ const onAddEditClose = () => {
     }
     .form_table {
         height: 100%;
+    }
+    .form_page {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        margin-top: 10px;
+        margin-bottom: 10px;
     }
 }
 </style>

@@ -33,7 +33,7 @@ const pageHandle = (page: number) => {
     emits('pageChange', page);
 }
 const pageSizeHandle = (pageSize: number) => {
-    pageProps.value.currentPage = 1;
+    // pageProps.value.currentPage = 1;
     emits('pageSizeChange', pageSize);
 }
 watch(

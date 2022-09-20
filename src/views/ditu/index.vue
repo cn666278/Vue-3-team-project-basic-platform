@@ -23,8 +23,9 @@
     </div>
 </template>
 <script setup lang="ts">
-import { ref, onMounted, nextTick } from "vue";
+import { ref, onMounted, nextTick, inject } from "vue";
 import { computeMapHeight } from "@/utils/LeafletMap";
+import { socketSend } from '@/utils/webSocket';
 import { getMapDataList } from "@/api/map";
 import { getDeviceMapIndex } from "@/api/device";
 import { TreeOption } from "naive-ui";
@@ -106,6 +107,11 @@ onMounted(() => {
     window.addEventListener("resize", () => {
         mapOptions.value.height = computeMapHeight(leafletMapRef);
     });
+    socketSend({
+        eCoordinateType: 0,
+        terminalNoList: [],
+        businessCode: 'sys',
+    }, 100);
 });
 </script>
 <style lang="scss" scoped>
