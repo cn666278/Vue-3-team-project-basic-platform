@@ -3,7 +3,7 @@
     <TableListTemplate>
       <template #operate>
         <n-space justify="end">
-          <n-button text>
+          <n-button text @click="delclick">
             <n-icon :size="20">
               <AppstoreAddOutlined />
             </n-icon>
@@ -24,8 +24,10 @@
           :columns="columns"
           :pagination="false"
           :dataSource="data.list"
+          :rowKey="rowKey"
           ref="actionRef"
           :scroll-x="1500"
+          @update:checked-row-keys="handleCheck"
         ></BasicTable>
       </template>
       <template #page>
@@ -42,7 +44,7 @@
   </div>
 </template>
 <script setup lang="ts">
-import { h, onMounted, reactive, ref } from "vue";
+import { h, onMounted, reactive, Ref, ref } from "vue";
 import { columns } from "./columns";
 import { BasicTable, TableAction } from "@/components/BasicTable";
 import { BasicForm, FormSchema, useForm } from "@/components/Form/index";
@@ -54,9 +56,39 @@ import { getDeviceList } from "@/api/device";
 import { getTransmitServerList } from "@/api/transmitServer";
 import type { PaginationType } from "@/components/pagination/index";
 import { AppstoreAddOutlined } from "@vicons/antd";
+import { DataTableRowKey, useDialog, useMessage } from "naive-ui";
 const searchData = ref<deviceTransmit.deviceTransmitdata>({});
 const tableData = ref<deviceTransmit.deviceTransmitList[]>([]);
 const deviceList = ref();
+const rowKey = (row: deviceTransmit.deviceTransmitList) => row.id;
+const expendKeys: Ref<DataTableRowKey[]> = ref([]);
+const handleCheck = (keys: DataTableRowKey[]) => {
+  // console.log(keys)
+  expendKeys.value = keys;
+};
+const dialog = useDialog();
+const message = useMessage();
+function delclick() {
+  if (expendKeys.value.length !== 0) {
+    dialog.create({
+      title: "警告",
+      content: "您确定是否删除该数据？",
+      positiveText: "确定",
+      negativeText: "取消",
+      onPositiveClick: () => {
+        let resdata={
+          idList:expendKeys.value
+        }
+        delDeviceTransmit(resdata).then(()=>{
+          getTableData()
+        })
+      },
+      onNegativeClick: () => {},
+    });
+  }else{
+    message.error('请选择删除的数据！')
+  }
+}
 const transmitServerList = ref();
 // 搜索数据
 const schemas: FormSchema[] = [
