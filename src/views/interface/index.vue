@@ -1,17 +1,14 @@
 <template>
-    <div class="form">
-        <div class="form_operate">
-            <n-space justify="end">
-                <n-button text @click="onAddEditModal()">
-                    <n-icon :size="22">
-                        <AppstoreAddOutlined />
-                    </n-icon>
-                    新增
-                </n-button>
-            </n-space>
-        </div>
-        <n-divider style="margin: 10px 0" />
-        <div class="form_search">
+    <table-list-template>
+        <template #operate>
+            <n-button text @click="onAddEditModal()">
+                <n-icon :size="22">
+                    <AppstoreAddOutlined />
+                </n-icon>
+                新增
+            </n-button>
+        </template>
+        <template #search>
             <n-form size="medium" label-placement="left">
                 <n-grid :cols="4" :x-gap="10">
                     <n-form-item-gi label="接口名称">
@@ -33,52 +30,57 @@
                     </n-form-item-gi>
                 </n-grid>
             </n-form>
-        </div>
-        <div class="form_table">
+        </template>
+        <template #table>
             <n-data-table
                 :data="tableData"
                 :columns="columns"
                 :loading="loading"
             />
-        </div>
-        <div class="form_page">
+        </template>
+        <template #page>
             <pagination
-                    :current-page="pageOption?.currentPage"
-                    :page-size="pageOption?.pageSize"
-                    :total-page="pageOption?.totalPage"
-                    :total-count="pageOption?.totalCount"
-                    @page-change="pageHandle"
-                    @page-size-change="pageSizeHandle"
-                />
-        </div>
-        <n-modal
-            v-model:show="showAddEdit"
-            preset="card"
-            :title="addEditTitle"
-            style="width: 600px"
-            size="huge"
-            bordered
-            auto-focus
-            @before-leave="onAddEditClose"
-        >
-            <AddEditVue
-                :id="editId"
-                :select-data="controllerList"
-                :form-info="editInfo"
+                :current-page="pageOption?.currentPage"
+                :page-size="pageOption?.pageSize"
+                :total-page="pageOption?.totalPage"
+                :total-count="pageOption?.totalCount"
+                @page-change="pageHandle"
+                @page-size-change="pageSizeHandle"
+            />
+        </template>
+        <template #modal>
+            <n-modal
+                v-model:show="showAddEdit"
+                preset="card"
+                :title="addEditTitle"
+                style="width: 600px"
+                size="huge"
+                bordered
+                auto-focus
+                @before-leave="onAddEditClose"
             >
-                <template #submit="slotProps">
-                    <n-button type="primary" @click="onAddEditSubmit(slotProps)"
-                        >确定</n-button
-                    >
-                    <n-button @click="onAddEditClose">取消</n-button>
-                </template>
-            </AddEditVue>
-        </n-modal>
-    </div>
+                <AddEditVue
+                    :id="editId"
+                    :select-data="controllerList"
+                    :form-info="editInfo"
+                >
+                    <template #submit="slotProps">
+                        <n-button
+                            type="primary"
+                            @click="onAddEditSubmit(slotProps)"
+                            >确定</n-button
+                        >
+                        <n-button @click="onAddEditClose">取消</n-button>
+                    </template>
+                </AddEditVue>
+            </n-modal>
+        </template>
+    </table-list-template>
 </template>
 <script setup lang="ts">
 import AddEditVue from "./addEdit.vue";
-import { pagination, PaginationType } from '@/components/pagination';
+import { TableListTemplate } from "@/components/TableListTemplate";
+import { pagination, PaginationType } from "@/components/pagination";
 import {
     getCompetenceList,
     getCompetenceControllerList,
@@ -87,12 +89,7 @@ import {
     updateCompetence,
 } from "@/api/setting";
 import { ref, h } from "vue";
-import {
-    DataTableColumn,
-    SelectOption,
-    NTag,
-    NButton,
-} from "naive-ui";
+import { DataTableColumn, SelectOption, NTag, NButton } from "naive-ui";
 import { AppstoreAddOutlined } from "@vicons/antd";
 let loading = ref<boolean>(false);
 /**页数 */

@@ -178,6 +178,8 @@ getTableData();
 </script>
 <style lang="scss" scoped>
 .form {
+    background-color: #fff;
+    padding: 10px;
     .form_operate {
         display: flex;
         justify-content: flex-end;

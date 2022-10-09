@@ -4,7 +4,7 @@ import { storeToRefs } from "pinia";
 export default async (router: Router) => {
     const { getMenu, hasRoute } = storeToRefs(useRouteStore());
     const { getAsyncRouteMenu } = useRouteStore();
-    const { getUserSession, getSocketConfig } = useAuthStore();
+    const { getUserSession } = useAuthStore();
     if (!hasRoute.value) {
         await getAsyncRouteMenu();
         await getUserSession();

@@ -1,13 +1,14 @@
 <template>
     <div class="layout_header">
-        <div class="layout_header_logo" v-if="theme.layoutMode == 'horizontal'">
+        <div class="layout_header_logo" v-if="theme.layoutMode == 'horizontal' || theme.layoutMode == 'mix'">
             <Logo />
         </div>
         <div class="layout_header_content">
             <Slider
                 class="layout_header_slider"
+                :mode="theme.layoutMode == 'mix' ? 'horizontal' : theme.layoutMode"
                 :side-inverted="theme.headerInverted"
-                v-if="theme.layoutMode == 'horizontal'"
+                v-if="theme.layoutMode == 'horizontal' || theme.layoutMode == 'mix'"
             />
             <Breadcrumb
                 :inverted="theme.darkMode || theme.headerInverted"

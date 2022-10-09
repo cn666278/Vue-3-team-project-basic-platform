@@ -1,7 +1,7 @@
 declare namespace system {
     interface settingTheme {
         darkMode: boolean;
-        layoutMode: "vertical" | "horizontal";
+        layoutMode: "vertical" | "horizontal" | "mix";
         sideInverted: boolean;
         headerInverted: boolean;
         sideWidth: number;

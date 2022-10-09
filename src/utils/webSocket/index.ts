@@ -1,5 +1,6 @@
 import { useAuthStore } from "@/store";
 import { getToken } from "@/utils/auth";
+import { InjectionKey } from "vue";
 
 let socket: WebSocket;
 export default async (onMessage: Function) => {
@@ -12,23 +13,22 @@ export default async (onMessage: Function) => {
         try {
             socket = new WebSocket(url);
             init();
-        } catch(err) {
-            console.log("catch:"+ err);
+        } catch (err) {
+            console.log("catch:" + err);
             reconnect();
         }
-    }
+    };
 
     const reconnect = () => {
-        if(lockReconnect) return;
+        if (lockReconnect) return;
         lockReconnect = true;
         clearTimeout(timer);
         timer = setTimeout(() => {
             createSocket(SocketUrl);
             lockReconnect = false;
         }, 4000);
+    };
 
-    }
-    
     const init = () => {
         /**连接成功 */
         socket.onopen = function () {
@@ -41,8 +41,9 @@ export default async (onMessage: Function) => {
         socket.onmessage = function (event) {
             // console.log("WebSocket: 收到一条消息", event.data);
             const isHeart = /pong/.test(event.data);
-            if(onMessage && !isHeart) { // 触发自定义onMessage
-                onMessage.call(null, event);
+            if (onMessage && !isHeart) {
+                // 触发自定义onMessage
+                onMessage.call(null, event.data);
             }
             heartCheck.reset().start();
         };
@@ -52,7 +53,7 @@ export default async (onMessage: Function) => {
             console.log("WebSocket: 发生错误");
             reconnect();
         };
-        
+
         socket.onclose = function (event) {
             console.log("WebSocket: 已关闭");
             heartCheck.reset().start();
@@ -71,25 +72,26 @@ export default async (onMessage: Function) => {
         reset: function () {
             clearTimeout(this.timeoutObj);
             clearTimeout(this.serverTimeoutObj);
-            return this
+            return this;
         },
         start: function () {
             clearTimeout(this.timeoutObj);
             clearTimeout(this.serverTimeoutObj);
-            this.timeoutObj = setTimeout(() => {    //发送心跳
-                socketSend('heartbeat', 99);
+            this.timeoutObj = setTimeout(() => {
+                //发送心跳
+                socketSend("heartbeat", 99);
                 this.serverTimeoutObj = setTimeout(() => {
                     console.log("关闭服务");
                     socket.close();
                 }, this.timeout);
             }, this.timeout);
-        }
-    }
+        },
+    };
     authStore.getSocketConfig().then(() => {
         let url = authStore.getSocketConfigData?.webSocketURL as string;
         createSocket(url);
     });
-}
+};
 
 /**
  * websocket发送订阅数据需求
@@ -99,16 +101,26 @@ export default async (onMessage: Function) => {
  */
 interface sendData {
     eCoordinateType: number;
-    terminalNoList: string | number[];
+    terminalNoList: string | string[];
 }
 export function socketSend(data: sendData | string, type: number) {
-    let sendData = {
-        type: type,
-        token: getToken(),
-        data: typeof data === 'string' ? data : {
-            businessCode: 'sys',
-            ...data
-        },
-    };
-    socket.send(JSON.stringify(sendData));
+    try {
+        let sendData = {
+            type: type,
+            token: getToken(),
+            data:
+                typeof data === "string"
+                    ? data
+                    : {
+                          businessCode: "sys",
+                          ...data,
+                      },
+        };
+        if(socket) socket.send(JSON.stringify(sendData));
+    } catch(err) {
+        console.log(err);
+    }
 }
+
+/**导出注入索引key */
+export const onMessageListKey: InjectionKey<Function[]> = Symbol();

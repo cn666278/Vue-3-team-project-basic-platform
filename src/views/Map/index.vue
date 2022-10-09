@@ -127,6 +127,7 @@ const pageHandle = (page: number) => {
 };
 /**每页页数监听 */
 const pageSizeHandle = (pageSize: number) => {
+    pageOption.value.currentPage = 1;
     pageOption.value.pageSize = pageSize;
     getTableData();
 };

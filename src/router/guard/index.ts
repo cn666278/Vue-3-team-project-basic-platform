@@ -57,6 +57,12 @@ export async function createRouterGuard(router: Router) {
                 .indexOf(
                     "TypeError: Failed to fetch dynamically imported module"
                 ) > -1
+            ||
+            error
+                .toString()
+                .indexOf(
+                    "Invalid route component"
+                ) > -1
         ) {
             router.push({
                 path: "/404",

@@ -7,6 +7,7 @@ interface AppState {
     sideCollapsed: boolean;
     tagTabsVisible: boolean;
     tabRouteList: RouteLocationNormalizedLoaded[];
+    actionChildrenList: AuthRoute.Route | null;
 }
 
 export const useAppStore = defineStore("app-store", {
@@ -15,6 +16,7 @@ export const useAppStore = defineStore("app-store", {
         sideCollapsed: false,
         tagTabsVisible: true,
         tabRouteList: [],
+        actionChildrenList: null,
     }),
     getters: {
         getTagTabList: (state) => {
@@ -30,12 +32,21 @@ export const useAppStore = defineStore("app-store", {
         setSideCollapsed(collapsed: boolean) {
             this.sideCollapsed = collapsed;
         },
+        /**设置活动子级菜单目录 */
+        setActionChildrenList(actionChildrenList: AuthRoute.Route) {
+            this.actionChildrenList = actionChildrenList;
+        },
         /**设置是否显示多页签 */
         setTagTabsVisible(visible: boolean) {
             this.tagTabsVisible = visible;
         },
-        /**设置多页签打开过的路由数据 */
-        setTabRouteList(nowRoute: RouteLocationNormalizedLoaded) {
+        /**设置多签页路由数据 */
+        setTabRouteList(nowRoute: RouteLocationNormalizedLoaded[]) {
+            this.tabRouteList.length = 0;
+            this.tabRouteList = nowRoute;
+        },
+        /**合并多页签打开过的路由数据 */
+        mergeTabRouteList(nowRoute: RouteLocationNormalizedLoaded) {
             this.tabRouteList = mergeArray(
                 this.tabRouteList,
                 [nowRoute],

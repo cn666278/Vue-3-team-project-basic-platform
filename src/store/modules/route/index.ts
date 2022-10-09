@@ -4,10 +4,12 @@ import { markRaw, defineAsyncComponent } from "vue";
 import { getMenusTree, getMenusTreeNew } from "@/api/login";
 interface RouterState {
     menu: AuthRoute.Route[];
+    menuModules: Record<string, () => Promise<{[key: string]: any;}>>,
 }
 export const useRouteStore = defineStore("route-store", {
     state: (): RouterState => ({
         menu: [],
+        menuModules: import.meta.glob("../../../views/**/index.vue"),
     }),
     getters: {
         getMenu: (state) => {
@@ -26,22 +28,6 @@ export const useRouteStore = defineStore("route-store", {
         },
         filterRouteMenu(allRoute: AuthRoute.Route[]) {
             allRoute.map((route) => {
-                // if (route.component == "Layout") {
-                //     route.path = `/${route.path}`;
-                //     route.component = markRaw(BasicLayout);
-                // } else if (
-                //     route.component != "Layout" &&
-                //     route.children.length > 0
-                // ) {
-                //     route.path = "/";
-                //     route.component = markRaw(BlankLayout);
-                // } else {
-                //     route.component = this.AsyncComp(route.component);
-                // }
-                // if (route.children.length > 0) {
-                //     return this.filterRouteMenu(route.children);
-                // }
-                // if (route.path[0] == "/") return route;
                 if (route.component == null && route.url[0] != "/") {
                     route.path = `/${route.url}`;
                     route.component = markRaw(BasicLayout);
@@ -58,12 +44,16 @@ export const useRouteStore = defineStore("route-store", {
             });
             return allRoute;
         },
-        AsyncComp:
-            (path: string) =>
+        AsyncComp(path: string) {
+            return this.menuModules[`../../../views/${path}/index.vue`]
+        },
+            // (path: string) => {
+            //     return this.menuModules[`../../../views/${path}/index.vue`];
+            // }
             // defineAsyncComponent(
             //     () => import("../../../views/" + path + "/index.vue")
             // ),
-            () =>
-                import("../../../views/" + path + "/index.vue"),
+            // () =>
+            //     import("../../../views/" + path + "/index.vue"),
     },
 });
