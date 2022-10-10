@@ -77,7 +77,7 @@ const mixSubscribe = appStore.$subscribe((mutation, store) => {
     ) {
         // console.log(store.actionChildrenList);
         // menu.value = [store.actionChildrenList];
-        menuOption.value = routeTransformMenu([store.actionChildrenList]);
+        menuOption.value = routeTransformMenu(store.actionChildrenList);
     } else {
         menuOption.value = routeTransformMenu(menu.value);
     }
@@ -89,10 +89,14 @@ const onMenuItem = (key: string) => {
         let childrenListKey = menu.value.findIndex((item) => {
             return item.name == key;
         });
-        activeKey.value = expandedKeys.value[0] as string;
-        appStore.setActionChildrenList(menu.value[childrenListKey]);
+        
+        if(childrenListKey != -1) {
+            activeKey.value = key;
+            console.log(menu.value, childrenListKey);
+            appStore.setActionChildrenList(menu.value[childrenListKey].children);
+        }
     } else {
-        router.push({ path: key });
+        router.push({ name: key });
     }
 };
 /**监听路由实时选中菜单 */

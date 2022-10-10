@@ -7,7 +7,7 @@ interface AppState {
     sideCollapsed: boolean;
     tagTabsVisible: boolean;
     tabRouteList: RouteLocationNormalizedLoaded[];
-    actionChildrenList: AuthRoute.Route | null;
+    actionChildrenList: AuthRoute.Route[];
 }
 
 export const useAppStore = defineStore("app-store", {
@@ -16,7 +16,7 @@ export const useAppStore = defineStore("app-store", {
         sideCollapsed: false,
         tagTabsVisible: true,
         tabRouteList: [],
-        actionChildrenList: null,
+        actionChildrenList: [],
     }),
     getters: {
         getTagTabList: (state) => {
@@ -33,7 +33,7 @@ export const useAppStore = defineStore("app-store", {
             this.sideCollapsed = collapsed;
         },
         /**设置活动子级菜单目录 */
-        setActionChildrenList(actionChildrenList: AuthRoute.Route) {
+        setActionChildrenList(actionChildrenList: AuthRoute.Route[]) {
             this.actionChildrenList = actionChildrenList;
         },
         /**设置是否显示多页签 */
@@ -60,6 +60,10 @@ export const useAppStore = defineStore("app-store", {
             });
             this.tabRouteList.splice(findKey, 1);
         },
+        /**删除全部多签页路由数据 */
+        removeAllTabRouteList() {
+            this.tabRouteList.length = 0;
+        }
     },
     persist: {
         key: 'app-store',

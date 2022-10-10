@@ -84,7 +84,7 @@ import { h, Ref, ref, onMounted } from "vue";
 import { AppstoreAddOutlined } from "@vicons/antd";
 let searchMenuName: Ref<string> = ref("");
 let tableCurrentPage: Ref<number> = ref(1);
-let tablePageSize: Ref<number> = ref(100);
+let tablePageSize: Ref<number> = ref(9999);
 let showAddEdit: Ref<boolean> = ref(false);
 let addEditTitle: Ref<string> = ref("新增菜单");
 let editId: Ref<string | undefined> = ref(undefined);
@@ -287,7 +287,7 @@ const page: PaginationProps = {
     itemCount: menuData.value?.totalCount,
     pageCount: menuData.value?.totalPage,
     pageSize: menuData.value?.pageSize,
-    pageSizes: [10, 20, 50, 100],
+    pageSizes: [10, 20, 50, 100, 9999],
     pageSlot: 5,
     showSizePicker: true,
 };

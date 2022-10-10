@@ -37,6 +37,11 @@
                     ]"
                     bordered
                 >
+                    <Breadcrumb
+                        :inverted="theme.darkMode"
+                        :primaryColor="primaryColor"
+                        class="layout_content_breadcrumb"
+                    />
                     <TagTabs v-if="app.tagTabsVisible" />
                     <n-scrollbar>
                         <n-card class="layout_content_content_card" content-style="padding: 0">
@@ -52,13 +57,16 @@
 <script setup lang="ts">
 import Logo from "./Logo/index.vue";
 import Slider from "./Slider/index.vue";
+import Breadcrumb from "@/components/Breadcrumb/index.vue";
 import SettingDrawer from "@/components/SettingDrawer/index.vue";
 import TagTabs from "@/components/TagTabs/index.vue";
 import BlankLayout from "@/Layout/BlankLayout/index.vue";
 import BasicHeader from "./Header/index.vue";
+import { useThemeVars } from "naive-ui";
 import { useThemeStore, useAppStore } from "@/store";
 const theme = useThemeStore();
 const app = useAppStore();
+const { primaryColor } = useThemeVars().value;
 </script>
 <style lang="scss" scoped>
 .layout_sider {

@@ -2,6 +2,8 @@
 .layout_main {
     height: 100vh;
     box-sizing: border-box;
+    background-color: transparent;
+    background: url('@/assets/base/form-background.png');
     .layout_header {
         height: 50px;
         padding: 0 10px;
@@ -11,7 +13,11 @@
     }
     .layout_content {
         height: calc(100% - 50px);
+        padding: 30px;
+        box-sizing: inherit;
+        background-color: transparent;
         .layout_sider {
+            margin-right: 15px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -22,14 +28,17 @@
             box-sizing: inherit;
             display: flex;
             flex-direction: column;
+            background-color: transparent;
+            .layout_content_breadcrumb {
+                padding: 7px 0;
+            }
             .layout_content_content_card {
                 flex: 1;
-                background-color: transparent;
                 // height: 100%;
             }
         }
         .layout_content_background {
-            background-color: #f3f3f3;
+            background-color: #fff;
         }
     }
 }

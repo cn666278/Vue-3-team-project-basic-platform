@@ -10,11 +10,11 @@
                 :side-inverted="theme.headerInverted"
                 v-if="theme.layoutMode == 'horizontal' || theme.layoutMode == 'mix'"
             />
-            <Breadcrumb
+            <!-- <Breadcrumb
                 :inverted="theme.darkMode || theme.headerInverted"
                 :primaryColor="primaryColor"
                 v-else
-            />
+            /> -->
         </div>
         <div class="layout_header_setting">
             <Setting />
