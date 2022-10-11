@@ -7,11 +7,11 @@
             :date-locale="dateZhCN"
             size="small"
         >
-            <n-theme-editor>
+            <!-- <n-theme-editor> -->
             <naive-global>
                 <router-view />
             </naive-global>
-            </n-theme-editor>
+            <!-- </n-theme-editor> -->
         </n-config-provider>
     </suspense>
 </template>

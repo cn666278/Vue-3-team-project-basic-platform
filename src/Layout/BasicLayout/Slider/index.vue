@@ -1,5 +1,6 @@
 <template>
     <n-menu
+        ref="menuRef"
         v-model="activeKey"
         :value="activeKey"
         :mode="mode"
@@ -12,7 +13,7 @@
 </template>
 <script setup lang="ts">
 import { useRouteStore, useThemeStore, useAppStore } from "@/store";
-import type { MenuOption } from "naive-ui";
+import type { MenuOption, MenuInst } from "naive-ui";
 import { onMounted, ref, Ref, watch } from "vue";
 // import { router } from "@/router";
 import { useRoute, useRouter } from "vue-router";
@@ -24,6 +25,7 @@ const route = useRoute();
 const router = useRouter();
 let menu = ref(await routeStore.getMenu);
 let menuOption: Ref<MenuOption[]> = ref([]);
+const menuRef = ref<MenuInst | null>(null);
 const expandedKeys = ref<string[]>([]);
 /**递归拼装menu所需数据 */
 const routeTransformMenu = (routes: AuthRoute.Route[]): MenuOption[] => {
@@ -41,6 +43,7 @@ const routeTransformMenu = (routes: AuthRoute.Route[]): MenuOption[] => {
             routeMenu.push({
                 key: route.path,
                 label: route.meta.title,
+                show: !route.meta.hidden,
                 children: undefined,
             });
         } else {
@@ -104,7 +107,11 @@ const onMenuItem = (key: string) => {
 const routeHandle = watch(route, (nowRoute) => {
     activeKey.value = nowRoute.path as string;
     let paths = nowRoute.matched.map((routerPath) => {
-        return routerPath.path;
+        let path = routerPath.path;
+        if(path.lastIndexOf('/') > 0) {
+            path = path.slice(path.lastIndexOf('/')+1)
+        }
+        return path
     }) as string[];
     expandedKeys.value = paths;
     if (themeStore.layoutMode == "mix" && props.mode == "horizontal") {
@@ -117,7 +124,13 @@ const expandedKeysHandle = (keys: string[]) => {
 onMounted(() => {
     activeKey.value = route.path as string;
     expandedKeys.value = route.matched.map(
-        (routeItem) => routeItem.path
+        (routeItem) => {
+            let path = routeItem.path;
+            if(path.lastIndexOf('/') > 0) {
+                path = path.slice(path.lastIndexOf('/')+1)
+            }
+            return path
+        }
     ) as string[];
     if (themeStore.layoutMode == "mix" && props.mode == "horizontal") {
         onMenuItem(expandedKeys.value[0] as string);
