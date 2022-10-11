@@ -39,14 +39,15 @@ const routeTransformMenu = (routes: AuthRoute.Route[]): MenuOption[] => {
         }
         if(themeStore.layoutMode == "mix" && props.mode == "horizontal") {
             routeMenu.push({
-                key: route.name,
+                key: route.path,
                 label: route.meta.title,
                 children: undefined,
             });
         } else {
             routeMenu.push({
-                key: route.name,
+                key: route.path,
                 label: route.meta.title,
+                show: !route.meta.hidden,
                 children:
                 route.children != undefined &&
                 route.children.length > 0
@@ -87,7 +88,7 @@ const activeKey = ref<string | null>(null);
 const onMenuItem = (key: string) => {
     if (themeStore.layoutMode == "mix" && props.mode == "horizontal") {
         let childrenListKey = menu.value.findIndex((item) => {
-            return item.name == key;
+            return item.path == key;
         });
         
         if(childrenListKey != -1) {
@@ -96,14 +97,14 @@ const onMenuItem = (key: string) => {
             appStore.setActionChildrenList(menu.value[childrenListKey].children);
         }
     } else {
-        router.push({ name: key });
+        router.push({ path: key });
     }
 };
 /**监听路由实时选中菜单 */
 const routeHandle = watch(route, (nowRoute) => {
-    activeKey.value = nowRoute.name as string;
+    activeKey.value = nowRoute.path as string;
     let paths = nowRoute.matched.map((routerPath) => {
-        return routerPath.name;
+        return routerPath.path;
     }) as string[];
     expandedKeys.value = paths;
     if (themeStore.layoutMode == "mix" && props.mode == "horizontal") {
@@ -114,9 +115,9 @@ const expandedKeysHandle = (keys: string[]) => {
     expandedKeys.value = keys;
 };
 onMounted(() => {
-    activeKey.value = route.name as string;
+    activeKey.value = route.path as string;
     expandedKeys.value = route.matched.map(
-        (routeItem) => routeItem.name
+        (routeItem) => routeItem.path
     ) as string[];
     if (themeStore.layoutMode == "mix" && props.mode == "horizontal") {
         onMenuItem(expandedKeys.value[0] as string);

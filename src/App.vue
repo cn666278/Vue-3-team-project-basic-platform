@@ -7,11 +7,11 @@
             :date-locale="dateZhCN"
             size="small"
         >
-            <!-- <n-theme-editor> -->
+            <n-theme-editor>
             <naive-global>
                 <router-view />
             </naive-global>
-            <!-- </n-theme-editor> -->
+            </n-theme-editor>
         </n-config-provider>
     </suspense>
 </template>
@@ -24,10 +24,14 @@ import webSocket, { onMessageListKey } from "@/utils/webSocket";
 import { provide } from "vue";
 let themeOverrides: GlobalThemeOverrides = {
     common: {
-        primaryColor: "#002FA7",
-        primaryColorHover: "#00237D",
+        primaryColor: "#00828D",
+        primaryColorHover: "#00828D",
         primaryColorPressed: "#002371",
         primaryColorSuppl: "#002371",
+        tableColorHover: '#00828D1A',
+    },
+    Table: {
+
     },
     Menu: {
         borderColorHorizontal: '#FCE051',

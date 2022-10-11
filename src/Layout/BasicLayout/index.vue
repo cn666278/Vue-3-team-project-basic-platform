@@ -44,7 +44,7 @@
                     />
                     <TagTabs v-if="app.tagTabsVisible" />
                     <n-scrollbar>
-                        <n-card class="layout_content_content_card" content-style="padding: 0">
+                        <n-card class="layout_content_content_card" content-style="padding: 0;">
                             <BlankLayout />
                         </n-card>
                     </n-scrollbar>
@@ -81,6 +81,11 @@ const { primaryColor } = useThemeVars().value;
     :deep(.n-layout-scroll-container) {
         display: inherit;
         flex-direction: inherit;
+    }
+}
+.layout_content {
+    :deep(.n-scrollbar-content) {
+        height: inherit;
     }
 }
 </style>
