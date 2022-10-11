@@ -21,7 +21,7 @@ import { zhCN, dateZhCN, NThemeEditor } from "naive-ui";
 import type { GlobalThemeOverrides } from "naive-ui";
 import { useThemeStore } from "@/store";
 import webSocket, { onMessageListKey } from "@/utils/webSocket";
-import { provide } from "vue";
+import { provide, computed } from "vue";
 let themeOverrides: GlobalThemeOverrides = {
     common: {
         primaryColor: "#00828D",
@@ -30,10 +30,11 @@ let themeOverrides: GlobalThemeOverrides = {
         primaryColorSuppl: "#002371",
         tableColorHover: '#00828D1A',
     },
-    Table: {
-
-    },
     Menu: {
+        itemTextColorHorizontal: '#ffffff',
+        itemTextColorHoverHorizontal: '#FCE051',
+        itemTextColorActiveHorizontal: '#FCE051',
+        itemTextColorActiveHoverHorizontal: '#FCE051',
         borderColorHorizontal: '#FCE051',
     }
 };

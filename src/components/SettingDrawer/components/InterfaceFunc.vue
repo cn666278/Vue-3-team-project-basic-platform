@@ -13,6 +13,12 @@
                 @update:value="theme.setHeaderInverted"
             ></n-switch>
         </setting-menu>
+        <setting-menu label="多页签">
+            <n-switch
+                :value="app.tagTabsVisible"
+                @update:value="app.setTagTabsVisible"
+            ></n-switch>
+        </setting-menu>
         <setting-menu label="侧边栏宽度">
             <n-input-number
                 class="setting_menu_list"
@@ -22,11 +28,14 @@
                 button-placement="both"
             />
         </setting-menu>
-        <setting-menu label="多页签">
-            <n-switch
-                :value="app.tagTabsVisible"
-                @update:value="app.setTagTabsVisible"
-            ></n-switch>
+        <setting-menu label="Logo宽度">
+            <n-input-number
+                class="setting_menu_list"
+                v-model:value="theme.logoWidth"
+                @update="theme.setLogoWidth"
+                placeholder="输入logo宽度"
+                button-placement="both"
+            />
         </setting-menu>
     </n-space>
 </template>

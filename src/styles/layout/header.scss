@@ -1,12 +1,17 @@
 .layout_header {
     width: 100%;
+    height: 100%;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    background: linear-gradient(to right ,#00828DFF,#005873FF);
     .layout_header_content {
         width: 80%;
     }
     .layout_header_setting {
         flex-basis: 140px;
     }
+    // .layout_header_logo,.layout_header_content,.layout_header_setting {
+    //     height: 100%;
+    // }
 }

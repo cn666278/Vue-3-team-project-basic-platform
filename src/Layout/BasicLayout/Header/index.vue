@@ -1,6 +1,6 @@
 <template>
     <div class="layout_header">
-        <div class="layout_header_logo" v-if="theme.layoutMode == 'horizontal' || theme.layoutMode == 'mix'">
+        <div class="layout_header_logo" :style="{width: theme.logoWidth + 'px', padding: '0 5px',}" v-if="theme.layoutMode == 'horizontal' || theme.layoutMode == 'mix'">
             <Logo />
         </div>
         <div class="layout_header_content">

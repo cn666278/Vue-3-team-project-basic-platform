@@ -5,6 +5,7 @@ declare namespace system {
         sideInverted: boolean;
         headerInverted: boolean;
         sideWidth: number;
+        logoWidth: number;
     }
     interface webSocketConfig {
         webSocketURL: string;

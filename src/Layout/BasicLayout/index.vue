@@ -88,4 +88,12 @@ const { primaryColor } = useThemeVars().value;
         height: inherit;
     }
 }
+.layout_header {
+    border-bottom: none;
+    :deep(.n-menu--horizontal) {
+        .n-menu-item-content-header {
+            color: #fff;
+        }
+    }
+}
 </style>
