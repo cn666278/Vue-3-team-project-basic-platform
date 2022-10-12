@@ -8,11 +8,11 @@
             size="small"
             :class="theme.darkMode ? 'dark_theme':'light_theme'"
         >
-            <n-theme-editor>
+            <!-- <n-theme-editor> -->
             <naive-global>
                 <router-view />
             </naive-global>
-            </n-theme-editor>
+            <!-- </n-theme-editor> -->
         </n-config-provider>
     </suspense>
 </template>
