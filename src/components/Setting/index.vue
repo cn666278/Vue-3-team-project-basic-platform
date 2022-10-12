@@ -4,7 +4,7 @@
             <n-avatar round size="medium">{{userInfo?.account}}</n-avatar>
         </div>
         <n-dropdown trigger="hover" :options="options" @select="handleSelect">
-            <h4>{{userInfo?.nick}}</h4>
+            <h4 style="color: #fff">{{userInfo?.nick}}</h4>
         </n-dropdown>
     </div>
 </template>

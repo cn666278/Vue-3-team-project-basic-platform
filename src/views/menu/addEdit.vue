@@ -32,7 +32,7 @@
         <n-form-item label="是否启用">
             <n-switch v-model:value="formData.isEnable" />
         </n-form-item>
-        <n-form-item label="是否显示">
+        <n-form-item label="是否隐藏">
             <n-switch v-model:value="formData.isHidden" />
         </n-form-item>
         <n-form-item label="是否需要授权">

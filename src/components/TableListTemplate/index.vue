@@ -24,6 +24,7 @@
 </script>
 <style lang="scss" scoped>
 .form {
+    padding: 10px;
     .form_operate {
         display: flex;
         justify-content: flex-end;

@@ -171,7 +171,7 @@ declare namespace admin {
     createDate: string;
   }
 }
-// 文件上传
+/**文件上传 */
 declare namespace updateFile {
   interface uploadFileListRequest extends defaultType.requestList {
     eFileType?: number;
@@ -197,5 +197,31 @@ declare namespace updateFile {
       id: string;
       url: string;
     }>,
+  }
+}
+/**免权接口类型 */
+declare namespace unAuth {
+  interface deviceList {
+    deviceId: string;
+    terminalNo: string;
+    carNumber: string;
+    image: string;
+    status: number;
+    sort: number;
+  }
+  interface groupList {
+    id: string;
+    pid: string;
+    name: string;
+    count: number;
+    onlineCount: number;
+    deviceList: deviceList[]
+  }
+  interface  mapTreeList {
+    count: number;
+    driveCount: number;
+    stopCount: number;
+    offLineCount: number;
+    groupList: groupList[]
   }
 }

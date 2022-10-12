@@ -7,8 +7,8 @@ import "virtual:svg-icons-register";
 import "@/styles/index.scss";
 
 // createApp(App).mount('#app')
+const app = createApp(App);
 async function setupApp() {
-  const app = createApp(App);
   // 注册全局常用的 naive-ui 组件
   setupNaive(app);
   await setupStore(app);

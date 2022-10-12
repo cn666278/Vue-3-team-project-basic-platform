@@ -1,7 +1,7 @@
 // 设备转发
 declare namespace device {
   // 搜索的数据
-  interface devicedata {
+  interface deviceData {
     deviceTypeName?: string;
     businessGroupId?: string;
     deviceTypeId?: string;

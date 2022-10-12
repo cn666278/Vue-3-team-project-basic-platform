@@ -44,6 +44,7 @@
                 :page-size="formSearch.pageSize"
                 :total-count="pageOption.totalCount"
                 :total-page="pageOption.totalPage"
+                simple
                 @page-change="pageHandle"
                 @page-size-change="pageSizeHandle"
             />
@@ -177,6 +178,8 @@ getTableData();
 </script>
 <style lang="scss" scoped>
 .form {
+    background-color: #fff;
+    padding: 10px;
     .form_operate {
         display: flex;
         justify-content: flex-end;

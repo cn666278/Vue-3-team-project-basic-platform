@@ -83,7 +83,7 @@ const rules: FormRules = {
     },
 };
 if (props.formInfo) {
-    // console.log(props.formInfo);
+    console.log(props.formInfo);
     formData.value = props.formInfo as formData;
 }
 watch(

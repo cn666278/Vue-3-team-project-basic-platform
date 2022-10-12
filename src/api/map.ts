@@ -56,3 +56,41 @@ export async function updateMap(jsonData: map.mapInfo) {
     });
     return result
 }
+
+/**
+ * @function GetMapList 获取地图列表(免授权)
+ * @param jsonData 
+ * @returns 
+ */
+export async function getMapDataList() {
+    const result = await axios<map.mapDataList[]>('/UnAuth', {
+        targetAPI: 'GetMapList',
+    });
+    return result
+}
+
+/**
+ * @function GetMapParamInfo 获取地图自定义参数
+ * @param id 
+ * @returns 
+ */
+export async function getMapParamInfo(id: string) {
+    const result = await axios('/UnAuth', {
+        targetAPI: 'GetMapParamInfo',
+        data: id,
+    });
+    return result
+}
+
+/**
+ * @function GetMapDeviceListInfo 获取地图勾选的设备详情--地图左侧点击
+ * @param {map.mapDeviceListInfoRequest} jsonData 
+ * @returns 
+ */
+export async function getMapDeviceListInfo(jsonData: map.mapDeviceListInfoRequest) {
+    const result = await axios<map.mapDeviceListInfo>('/UnAuth', {
+        targetAPI: 'GetMapDeviceListInfo',
+        data: jsonData,
+    });
+    return result
+}

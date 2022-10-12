@@ -47,6 +47,29 @@
                 <span>顶部菜单布局</span>
             </n-tooltip>
         </div>
+        <div
+            class="layout_mode"
+            :style="{
+                borderColor: layoutMode == 'mix' ? primaryColor : 'transparent',
+            }"
+            @click="theme.setLayoutMod('mix')"
+        >
+            <n-tooltip placement="bottom" trigger="hover">
+                <template #trigger>
+                    <div class="layout_mode_miniContent">
+                        <div
+                            class="layout_mode_menu"
+                            style="width: 100%; height: 25%"
+                        ></div>
+                        <div
+                            class="layout_mode_content"
+                            style="width: 67%; height: 75%"
+                        ></div>
+                    </div>
+                </template>
+                <span>混合菜单布局</span>
+            </n-tooltip>
+        </div>
     </n-space>
 </template>
 <script setup lang="ts">

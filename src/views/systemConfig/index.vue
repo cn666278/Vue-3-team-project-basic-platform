@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="systemConfig">
         <ConfigTemplate
             :config-type="systemConfig"
             :data="configData"
@@ -96,4 +96,9 @@ const setConfig = (data: config.sysConfig) => {
     });
 };
 </script>
-<style lang="scss"></style>
+<style lang="scss" scoped>
+    .systemConfig {
+        background-color: #fff;
+        padding: 10px;
+    }
+</style>

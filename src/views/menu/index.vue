@@ -1,17 +1,14 @@
 <template>
-    <div class="form">
-        <div class="form_operate">
-            <n-space justify="end">
-                <n-button text @click="onAddEditModal()">
-                    <n-icon :size="22">
-                        <AppstoreAddOutlined />
-                    </n-icon>
-                    新增
-                </n-button>
-            </n-space>
-        </div>
-        <n-divider style="margin: 10px 0" />
-        <div class="form_search">
+    <table-list-template>
+        <template #operate>
+            <n-button text @click="onAddEditModal()">
+                <n-icon :size="22">
+                    <AppstoreAddOutlined />
+                </n-icon>
+                新增
+            </n-button>
+        </template>
+        <template #search>
             <n-form inline size="medium" label-placement="left">
                 <n-form-item label="菜单名称">
                     <n-input v-model:value="searchMenuName" />
@@ -22,8 +19,8 @@
                     >
                 </n-form-item>
             </n-form>
-        </div>
-        <div class="form_table">
+        </template>
+        <template #table>
             <n-data-table
                 remote
                 striped
@@ -34,34 +31,39 @@
                 :expanded-row-keys="expendKeys"
                 @update-expanded-row-keys="expendKeysHandle"
             />
-        </div>
-        <n-modal
-            v-model:show="showAddEdit"
-            preset="card"
-            :title="addEditTitle"
-            style="width: 600px"
-            size="huge"
-            bordered
-            auto-focus
-            @before-leave="onAddEditClose"
-        >
-            <AddEditVue
-                :id="editId"
-                :menu-tree="menuTree"
-                :form-info="editInfo"
+        </template>
+        <template #modal>
+            <n-modal
+                v-model:show="showAddEdit"
+                preset="card"
+                :title="addEditTitle"
+                style="width: 600px"
+                size="huge"
+                bordered
+                auto-focus
+                @before-leave="onAddEditClose"
             >
-                <template #submit="slotProps">
-                    <n-button type="primary" @click="onAddEditSubmit(slotProps)"
-                        >确定</n-button
-                    >
-                    <n-button @click="onAddEditClose">取消</n-button>
-                </template>
-            </AddEditVue>
-        </n-modal>
-    </div>
+                <AddEditVue
+                    :id="editId"
+                    :menu-tree="menuTree"
+                    :form-info="editInfo"
+                >
+                    <template #submit="slotProps">
+                        <n-button
+                            type="primary"
+                            @click="onAddEditSubmit(slotProps)"
+                            >确定</n-button
+                        >
+                        <n-button @click="onAddEditClose">取消</n-button>
+                    </template>
+                </AddEditVue>
+            </n-modal>
+        </template>
+    </table-list-template>
 </template>
 <script setup lang="ts">
 import AddEditVue from "./addEdit.vue";
+import { TableListTemplate } from "@/components/TableListTemplate";
 import {
     getMenusList,
     getMenusTree,
@@ -82,7 +84,7 @@ import { h, Ref, ref, onMounted } from "vue";
 import { AppstoreAddOutlined } from "@vicons/antd";
 let searchMenuName: Ref<string> = ref("");
 let tableCurrentPage: Ref<number> = ref(1);
-let tablePageSize: Ref<number> = ref(100);
+let tablePageSize: Ref<number> = ref(9999);
 let showAddEdit: Ref<boolean> = ref(false);
 let addEditTitle: Ref<string> = ref("新增菜单");
 let editId: Ref<string | undefined> = ref(undefined);
@@ -285,7 +287,7 @@ const page: PaginationProps = {
     itemCount: menuData.value?.totalCount,
     pageCount: menuData.value?.totalPage,
     pageSize: menuData.value?.pageSize,
-    pageSizes: [10, 20, 50, 100],
+    pageSizes: [10, 20, 50, 100, 9999],
     pageSlot: 5,
     showSizePicker: true,
 };

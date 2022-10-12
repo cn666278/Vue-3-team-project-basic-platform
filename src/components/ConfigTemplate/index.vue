@@ -70,7 +70,7 @@ interface configParam {
 const props = defineProps<config>();
 const propsData = Object.assign({}, props.data);
 const emits = defineEmits(["onSubmit"]);
-let responseData = ref(Object.assign({}, propsData));
+let responseData = ref(JSON.parse(JSON.stringify(propsData)));
 let isEdit = ref(true);
 let activeConfig = ref(props.configType[0].title);
 /**点击configTitle事件 */
@@ -85,13 +85,13 @@ const onTitleHandle = (item: configType) => {
 };
 /**编辑事件 */
 const editHandle = () => {
-    responseData.value = Object.assign({} ,propsData);
+    responseData.value = JSON.parse(JSON.stringify(propsData));
     return (isEdit.value = !isEdit.value);
 };
 /**保存事件 */
 const onSubmit = () => {
-    emits("onSubmit", responseData);
-    isEdit.value = false;
+    emits("onSubmit", responseData.value);
+    editHandle();
 };
 </script>
 <style lang="scss" scoped>

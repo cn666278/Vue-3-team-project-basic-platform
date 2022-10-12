@@ -1,37 +1,43 @@
 @import './header.scss';
 .layout_main {
     height: 100vh;
-    .layout_sider {
+    box-sizing: border-box;
+    background-color: transparent;
+    .layout_header {
+        height: 50px;
+        padding: 0 10px;
         display: flex;
-        flex-direction: column;
         align-items: center;
-        // .layout_sider_content {
-        //     flex: 1;
-        // }
+        box-sizing: inherit;
     }
     .layout_content {
-        .layout_content_header {
-            height: 50px;
-            padding: 0 10px;
+        height: calc(100% - 50px);
+        padding: 30px;
+        box-sizing: inherit;
+        background-color: transparent;
+        .layout_sider {
+            margin-right: 15px;
             display: flex;
+            flex-direction: column;
             align-items: center;
         }
         .layout_content_content {
-            height: calc(100% - 50px);
+            // height: calc(100% - 50px);
             padding: 10px;
-            box-sizing: border-box;
+            box-sizing: inherit;
             display: flex;
             flex-direction: column;
+            .layout_content_breadcrumb {
+                padding: 7px 0;
+            }
             .layout_content_content_card {
                 flex: 1;
+                border: none;
                 // height: 100%;
             }
         }
-        .layout_content_background {
-            background-color: #f3f3f3;
-        }
-        .layout_content_footer {
-            height: 30px;
-        }
+        // .layout_content_background {
+        //     background-color: #fff;
+        // }
     }
 }
