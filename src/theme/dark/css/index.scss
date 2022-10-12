@@ -1,0 +1,8 @@
+.dark_theme {
+    .layout_main {
+        background: url('@/assets/base/dark-background.png');
+        .layout_header {
+            background: linear-gradient(to right ,#012B3AFF,#000B13FF);
+        }
+    }
+}

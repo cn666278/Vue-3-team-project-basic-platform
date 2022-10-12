@@ -3,7 +3,6 @@
     height: 100vh;
     box-sizing: border-box;
     background-color: transparent;
-    background: url('@/assets/base/form-background.png');
     .layout_header {
         height: 50px;
         padding: 0 10px;
@@ -37,8 +36,8 @@
                 // height: 100%;
             }
         }
-        .layout_content_background {
-            background-color: #fff;
-        }
+        // .layout_content_background {
+        //     background-color: #fff;
+        // }
     }
 }
