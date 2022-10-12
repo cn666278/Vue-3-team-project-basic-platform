@@ -25,23 +25,23 @@ import webSocket, { onMessageListKey } from "@/utils/webSocket";
 import { provide, computed } from "vue";
 import { lightTheme } from '@/theme/light';
 import { darkTheme } from '@/theme/dark';
-let themeOverrides: GlobalThemeOverrides = {
-    common: {
-        primaryColor: "#00828D",
-        primaryColorHover: "#00828D",
-        primaryColorPressed: "#002371",
-        primaryColorSuppl: "#002371",
-        tableColorHover: '#00828D1A',
-    },
-    Menu: {
-        itemTextColorHorizontal: '#ffffff',
-        itemTextColorHoverHorizontal: '#FCE051',
-        itemTextColorActiveHorizontal: '#FCE051',
-        itemTextColorActiveHoverHorizontal: '#FCE051',
-        itemTextColorChildActiveHorizontal: '#FCE051',
-        borderColorHorizontal: '#FCE051',
-    }
-};
+// let themeOverrides: GlobalThemeOverrides = {
+//     common: {
+//         primaryColor: "#00828D",
+//         primaryColorHover: "#00828D",
+//         primaryColorPressed: "#002371",
+//         primaryColorSuppl: "#002371",
+//         tableColorHover: '#00828D1A',
+//     },
+//     Menu: {
+//         itemTextColorHorizontal: '#ffffff',
+//         itemTextColorHoverHorizontal: '#FCE051',
+//         itemTextColorActiveHorizontal: '#FCE051',
+//         itemTextColorActiveHoverHorizontal: '#FCE051',
+//         itemTextColorChildActiveHorizontal: '#FCE051',
+//         borderColorHorizontal: '#FCE051',
+//     }
+// };
 const theme = useThemeStore();
 
 /**全局挂载websocket */
