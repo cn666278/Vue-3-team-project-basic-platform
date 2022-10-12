@@ -19,7 +19,7 @@
 <script setup lang="ts">
 import NaiveGlobal from "@/components/naiveGlobal/index.vue";
 import { zhCN, dateZhCN, NThemeEditor } from "naive-ui";
-import type { GlobalThemeOverrides } from "naive-ui";
+// import type { GlobalThemeOverrides } from "naive-ui";
 import { useThemeStore } from "@/store";
 import webSocket, { onMessageListKey } from "@/utils/webSocket";
 import { provide, computed } from "vue";
