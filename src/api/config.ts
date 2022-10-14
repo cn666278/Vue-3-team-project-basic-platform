@@ -24,3 +24,26 @@ const url = '/Config';
     })
     return result
 }
+/**
+ * @function GetDeviceConfig 获取设备配置
+ * @returns {String} token
+ */
+ export async function getDeviceConfig() {
+    const result = await axios<config.deviceConfig>(url, {
+        targetAPI: 'GetDeviceConfig',
+    })
+    return result
+}
+
+/**
+ * @function SetDeviceConfig 设置设备配置
+ * @param jsonData 提交字段
+ * @returns {String} token
+ */
+ export async function setDeviceConfig(jsonData: config.deviceConfig) {
+    const result = await axios<config.deviceConfig>(url, {
+        targetAPI: 'SetDeviceConfig',
+        data: jsonData
+    })
+    return result
+}
