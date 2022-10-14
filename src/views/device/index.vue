@@ -39,6 +39,7 @@ import { getDeviceTypeList } from "@/api/deviceType";
 import { getBusinessGroupList } from "@/api/businessGroup";
 import type { PaginationType } from "@/components/pagination/index";
 import { AppstoreAddOutlined } from "@vicons/antd";
+import { transformTozTreeFormat } from "@/utils/common";
 const searchData = ref<device.deviceData>({});
 const tableData = ref<device.deviceList[]>([]);
 // 新增弹窗显示
@@ -306,7 +307,7 @@ const getBusinessGroupData = async () => {
   };
   const RoteData = (await getBusinessGroupList(formInline)).Data.data;
   //   businessGroupData.value = RoteData;
-  businessGroupData.value[0].children = RoteData as unknown as any[];
+  businessGroupData.value[0].children = transformTozTreeFormat(RoteData) as unknown as any[];
 };
 
 /**获取列表数据 */
