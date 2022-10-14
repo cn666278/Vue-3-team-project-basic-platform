@@ -4,9 +4,45 @@ const url = '/Admin';
  * @function GetDeviceList 获取设备列表
  * @returns {String} token
  */
- export async function getDeviceList(jsonData: device.deviceData) {
+export async function getDeviceList(jsonData: device.deviceData) {
     const result = await axios<defaultType.responseList<device.deviceList[]>>(url, {
         targetAPI: 'GetDeviceList',
+        data: jsonData
+    })
+    return result
+}
+/**
+ * @function AddDevice 添加菜单信息
+ * @param jsonData 提交字段
+ * @returns {String} token
+ */
+export async function addDevice(jsonData: device.deviceData) {
+    const result = await axios<device.deviceData>(url, {
+        targetAPI: 'AddDevice',
+        data: jsonData
+    })
+    return result
+}
+/**
+ * @function GetDeviceInfo 获取菜单信息
+ * @param jsonData 提交字段
+ * @returns {String} token
+ */
+export async function getDeviceInfo(jsonData: string) {
+    const result = await axios<device.deviceList>(url, {
+        targetAPI: 'GetDeviceInfo',
+        data: jsonData
+    })
+    return result
+}
+/**
+ * @function UpdateDevice 修改菜单信息
+ * @param jsonData 提交字段
+ * @returns {String} token
+ */
+export async function UpdateDevice(jsonData: device.deviceData) {
+    const result = await axios<device.deviceData>(url, {
+        targetAPI: 'UpdateDevice',
         data: jsonData
     })
     return result
