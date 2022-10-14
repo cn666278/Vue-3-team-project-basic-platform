@@ -15,7 +15,7 @@
         <BasicForm @register="register" @submit="handleSubmit" @reset="handleReset"> </BasicForm>
       </template>
       <template #table>
-        <BasicTable :columns="columns" :pagination="false" :dataSource="data.list" ref="actionRef" :actionColumn="actionColumn" :scroll-x="2000"></BasicTable>
+        <BasicTable :columns="columns" :pagination="false" :dataSource="data.list" ref="actionRef" :actionColumn="actionColumn" :scroll-x="2000" @tableReload="getTableData"></BasicTable>
       </template>
       <template #page>
         <page :current-page="pageOption?.currentPage" :page-size="pageOption?.pageSize" :total-page="pageOption?.totalPage" :total-count="pageOption?.totalCount" @page-change="pageHandle" @page-size-change="pageSizeHandle" />
