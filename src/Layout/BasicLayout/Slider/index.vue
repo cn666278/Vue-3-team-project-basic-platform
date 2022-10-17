@@ -96,10 +96,10 @@ const onMenuItem = (key: string) => {
         
         if(childrenListKey != -1) {
             activeKey.value = key;
-            console.log(menu.value, childrenListKey);
             appStore.setActionChildrenList(menu.value[childrenListKey].children);
         }
     } else {
+        console.log(menu.value);
         router.push({ path: key });
     }
 };

@@ -33,15 +33,17 @@ import { computeMapHeight } from "@/utils/LeafletMap";
 import { socketSend, onMessageListKey } from "@/utils/webSocket";
 import { initZTree, zTreeSetting } from "@/utils/zTree";
 import { getAssetsFile } from "@/utils/common";
-import { getMapDataList } from "@/api/map";
+import { getMapDataList, getMapDeviceListInfo } from "@/api/map";
 import LeafletMap from "./LeafletMap.vue";
 interface mapOptions {
     id: string;
     height: number;
+    coordinateType: number;
 }
 const mapOptions = ref<mapOptions>({
     id: "",
     height: 700,
+    coordinateType: 0,
 });
 const leafletMapRef = ref<any>();
 const treeObj = ref();
@@ -52,8 +54,9 @@ const deviceCount = ref({
     offline: 0,
 })
 /**生成地图 */
-const getMapInfo = async (id: string) => {
-    mapOptions.value.id = id;
+const getMapInfo = async (data: map.mapDataList) => {
+    mapOptions.value.id = data.id;
+    mapOptions.value.coordinateType = data.eCoordinateType;
     nextTick(() => {
         leafletMapRef.value.initMap();
     });
@@ -64,7 +67,7 @@ const getMapList = async () => {
     let data = (await getMapDataList()).Data;
     data.map((item) => {
         if (item.isDefault) {
-            getMapInfo(item.id);
+            getMapInfo(item);
         }
     });
 };
@@ -94,7 +97,6 @@ const updateNodeStatus = (data: any) => {
             //  行驶
             if(data.d.S > 0) {
                 device.status = 3;
-                console.log(device);
                 device.icon = getAssetsFile("base", "icon-drive.png");
             } else {
                 device.status = 2;
@@ -125,6 +127,7 @@ const initDeviceZTree = () => {
         dataFilter: zTreeDataFilter,
         callBack: {
             onCheck: zTreeOnNodeChecked,
+            onClick: zTreeOnNodeClick,
         },
     };
     treeObj.value = initZTree("deviceTree", setting);
@@ -179,7 +182,7 @@ const treeDataRecursive = (data: unAuth.mapTreeList) => {
 const zTreeOnNodeChecked = (
     event: Event,
     treeId: string,
-    treeNode: unAuth.deviceList
+    treeNode: any
 ) => {
     let terminalNoList = treeObj.value
         .getCheckedNodes(true)
@@ -192,7 +195,51 @@ const zTreeOnNodeChecked = (
             terminalNoList: terminalNoList,
         },
         100
-    )
+    );
+    if(treeNode.checked) {
+        let deviceIdList = treeObj.value
+        .getCheckedNodes(true)
+        .filter((node: unAuth.deviceList) => node.deviceId)
+        .map((node: unAuth.deviceList) => node.deviceId);
+        getTreeCarInfo(deviceIdList);
+    } else {
+        if(treeNode.deviceList && treeNode.deviceList.length > 0) {
+            let removeTerminalNoList = treeObj.value
+                .getCheckedNodes(false)
+                .filter((node: unAuth.deviceList) => node.terminalNo)
+                .map((node: unAuth.deviceList) => node.terminalNo);
+            leafletMapRef.value.removeCar(removeTerminalNoList);
+        } else {
+            leafletMapRef.value.removeCar([treeNode.terminalNo]);
+        }
+    }
+};
+
+/**树形点击 */
+const zTreeOnNodeClick = (
+    event: Event,
+    treeId: string,
+    treeNode: any
+) => {
+    if(treeNode.deviceList == undefined) {
+        getMapDeviceListInfo({
+            deviceIdList: [treeNode.deviceId],
+            coordinateType: mapOptions.value.coordinateType,
+        }).then(res => {
+            leafletMapRef.value.carPosTo(treeNode.terminalNo);
+            leafletMapRef.value.changeCarPopup(res.Data);
+        });
+    }
+};
+
+/**获取车辆详情 */
+const getTreeCarInfo = (deviceIdList: string[]) => {
+    getMapDeviceListInfo({
+        deviceIdList,
+        coordinateType: mapOptions.value.coordinateType,
+    }).then((res) => {
+        leafletMapRef.value.initCar(res.Data);
+    });
 };
 
 /**本页websocket接收数据处理 */

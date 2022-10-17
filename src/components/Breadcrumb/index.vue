@@ -1,15 +1,7 @@
 <template>
     <n-breadcrumb>
         <n-breadcrumb-item v-for="item in menuLevel" :key="item">
-            <span
-                :style="{
-                    color:
-                        inverted
-                            ? '#fff'
-                            : primaryColor,
-                }"
-                >{{ item }}</span
-            >
+            <span>{{ item }}</span>
         </n-breadcrumb-item>
     </n-breadcrumb>
 </template>
