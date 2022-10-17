@@ -23,7 +23,7 @@
       <slot name="toolbar"></slot>
 
       <!--斑马纹-->
-      <n-tooltip trigger="hover">
+      <!-- <n-tooltip trigger="hover">
         <template #trigger>
           <div class="mr-2 table-toolbar-right-icon">
             <n-switch v-model:value="isStriped" @update:value="setStriped" />
@@ -31,12 +31,12 @@
         </template>
         <span>表格斑马纹</span>
       </n-tooltip>
-      <n-divider vertical />
+      <n-divider vertical /> -->
 
       <!--刷新-->
       <n-tooltip trigger="hover">
         <template #trigger>
-          <div class="table-toolbar-right-icon" @click="reload">
+          <div class="table-toolbar-right-icon" @click="tablereload">
             <n-icon size="18">
               <ReloadOutlined />
             </n-icon>
@@ -151,6 +151,7 @@
       'edit-cancel',
       'edit-row-end',
       'edit-change',
+      'tableReload'
     ],
     setup(props, { emit }) {
       const deviceHeight = ref(150);
@@ -166,9 +167,7 @@
       });
 
       const { getLoading, setLoading } = useLoading(getProps);
-
       const { getPaginationInfo, setPagination } = usePagination(getProps);
-
       const { getDataSourceRef, getDataSource, getRowKey, reload } = useDataSource(
         getProps,
         {
@@ -179,7 +178,11 @@
         },
         emit
       );
-
+      // 刷新按钮
+      function tablereload() {
+        setLoading(true)
+         emit('tableReload',null)
+      }
       const { getPageColumns, setColumns, getColumns, getCacheColumns, setCacheColumnsField } =
         useColumns(getProps);
 
@@ -226,6 +229,7 @@
           size: unref(getTableSize),
           remote: true,
           'max-height': maxHeight,
+          'default-expand-all':true,
         };
       });
 
@@ -298,6 +302,7 @@
         getDataSource,
         densityOptions,
         reload,
+        tablereload,
         densitySelect,
         updatePage,
         updatePageSize,
