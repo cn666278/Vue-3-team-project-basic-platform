@@ -15,7 +15,7 @@
         <BasicForm @register="register" @submit="handleSubmit" @reset="handleReset"> </BasicForm>
       </template>
       <template #table>
-        <BasicTable :columns="columns" :pagination="false" :dataSource="data.list" ref="actionRef" :actionColumn="actionColumn" :scroll-x="2000" @tableReload="getTableData"></BasicTable>
+        <BasicTable :columns="columns" :pagination="false" :dataSource="data.list" ref="actionRef" :row-key="rowKey" :expanded-row-keys="expendKeys" @update-expanded-row-keys="expendKeysHandle" :actionColumn="actionColumn" @tableReload="getTableData"></BasicTable>
       </template>
       <template #page>
         <page :current-page="pageOption?.currentPage" :page-size="pageOption?.pageSize" :total-page="pageOption?.totalPage" :total-count="pageOption?.totalCount" @page-change="pageHandle" @page-size-change="pageSizeHandle" />
@@ -24,34 +24,38 @@
     <Dialog v-model:showModal="showModal" :option="dialogoption" @close="close" @confirm="confirm">
       <BasicForm @register="addregister" @submit="addSubmit"> </BasicForm>
     </Dialog>
+    <Dialog v-model:showModal="relationRoleType" :option="dialogoption" width="800px" @close="close" @confirm="closeRelationRole">
+      <relationRole :id="editId" @submit="setBindRole" />
+    </Dialog>
   </div>
 </template>
 <script setup lang="ts">
 import { h, onMounted, reactive, ref, Ref, watch } from "vue";
+import { NTag, DataTableColumn, DataTableRowKey, PaginationProps, TreeSelectOption, NButton } from "naive-ui";
 import { columns } from "./columns";
 import { BasicTable, TableAction } from "@/components/BasicTable";
 import { BasicForm, FormSchema, useForm } from "@/components/Form/index";
 import TableListTemplate from "@/components/TableListTemplate/index.vue";
 import Dialog from "@/components/dialog/index.vue";
 import page from "@/components/pagination/index.vue";
-import { getDeviceList, addDevice, getDeviceInfo, UpdateDevice, setDeviceIsEnable } from "@/api/device";
-import { getDeviceTypeList } from "@/api/deviceType";
-import { getBusinessGroupList } from "@/api/businessGroup";
+import { getBusinessGroupList, addBusinessGroup, getBusinessGroupInfo, UpdateBusinessGroup, setBusinessGroupBindRole } from "@/api/businessGroup";
 import type { PaginationType } from "@/components/pagination/index";
 import { AppstoreAddOutlined } from "@vicons/antd";
 import { transformTozTreeFormat } from "@/utils/common";
-const searchData = ref<device.deviceData>({});
-const tableData = ref<device.deviceList[]>([]);
+import relationRole from "./relationRole.vue";
+const searchData = ref<BusinessGroup.BusinessGroupData>({});
+const tableData = ref<BusinessGroup.BusinessGroupList[]>([]);
 // 新增弹窗显示
 const showModal = ref(false);
+const relationRoleType = ref(false);
 const dialogTitle = ref("");
-// 设备类型数据
-const deviceTypeData = ref();
+let editId: Ref<string | undefined> = ref(undefined);
+let roleIds = ref<any>([]);
 // 业务分组数据
 let businessGroupData: Ref<any[]> = ref([
   {
     id: "",
-    name: "全部",
+    name: "无父级",
     children: [],
   },
 ]);
@@ -74,6 +78,7 @@ function addTable() {
 // 关闭新增弹窗
 function close() {
   showModal.value = false;
+  relationRoleType.value = false;
 }
 // 保存新增弹窗
 function confirm() {
@@ -89,49 +94,9 @@ const addschemas: FormSchema[] = [
     },
   },
   {
-    field: "name",
-    component: "NInput",
-    label: "设备名称",
-    componentProps: {
-      placeholder: "请输入设备名称",
-      onInput: (e: any) => {},
-    },
-    rules: [{ required: true, message: "请输入设备名称", trigger: ["blur"] }],
-  },
-  {
-    field: "terminalNo",
-    component: "NInput",
-    label: "设备号",
-    componentProps: {
-      placeholder: "请输入设备号",
-      onInput: (e: any) => {},
-    },
-  },
-  {
-    field: "deviceTypeId",
-    component: "NSelect",
-    label: "设备类型",
-    componentProps: {
-      labelField: "name",
-      valueField: "id",
-      placeholder: "请选择设备类型",
-      options: deviceTypeData,
-    },
-    rules: [{ required: true, message: "请选择设备类型", trigger: ["blur"] }],
-  },
-  {
-    field: "carNumber",
-    component: "NInput",
-    label: "车牌号",
-    componentProps: {
-      placeholder: "请输入车牌号",
-      onInput: (e: any) => {},
-    },
-  },
-  {
-    field: "businessGroupId",
+    field: "pid",
     component: "NTreeSelect",
-    label: "业务分组",
+    label: "父级名称",
     componentProps: {
       labelField: "name",
       keyField: "id",
@@ -143,30 +108,46 @@ const addschemas: FormSchema[] = [
     },
   },
   {
-    field: "phone",
+    field: "name",
     component: "NInput",
-    label: "手机号码",
+    label: "业务分组名称",
     componentProps: {
-      placeholder: "请输入手机号码",
+      placeholder: "请输入业务分组名称",
+      onInput: (e: any) => {},
+    },
+    rules: [{ required: true, message: "请输入业务分组名称", trigger: ["blur"] }],
+  },
+  {
+    field: "needCheck",
+    component: "NSwitch",
+    label: "是否需授权",
+    componentProps: {},
+  },
+
+  {
+    field: "paramString",
+    component: "NInput",
+    label: "预留业务参数(字符)",
+    componentProps: {
+      placeholder: "请输入预留业务参数",
       onInput: (e: any) => {},
     },
   },
   {
-    field: "speedLimit",
-    component: "NInput",
-    label: "限速",
+    field: "paramInt",
+    component: "NInputNumber",
+    label: "预留业务参数(整数)",
     componentProps: {
-      placeholder: "请输入限速",
+      placeholder: "请输入预留业务参数",
       onInput: (e: any) => {},
     },
   },
   {
-    field: "memo",
+    field: "paramDecimal",
     component: "NInput",
-    label: "备注说明",
+    label: "预留业务参数(decimal)",
     componentProps: {
-      type: "textarea",
-      placeholder: "请输入备注说明",
+      placeholder: "请输入预留业务参数",
       onInput: (e: any) => {},
     },
   },
@@ -175,6 +156,15 @@ const addschemas: FormSchema[] = [
     component: "NSwitch",
     label: "是否启用",
     componentProps: {},
+  },
+  {
+    field: "speedLimit",
+    component: "NInputNumber",
+    label: "排序",
+    componentProps: {
+      placeholder: "请输入排序",
+      onInput: (e: any) => {},
+    },
   },
 ];
 // 新增表单
@@ -188,14 +178,14 @@ const [addregister, { setFieldsValue, submit, updateSchema }] = useForm({
 });
 async function addSubmit(values: Recordable) {
   if (values.id === undefined) {
-    // let res = await addDevice(values);
-    addDevice(values).then((res) => {
+    // let res = await addBusinessGroup(values);
+    addBusinessGroup(values).then((res) => {
       showModal.value = false;
       // message.success("新建成功");
       getTableData();
     });
   } else {
-    UpdateDevice(values).then((res) => {
+    UpdateBusinessGroup(values).then((res) => {
       showModal.value = false;
       // message.success("编辑成功");
       getTableData();
@@ -221,8 +211,8 @@ const actionColumn = reactive({
           },
         },
         {
-          label: record.isEnable == false ? "启用" : "禁用",
-          onClick: onDisableOrEnable.bind(null, record),
+          label: "关联角色",
+          onClick: onRelationRole.bind(null, record),
           ifShow: () => {
             return true;
           },
@@ -231,18 +221,24 @@ const actionColumn = reactive({
     });
   },
 });
-
-// 禁用或启用
-const onDisableOrEnable = (record: Recordable) => {
-  setDeviceIsEnable({ id: record.id, isEnable: !record.isEnable });
-  getTableData();
-};
+// 关联角色
+function onRelationRole(record: Recordable) {
+  editId.value = record.id;
+  relationRoleType.value = true;
+  dialogTitle.value = "关联角色";
+}
+// 关闭关联角色弹窗
+function closeRelationRole() {
+  setBusinessGroupBindRole({ businessGroupId: editId.value, roleIdList: roleIds.value }).then((res) => {
+    relationRoleType.value = false;
+  });
+}
 
 async function handleEdit(record: Recordable) {
   // console.log("点击了编辑用户", record);
   showModal.value = true;
   dialogTitle.value = "编辑";
-  let resdata = (await getDeviceInfo(record.id)).Data;
+  let resdata = (await getBusinessGroupInfo(record.id)).Data;
   setTimeout(() => {
     setFieldsValue(resdata);
   }, 10);
@@ -253,9 +249,9 @@ const schemas: FormSchema[] = [
   {
     field: "name",
     component: "NInput",
-    label: "设备",
+    label: "业务分组名称",
     componentProps: {
-      placeholder: "请输入设备",
+      placeholder: "请输入业务分组名称",
     },
   },
 ];
@@ -286,7 +282,7 @@ const data = reactive({
 });
 const pageOption = ref<PaginationType>({
   currentPage: 1,
-  pageSize: 10,
+  pageSize: 100,
 });
 const pageHandle = (page: number) => {
   pageOption.value.currentPage = page;
@@ -298,19 +294,8 @@ const pageSizeHandle = (pageSize: number) => {
 };
 onMounted(() => {
   getTableData();
-  getDeviceTypeData();
   getBusinessGroupData();
 });
-/**获取设备类型 */
-const getDeviceTypeData = async () => {
-  let formInline = {
-    name: "",
-    currentPage: 1,
-    pageSize: 999999,
-  };
-  const RoteData = (await getDeviceTypeList(formInline)).Data.data;
-  deviceTypeData.value = RoteData;
-};
 /**获取业务分组 */
 const getBusinessGroupData = async () => {
   let formInline = {
@@ -323,14 +308,20 @@ const getBusinessGroupData = async () => {
   businessGroupData.value[0].children = transformTozTreeFormat(RoteData) as unknown as any[];
 };
 
+// 设置业务分组
+const setBindRole = (item: any) => {
+  console.log(item);
+  roleIds.value = item;
+};
+
 /**获取列表数据 */
 const getTableData = async () => {
   if (data.selectData) {
     data.selectData.currentPage = pageOption.value?.currentPage;
     data.selectData.pageSize = pageOption.value?.pageSize;
   }
-  const Data = (await getDeviceList(data.selectData ? data.selectData : { ...pageOption.value })).Data;
-  data.list = Data.data;
+  const Data = (await getBusinessGroupList(data.selectData ? data.selectData : { ...pageOption.value })).Data;
+  data.list = transformTozTreeFormat(Data.data);
   let pageData: PaginationType = {
     currentPage: Data.currentPage,
     pageSize: Data.pageSize,
@@ -339,6 +330,13 @@ const getTableData = async () => {
   };
   pageOption.value = pageData;
   return Data.data;
+};
+
+/**行Key设置 */
+const rowKey = (row: admin.menuList) => row.id;
+const expendKeys: Ref<DataTableRowKey[]> = ref([]);
+const expendKeysHandle = (keys: DataTableRowKey[]) => {
+  expendKeys.value = keys;
 };
 </script>
 <style lang="scss">
