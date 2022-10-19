@@ -23,6 +23,7 @@
         <leaflet-map
             ref="leafletMapRef"
             :map-id="mapOptions.id"
+            :coordinate-type="mapOptions.coordinateType"
             :style="`height: ${mapOptions.height}px`"
         ></leaflet-map>
     </div>

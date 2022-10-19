@@ -4,9 +4,9 @@
         <div ref="popupRef">
             <n-form label-placement="left" :show-feedback="false" size="small">
                 <n-form-item label="设备:">{{infoData?.terminalNo}}</n-form-item>
-                <n-form-item label="方向:">{{infoData?.direction}}</n-form-item>
+                <n-form-item label="方向:">{{calculateDirection(infoData?.direction)}}</n-form-item>
                 <n-form-item label="速度:">{{infoData?.speed}}</n-form-item>
-                <n-form-item label="时间:">{{infoData?.locationDate}}</n-form-item>
+                <n-form-item label="时间:">{{dateFormat(infoData?.locationDate)}}</n-form-item>
                 <n-form-item label="经度:">{{infoData?.lng}}</n-form-item>
                 <n-form-item label="纬度:">{{infoData?.lat}}</n-form-item>
             </n-form>
@@ -28,7 +28,7 @@
             :btn-show="false"
             @close="closeDialog"
         >
-            <TrackPlayback ref="trackPlayBackRef" :map-id="props.mapId"></TrackPlayback>
+            <TrackPlayback ref="trackPlayBackRef" :map-id="props.mapId" :coordinate-type="props.coordinateType"></TrackPlayback>
         </Dialog>
     </div>
     </div>
@@ -40,12 +40,13 @@ import 'leaflet.marker.slideto';
 import { onMounted, ref, inject, nextTick, unref } from "vue";
 import { createPluginsMap, Map } from "@/utils/LeafletMap";
 import { getMapParamInfo, getMapDeviceListInfo } from "@/api/map";
-import { getAssetsFile } from '@/utils/common';
+import { getAssetsFile, formatDateTime, calculateDirection } from '@/utils/common';
 import { onMessageListKey } from "@/utils/webSocket";
 import Dialog from "@/components/dialog/index.vue";
 import TrackPlayback from '@/components/trackPlayback/index.vue';
 interface Props {
     mapId: string;
+    coordinateType: number;
 }
 const props = defineProps<Props>();
 const propsData = ref(props);
@@ -207,18 +208,22 @@ const dialogOption = ref({
 /**开启轨迹回放弹窗 */
 const openDialog = (deviceId: string) => {
     showTrackPlayBack.value = true;
+    let data = JSON.parse(JSON.stringify(infoData.value));
     nextTick(() => {
-        // getMapDeviceListInfo({
-        //     deviceIdList: [deviceId],
-        //     coordinateType: 
-        // });
-        // trackPlayBackRef.value.getDeviceInfo(layersData.value.popupData[terminalNo]);
+        trackPlayBackRef.value.getDeviceInfo(data);
     });
 }
 /**关闭轨迹回放弹窗 */
 const closeDialog = () => {
     showTrackPlayBack.value = false;
 };
+/**时间格式化 */
+const dateFormat = (time: string | undefined) => {
+    if(time) {
+        let date = formatDateTime(time);
+        if(date != '1970-01-01 08:00:00') return date
+    }
+}
 onMounted(() => {
     /**接收注入 */
     const onMessageList = inject(onMessageListKey, []);

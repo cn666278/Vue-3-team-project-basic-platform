@@ -3,7 +3,7 @@ import Request from "./request";
 import { getToken, removeToken } from "@/utils/auth/index";
 const request = new Request({
     baseURL: import.meta.env.VITE_BASE_URL,
-    timeout: 1000 * 20,
+    timeout: 1000 * 30,
 });
 
 interface configOption {
