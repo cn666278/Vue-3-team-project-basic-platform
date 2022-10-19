@@ -34,7 +34,7 @@
       </Menu>
     </n-modal>
     <!-- 分配接口弹出层 -->
-    <n-modal v-model:show="showInterface" preset="card" :title="interfaceTitle" style="width: 30%" size="huge" bordered auto-focus @before-leave="onAddEditClose">
+    <n-modal v-model:show="showInterface" preset="card" :title="interfaceTitle" style="width: 60%" size="huge" bordered auto-focus @before-leave="onAddEditClose">
       <Interface>
         <template #submit="slotProps">
           <n-button type="primary" @click="onAddEditSubmit(slotProps, 'Interface')">确定</n-button>
@@ -70,6 +70,8 @@ import { UploadFileInfo, useDialog, useMessage } from "naive-ui";
 import Menu from "./menu.vue";
 // 引入分配接口
 import Interface from "./interface.vue";
+// 获取分配接口详情、设置分配接口
+import { getRoleBindCompetence, setRoleBindCompetence } from "@/api/role";
 // 引入分配设备
 import Device from "./device.vue";
 
@@ -110,6 +112,10 @@ const onAddEditSubmit = async (slotProps: any, title: string) => {
     }
   } else if (title == "Interface") {
     console.log("提交分配接口数据", formData);
+    // let data = (await setRoleBindCompetence({ roleId: roleId.value, competenceIdList: formData })).State;
+    // if (data == 1) {
+    //   onAddEditClose();
+    // }
   } else {
     console.log("提交分配设备数据", formData);
   }
@@ -257,19 +263,19 @@ async function handleEdit(record: Recordable) {
 const handleMenu = async (record: Recordable) => {
   roleId.value = record.id;
   showMenu.value = true;
-  menuTitle.value = "分配菜单";
+  menuTitle.value = "分配菜单--" + record.name;
 };
 // 分配接口页
 const handleInterface = (record: Recordable) => {
   roleId.value = record.id;
   showInterface.value = true;
-  interfaceTitle.value = "分配接口";
+  interfaceTitle.value = "分配接口--" + record.name;
 };
 // 分配设备页
 const handleDevice = (record: Recordable) => {
   roleId.value = record.id;
   showDevice.value = true;
-  deviceTitle.value = "分配设备";
+  deviceTitle.value = "分配设备--" + record.name;
 };
 
 // 搜索数据

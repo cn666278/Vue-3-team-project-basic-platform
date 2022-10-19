@@ -19,5 +19,10 @@ declare namespace role {
         roleId: string;
         menuIdList: Array;
     }
+    // 分配接口的数据
+    interface competenceIdList {
+        roleId: string;
+        competenceIdList: Array;
+    }
 
 }

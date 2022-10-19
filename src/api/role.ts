@@ -62,13 +62,37 @@ export async function getRoleBindMenu(jsonData: string | undefined) {
     return result
 }
 /**
- * @function SetRoleBindMenu 分配角色分配菜单
+ * @function SetRoleBindMenu 设置角色分配菜单
  * @param jsonData 提交字段
  * @returns {String} token
  */
 export async function setRoleBindMenu(jsonData: role.roleMenuData) {
     const result = await axios<role.roleList>(url, {
         targetAPI: 'SetRoleBindMenu',
+        data: jsonData
+    })
+    return result
+}
+/**
+ * @function GetRoleBindCompetence 获取角色分配接口信息
+ * @param jsonData 提交字段
+ * @returns {String} token
+ */
+export async function getRoleBindCompetence(jsonData: string | undefined) {
+    const result = await axios<role.roleList>(url, {
+        targetAPI: 'GetRoleBindCompetence',
+        data: jsonData
+    })
+    return result
+}
+/**
+ * @function SetRoleBindCompetence 设置角色分配接口
+ * @param jsonData 提交字段
+ * @returns {String} token
+ */
+export async function setRoleBindCompetence(jsonData: role.competenceIdList) {
+    const result = await axios<role.roleList>(url, {
+        targetAPI: 'SetRoleBindCompetence',
         data: jsonData
     })
     return result
