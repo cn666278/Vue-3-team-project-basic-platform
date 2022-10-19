@@ -38,18 +38,42 @@ declare namespace map {
         coordinateType: number;
     }
     interface mapDeviceListInfo {
-        name: string;
-        deviceId: string;
-        deviceTypeName: string;
+        name?: string;
+        deviceId?: string;
+        deviceTypeName?: string;
         terminalNo: string;
-        carNumber: string;
+        carNumber?: string;
         speed: number;
         altitude: number;
         direction: number;
-        isDrive: boolean;
-        isOnline: boolean;
-        locationDate: string;
+        isDrive?: boolean;
+        isOnline?: boolean;
+        locationDate?: string;
         lat: string;
         lng: string;
+    }
+    interface deviceTrail {
+        lat: string;
+        lng: string;
+        isPosition: boolean;
+        acc: boolean;
+        altitude: number;
+        speed: number;
+        direction: number;
+        mileage: number;
+        wiFiSignalStrength: number;
+        gnssCount: number;
+        deviceDate: string;
+        serverDate: string;
+        stopMessage: string;
+    }
+    interface deviceTrailRequest {
+        terminalNo?: string;
+        businessParam?: string;
+        isPosition?: boolean;
+        isSupplementary?: boolean;
+        coordinateType: number;
+        beginTime: string;
+        endTime: string;
     }
 }

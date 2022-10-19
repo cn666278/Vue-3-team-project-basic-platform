@@ -18,5 +18,4 @@ export const darkTheme: GlobalThemeOverrides = {
         itemTextColorActiveHoverHorizontal: '#FCE051',
         borderColorHorizontal: '#FCE051',
     },
-    
 }
