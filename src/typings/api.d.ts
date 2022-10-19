@@ -266,4 +266,13 @@ declare namespace BusinessGroup {
         updateDate: string;
         // createDate: string;
     }
+    interface BusinessGroupRoleData {
+        businessGroupId: string | undefined;
+        roleIdList: Array;
+    }
+    interface BusinessGroupRoleList {
+        roleId: string;
+        businessGroupId: string;
+        createDate: string;
+    }
 }

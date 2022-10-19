@@ -91,10 +91,15 @@ declare namespace device {
         powerVal: string;
         statusName: string;
         createDate: string;
-        
+
     }
     // 删除数据
     interface delList {
         idList: array;
+    }
+    // 禁用或启用
+    interface deviceType {
+        id: string,
+        isEnable: boolean
     }
 }
