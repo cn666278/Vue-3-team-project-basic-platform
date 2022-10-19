@@ -22,7 +22,13 @@ import { h, onMounted, reactive, ref, Ref } from "vue";
 import { getCompetenceControllerList } from "@/api/interfaceLog";
 // 获取接口列表
 import { getCompetenceList } from "@/api/setting";
+// 获取接口详情信息
+import { getRoleBindCompetence } from "@/api/role";
 
+interface form {
+  roleId?: string;
+}
+const props = defineProps<form>();
 // 获取控制器数据
 const competenceControllerData = (await getCompetenceControllerList()).Data;
 // 接口显示数据
@@ -33,8 +39,10 @@ let interfaceData = ref<object>({});
 let isInterfaceData = ref<object>({});
 // 对应控制器的显示数据
 let getInterfaceData = ref<string[]>([]);
-
+// 控制器状态
 let interfaceType = ref<string>("");
+// 接口详情信息
+let roleBindCompetenceInfo = ref();
 
 // 获取接口数据
 const competenceList = () => {
@@ -74,11 +82,17 @@ const get = () => {
       });
     }
   });
-  getInterfaceData.value = data
+  getInterfaceData.value = data;
+};
+
+const getRoleBindCompetenceInfo = async () => {
+  roleBindCompetenceInfo.value = (await getRoleBindCompetence(props.roleId)).Data;
+  getInterfaceData.value = roleBindCompetenceInfo.value.map((item: any) => item.id);
 };
 
 onMounted(() => {
   competenceList();
+  getRoleBindCompetenceInfo();
 });
 </script>
 <style lang="scss"></style>
