@@ -27,7 +27,7 @@ const url = '/Log';
  * @returns {String} token
  */
  export async function getCompetenceControllerList() {
-    const result = await axios('/Admin', {
+    const result = await axios<string[]>('/Admin', {
         targetAPI: 'GetCompetenceControllerList',
     })
     return result

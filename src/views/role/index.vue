@@ -34,8 +34,8 @@
       </Menu>
     </n-modal>
     <!-- 分配接口弹出层 -->
-    <n-modal v-model:show="showInterface" preset="card" :title="interfaceTitle" style="width: 30%" size="huge" bordered auto-focus @before-leave="onAddEditClose">
-      <Interface>
+    <n-modal v-model:show="showInterface" preset="card" :title="interfaceTitle" style="width: 60%" size="huge" bordered auto-focus @before-leave="onAddEditClose">
+      <Interface :role-id="roleId">
         <template #submit="slotProps">
           <n-button type="primary" @click="onAddEditSubmit(slotProps, 'Interface')">确定</n-button>
           <n-button @click="onAddEditClose">取消</n-button>
@@ -43,11 +43,10 @@
       </Interface>
     </n-modal>
     <!-- 分配设备弹出层 -->
-    <n-modal v-model:show="showDevice" preset="card" :title="deviceTitle" style="width: 30%" size="huge" bordered auto-focus @before-leave="onAddEditClose">
-      <Device>
+    <n-modal v-model:show="showDevice" preset="card" :title="deviceTitle" style="width: 40%" size="huge" bordered auto-focus @before-leave="onAddEditClose">
+      <Device :role-id="roleId">
         <template #submit="slotProps">
           <n-button type="primary" @click="onAddEditSubmit(slotProps, 'Device')">确定</n-button>
-          <n-button @click="onAddEditClose">取消</n-button>
         </template>
       </Device>
     </n-modal>
@@ -61,7 +60,7 @@ import { BasicForm, FormSchema, useForm } from "@/components/Form/index";
 import TableListTemplate from "@/components/TableListTemplate/index.vue";
 import Dialog from "@/components/dialog/index.vue";
 import page from "@/components/pagination/index.vue";
-import { addRole, updateRole, getRoleInfo, getRoleList, getRoleBindMenu, setRoleBindMenu } from "@/api/role";
+import { addRole, updateRole, getRoleInfo, getRoleList, setRoleBindMenu } from "@/api/role";
 import { getSysConfig } from "@/api/config";
 import type { PaginationType } from "@/components/pagination/index";
 import { AppstoreAddOutlined } from "@vicons/antd";
@@ -70,8 +69,11 @@ import { UploadFileInfo, useDialog, useMessage } from "naive-ui";
 import Menu from "./menu.vue";
 // 引入分配接口
 import Interface from "./interface.vue";
+// 获取分配接口详情、设置分配接口
+import { getRoleBindCompetence, setRoleBindCompetence } from "@/api/role";
 // 引入分配设备
 import Device from "./device.vue";
+import { setRoleBindDeviceType } from "@/api/deviceType";
 
 const SysConfig = (await getSysConfig()).Data;
 const searchData = ref<role.roleData>({});
@@ -110,7 +112,15 @@ const onAddEditSubmit = async (slotProps: any, title: string) => {
     }
   } else if (title == "Interface") {
     console.log("提交分配接口数据", formData);
+    let data = (await setRoleBindCompetence({ roleId: roleId.value, competenceIdList: formData })).State;
+    if (data == 1) {
+      onAddEditClose();
+    }
   } else {
+    let data = (await setRoleBindDeviceType({ roleId: roleId.value, deviceTypeIdList: formData })).State;
+    if (data == 1) {
+      onAddEditClose();
+    }
     console.log("提交分配设备数据", formData);
   }
 };
@@ -257,19 +267,19 @@ async function handleEdit(record: Recordable) {
 const handleMenu = async (record: Recordable) => {
   roleId.value = record.id;
   showMenu.value = true;
-  menuTitle.value = "分配菜单";
+  menuTitle.value = "分配菜单--" + record.name;
 };
 // 分配接口页
 const handleInterface = (record: Recordable) => {
   roleId.value = record.id;
   showInterface.value = true;
-  interfaceTitle.value = "分配接口";
+  interfaceTitle.value = "分配接口--" + record.name;
 };
 // 分配设备页
 const handleDevice = (record: Recordable) => {
   roleId.value = record.id;
   showDevice.value = true;
-  deviceTitle.value = "分配设备";
+  deviceTitle.value = "分配设备--" + record.name;
 };
 
 // 搜索数据
