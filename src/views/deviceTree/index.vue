@@ -48,6 +48,7 @@ import type { PaginationType } from "@/components/pagination/index";
 import { AppstoreAddOutlined } from "@vicons/antd";
 import { transformTozTreeFormat, getAssetsFile } from "@/utils/common";
 import { initZTree, zTreeSetting } from "@/utils/zTree";
+import { getEnumType } from "@/api/login";
 
 const searchData = ref<device.deviceData>({});
 const tableData = ref<device.deviceList[]>([]);
@@ -59,6 +60,8 @@ const showModal = ref(false);
 const dialogTitle = ref("");
 // 设备类型数据
 const deviceTypeData = ref();
+// 设备状态数据
+const stateTypeData = ref();
 // 业务分组数据
 let businessGroupData: Ref<any[]> = ref([
   {
@@ -270,11 +273,51 @@ const schemas: FormSchema[] = [
       placeholder: "请输入设备",
     },
   },
+  {
+    field: "deviceTypeId",
+    component: "NSelect",
+    label: "设备类型",
+    componentProps: {
+      labelField: "name",
+      valueField: "id",
+      placeholder: "请选择设备类型",
+      options: deviceTypeData,
+      onUpdateValue: (e: any) => {},
+    },
+  },
+  {
+    field: "isEnable",
+    component: "NSelect",
+    label: "设备启用状态",
+    componentProps: {
+      labelField: "name",
+      valueField: "id",
+      placeholder: "请选择设备启用状态",
+      options: [
+        { id: null, name: "全部" },
+        { id: true, name: "已启用" },
+        { id: false, name: "未启用" },
+      ],
+      onUpdateValue: (e: any) => {},
+    },
+  },
+  {
+    field: "state",
+    component: "NSelect",
+    label: "设备状态",
+    componentProps: {
+      labelField: "text",
+      valueField: "id",
+      placeholder: "请选择设备状态",
+      options: stateTypeData,
+      onUpdateValue: (e: any) => {},
+    },
+  },
 ];
 // 搜索参数
 const [register, {}] = useForm({
   gridProps: { cols: "1 s:1 m:2 l:3 xl:4 2xl:4" },
-  labelWidth: 120,
+  labelWidth: 110,
   schemas,
 });
 // 搜索查询
@@ -311,6 +354,7 @@ const pageSizeHandle = (pageSize: number) => {
 onMounted(() => {
   initDeviceZTree();
   getDeviceTypeData();
+  getStateTypeData();
   getBusinessGroupData();
 });
 /**获取设备类型 */
@@ -318,10 +362,15 @@ const getDeviceTypeData = async () => {
   let formInline = {
     name: "",
     currentPage: 1,
-    pageSize: 999999,
+    pageSize: 9999,
   };
   const RoteData = (await getDeviceTypeList(formInline)).Data.data;
   deviceTypeData.value = RoteData;
+};
+/**获取设备类型 */
+const getStateTypeData = async () => {
+  const RoteData = (await getEnumType("EDeviceState")).Data;
+  stateTypeData.value = RoteData;
 };
 /**获取业务分组 */
 const getBusinessGroupData = async () => {
