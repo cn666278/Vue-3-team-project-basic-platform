@@ -59,9 +59,9 @@ const treeObj = ref();
 const showModal = ref(false);
 const dialogTitle = ref("");
 // 设备类型数据
-const deviceTypeData = ref();
+const deviceTypeData = ref<deviceType.deviceTypeList[]>();
 // 设备状态数据
-const stateTypeData = ref();
+const stateTypeData = ref<login.enumType[]>();
 // 业务分组数据
 let businessGroupData: Ref<any[]> = ref([
   {
@@ -323,6 +323,9 @@ const [register, {}] = useForm({
 // 搜索查询
 function handleSubmit(values: Recordable) {
   data.selectData.name = values.name;
+  data.selectData.deviceTypeId = values.deviceTypeId;
+  data.selectData.isEnable = values.isEnable;
+  data.selectData.state = values.state;
   getTableData();
 }
 // 搜索重置
@@ -366,18 +369,20 @@ const getDeviceTypeData = async () => {
   };
   const RoteData = (await getDeviceTypeList(formInline)).Data.data;
   deviceTypeData.value = RoteData;
+  deviceTypeData.value.unshift({ id: "null", name: "全部" });
 };
-/**获取设备类型 */
+/**获取设备状态 */
 const getStateTypeData = async () => {
   const RoteData = (await getEnumType("EDeviceState")).Data;
   stateTypeData.value = RoteData;
+  stateTypeData.value.unshift({ id: 0, text: "全部" });
 };
 /**获取业务分组 */
 const getBusinessGroupData = async () => {
   let formInline = {
     name: "",
     currentPage: 1,
-    pageSize: 999999,
+    pageSize: 9999,
   };
   const RoteData = (await getBusinessGroupList(formInline)).Data.data;
   businessGroupData.value[0].children = transformTozTreeFormat(RoteData) as unknown as any[];

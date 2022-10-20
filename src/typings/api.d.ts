@@ -35,7 +35,7 @@ declare namespace login {
         Data: Auth.Token;
     }
     interface enumType {
-        id: number;
+        id: number | null | string;
         text: string;
     }
 }
@@ -118,14 +118,14 @@ declare namespace deviceType {
     }
     // 设备管理得到的数据
     interface deviceTypeList {
-        id: string;
+        id: string | null;
         name: string;
-        manufacturer: number;
-        deviceModel: string;
-        version: string;
-        memo: string;
-        isEnable: boolean;
-        createDate: string;
+        manufacturer?: number;
+        deviceModel?: string;
+        version?: string;
+        memo?: string;
+        isEnable?: boolean;
+        createDate?: string;
     }
     // 获取角色管理分配设备
     interface roleDeviceList {
