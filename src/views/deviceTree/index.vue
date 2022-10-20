@@ -221,7 +221,7 @@ async function addSubmit(values: Recordable) {
 const actionColumn = reactive({
   title: "操作",
   key: "action",
-  width: 120,
+  width: 160,
   fixed: "right",
   align: "center",
   render(record: Recordable<any>) {
