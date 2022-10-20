@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { RouteLocationNormalizedLoaded } from "vue-router";
-import { mergeArray } from "@/utils/common";
+import { mergeObjArray } from "@/utils/common";
 
 interface AppState {
     settingDrawerVisible: boolean;
@@ -47,7 +47,7 @@ export const useAppStore = defineStore("app-store", {
         },
         /**合并多页签打开过的路由数据 */
         mergeTabRouteList(nowRoute: RouteLocationNormalizedLoaded) {
-            this.tabRouteList = mergeArray(
+            this.tabRouteList = mergeObjArray(
                 this.tabRouteList,
                 [nowRoute],
                 "name"

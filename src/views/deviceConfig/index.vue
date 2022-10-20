@@ -14,19 +14,19 @@ let systemConfig: configType[] = [
         param: [
             {
                 label: '设备检测任务间隔时间（分钟）',
-                type: 'string',
+                type: 'number',
                 paramName: 'checkCD',
                 span: 1,
             },
             {
                 label: '设备离线超时时间（分钟）',
-                type: 'string',
+                type: 'number',
                 paramName: 'onlineCD',
                 span: 1,
             },
             {
                 label: '设备行驶状态超时时间（分钟）',
-                type: 'string',
+                type: 'number',
                 paramName: 'driveCD',
                 span: 1,
             },
@@ -39,7 +39,7 @@ let systemConfig: configType[] = [
             },
             {
                 label: '速度过滤',
-                type: 'string',
+                type: 'number',
                 paramName: 'speed',
                 span: 1,
             },
@@ -62,7 +62,7 @@ let systemConfig: configType[] = [
             },
             {
                 label: 'FTP服务器端口号',
-                type: 'string',
+                type: 'number',
                 paramName: 'ftpPort',
                 span: 1,
             },

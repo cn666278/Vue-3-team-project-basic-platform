@@ -4,5 +4,18 @@
         .layout_header {
             background: linear-gradient(to right ,#012B3AFF,#000B13FF);
         }
+        // 树形字体颜色
+        .ztree li a {
+            color: #ffffd1;
+        }
+        // 树形上线与总数
+        .device_tree_status {
+            .device_tree_online {
+                color: #339933;
+            }
+            .device_tree_count {
+                color: #00F1FFFF;
+            }
+        }
     }
 }

@@ -10,12 +10,12 @@ export const getTitle = (title: string): void => {
 };
 
 /**
- * @function mergeArray 数组去重合并
+ * @function mergeObjArray 数组对象去重合并
  * @param arr1
  * @param arr2
  * @returns
  */
-export function mergeArray<T extends RouteLocationNormalizedLoaded>(
+export function mergeObjArray<T extends RouteLocationNormalizedLoaded>(
     arr1: T[],
     arr2: T[],
     key: string
@@ -32,6 +32,32 @@ export function mergeArray<T extends RouteLocationNormalizedLoaded>(
     arr1 = arr1.concat(arr2);
     return arr1;
 }
+
+/**
+ * @function mergeArray 数组去重合并
+ * @param arr1 
+ * @param arr2 
+ * @returns 
+ */
+export function mergeArray<T>(arr1: T[], arr2: T[]){
+    let _arr:T[] = [];
+    arr1.forEach(i => {
+        _arr.push(i);
+    });
+    arr2.forEach(i => {
+        let flag = true;
+        arr1.forEach(j => {
+            if(i == j) {
+                flag = false;
+                return
+            }
+        });
+        if(flag) {
+            _arr.push(i);
+        }
+    });
+    return _arr;
+};
 /**时间转时间字符串格式 */
 export function timeStringFormat(time: string | number) {
     let date = new Date(time);

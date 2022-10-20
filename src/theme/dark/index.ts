@@ -9,6 +9,13 @@ export const darkTheme: GlobalThemeOverrides = {
         tableColorHover: '#00F1FF4D',
         cardColor: "#0D2441DA",
         bodyColor: "#0D2441DA",
+        popoverColor: "#0D2441EA",
+    },
+    TreeSelect: {
+        menuColor: '#0D2441EA',
+    },
+    Dialog: {
+        color: '#0D2441EA',
     },
     Menu: {
         itemTextColor: '#FFFFE6',

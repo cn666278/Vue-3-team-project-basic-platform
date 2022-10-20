@@ -25,6 +25,7 @@
                                 "
                                 v-if="paramForm.type == 'number'"
                                 :show-button="false"
+                                style="width: 100%;"
                             />
                             <n-switch
                                 v-model:value="

@@ -143,7 +143,7 @@ const updateNodeStatus = (data: any) => {
 /**zTree初始化 */
 const initDeviceZTree = () => {
     let setting: zTreeSetting = {
-        api: "GetDeviceMapIndex",
+        api: "GetBusinessMapIndex",
         url: "UnAuth",
         chkStyle: "checkbox",
         dataFilter: zTreeDataFilter,
@@ -191,7 +191,7 @@ const treeDataRecursive = (data: unAuth.mapTreeList) => {
                         ...device,
                         id: device.deviceId,
                         eName: device.terminalNo,
-                        name: device.terminalNo,
+                        name: device.carNumber ? device.carNumber : device.terminalNo,
                         icon: initNodeStatus(device),
                     };
                 }),

@@ -39,7 +39,7 @@ import 'leaflet-rotatedmarker';
 import 'leaflet.marker.slideto';
 import { onMounted, ref, inject, nextTick, unref } from "vue";
 import { createPluginsMap, Map } from "@/utils/LeafletMap";
-import { getMapParamInfo } from "@/api/map";
+import { getMapParamInfo, getMapDeviceListInfo } from "@/api/map";
 import { getAssetsFile, formatDateTime, calculateDirection } from '@/utils/common';
 import { onMessageListKey } from "@/utils/webSocket";
 import Dialog from "@/components/dialog/index.vue";

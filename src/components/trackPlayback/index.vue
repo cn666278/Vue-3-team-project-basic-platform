@@ -290,6 +290,7 @@ const playBack = () => {
                 };
                 carMove(locusData.value[trackIndex.value]);
             } else {
+                window.$message?.info('播放完毕');
                 clearInterval(trackInterval.value);
             }
         }, playSpeed.value)
