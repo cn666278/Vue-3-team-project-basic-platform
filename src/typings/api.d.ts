@@ -127,6 +127,17 @@ declare namespace deviceType {
         isEnable: boolean;
         createDate: string;
     }
+    // 获取角色管理分配设备
+    interface roleDeviceList {
+        id: string;
+        name: string;
+    }
+    // 角色管理分配设备数据
+    interface roleDeviceData {
+        roleId: string;
+        deviceTypeIdList: Array;
+    }
+
 }
 declare namespace AlarmMessage {
     // 搜索的数据

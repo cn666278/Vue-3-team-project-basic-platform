@@ -64,7 +64,7 @@ const handleUpdateChecked = (value: string) => {
       }
     }
   });
-  get();
+  getCheckList();
 };
 
 // 接口单选数据
@@ -73,7 +73,7 @@ const handleUpdateValue = (value: (string | number)[]) => {
 };
 
 // 处理勾选数据
-const get = () => {
+const getCheckList = () => {
   let data: string[] = [];
   competenceControllerData.forEach((item: any) => {
     if (isInterfaceData.value[item]) {

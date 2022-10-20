@@ -43,11 +43,10 @@
       </Interface>
     </n-modal>
     <!-- 分配设备弹出层 -->
-    <n-modal v-model:show="showDevice" preset="card" :title="deviceTitle" style="width: 30%" size="huge" bordered auto-focus @before-leave="onAddEditClose">
-      <Device>
+    <n-modal v-model:show="showDevice" preset="card" :title="deviceTitle" style="width: 40%" size="huge" bordered auto-focus @before-leave="onAddEditClose">
+      <Device :role-id="roleId">
         <template #submit="slotProps">
           <n-button type="primary" @click="onAddEditSubmit(slotProps, 'Device')">确定</n-button>
-          <n-button @click="onAddEditClose">取消</n-button>
         </template>
       </Device>
     </n-modal>
@@ -74,6 +73,7 @@ import Interface from "./interface.vue";
 import { getRoleBindCompetence, setRoleBindCompetence } from "@/api/role";
 // 引入分配设备
 import Device from "./device.vue";
+import { setRoleBindDeviceType } from "@/api/deviceType";
 
 const SysConfig = (await getSysConfig()).Data;
 const searchData = ref<role.roleData>({});
@@ -117,6 +117,10 @@ const onAddEditSubmit = async (slotProps: any, title: string) => {
       onAddEditClose();
     }
   } else {
+    let data = (await setRoleBindDeviceType({ roleId: roleId.value, deviceTypeIdList: formData })).State;
+    if (data == 1) {
+      onAddEditClose();
+    }
     console.log("提交分配设备数据", formData);
   }
 };
