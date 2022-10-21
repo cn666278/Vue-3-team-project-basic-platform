@@ -24,6 +24,18 @@
       <page :current-page="pageOption?.currentPage" :page-size="pageOption?.pageSize" :total-page="pageOption?.totalPage" :total-count="pageOption?.totalCount" @page-change="pageHandle" @page-size-change="pageSizeHandle" />
     </div>
     <!-- 选中的类型 -->
+    <div>
+      <div style="padding: 10px 0">选中的类型:</div>
+      <n-space>
+        <n-tag v-for="item in checkedRowKeysRef" type="info" closable @close="handleClose(item)">
+          <span v-for="el in isDeviceData">
+            <div v-if="item == el.id">
+              {{ el.name }}
+            </div>
+          </span>
+        </n-tag>
+      </n-space>
+    </div>
   </div>
 </template>
 <script setup lang="ts">
@@ -69,6 +81,14 @@ const expendKeysHandle = (keys: DataTableRowKey[]) => {
 };
 const checkedRowKeys = (keys: DataTableRowKey[]) => {
   checkedRowKeysRef.value = keys;
+};
+
+// 选中类型
+let isDeviceData = (await getDeviceTypeList({ name: "", currentPage: 1, pageSize: 9999 })).Data.data;
+
+const handleClose = (id: string) => {
+  let index = checkedRowKeysRef.value.indexOf(id);
+  checkedRowKeysRef.value.splice(index, 1);
 };
 
 // 列表搜索参数
