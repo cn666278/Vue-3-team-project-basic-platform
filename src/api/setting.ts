@@ -1,7 +1,7 @@
 import axios from "@/utils/request";
 const url = "/Admin";
 
-interface menuTree {
+export interface menuTree {
     id: string;
     title: string;
     icon: string;

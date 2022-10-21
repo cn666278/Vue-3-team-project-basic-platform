@@ -1,5 +1,5 @@
 import { defineStore } from "pinia";
-import { getToken, setToken, removeToken } from "@/utils/auth/index";
+import { getToken, setToken, removeToken, getQueryVariable } from "@/utils/auth";
 import { loginRequest, useInfoRequest, getConfig } from "@/api/login";
 import { MD5Encrypt } from "@/utils/login";
 
@@ -27,7 +27,10 @@ export const useAuthStore = defineStore("auth-store", {
                 passWord: MD5Encrypt(passWord),
             };
             let { Data } = await loginRequest(loginData);
-            if (Data) {
+            let authBusiness = getQueryVariable('url');
+            if(authBusiness) {
+                window.location.href = `${authBusiness}?token=${Data}`;
+            } else if(Data) {
                 setToken(Data);
                 this.token = Data;
                 location.reload();

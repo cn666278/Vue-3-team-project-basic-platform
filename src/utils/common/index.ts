@@ -259,3 +259,28 @@ export function getEndTime() {
     let timeData = year + '-' + month + '-' + day + ' ' + '23' + ':' + '59' + ':' + '59';
     return timeData;
 }
+
+/**递归树形 */
+interface treeRecursion<T> {
+    children: T[]
+}
+/**
+ * 
+ * @param data 递归数据
+ * @param group 以函数对象形式传递需要更改的参数,仍有子级的node
+ * @returns 
+ */
+export function recUpdate<T>(data: treeRecursion<T>, group: Function, node: Function):T {
+    if(data?.children.length > 0) {
+        return {
+            ...data,
+            children: data?.children?.map((c: any) => recUpdate(c, group, node)),
+            ...group(data),
+        }
+    }
+    return {
+        ...data,
+        children: data?.children?.map((c: any) => recUpdate(c, group, node)),
+        ...node(data)
+    }
+}

@@ -19,3 +19,18 @@ export const removeToken = ():void => {
 export const getUserInfo = async (token: string) => {
 
 }
+
+/**
+ * 返回url参数
+ * @param param 
+ * @returns 
+ */
+export const getQueryVariable = (param: string) => {
+    let query = window.location.search.substring(1);
+    let vars = query.split("&");
+    vars.map(item => {
+        let pair = item.split("=");
+        if(pair[0] == param) return pair[0];
+    });
+    return(false);
+};
