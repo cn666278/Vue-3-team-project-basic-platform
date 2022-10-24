@@ -305,10 +305,24 @@ declare namespace deviceMileagee {
         deviceId: string;
         terminalNo: string;
         businessParam: string;
-        mileage: string;
-        totalMileage: string;
-        trailCount: string;
+        mileage: number;
+        totalMileage: number;
+        trailCount: number;
         recordDate: string;
         createDate: string;
+    }
+}
+// 数据统计
+declare namespace dataStatistics {
+    interface dataStatisticsList {
+        dataStatistics: number;
+        deviceOnlineCountToDay: number;
+        deviceOnlineCountNow: number;
+        mileageYesterDay: number;
+        deviceTrailMonth: Array;
+        deviceMileageMonth: Array;
+        deviceMileageMonthTop: Array;
+        deviceTrailSevenDay: Array;
+        deviceMileageSevenDay: Array;
     }
 }
