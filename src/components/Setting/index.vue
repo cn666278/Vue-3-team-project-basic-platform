@@ -11,7 +11,7 @@
 <script setup lang="ts">
 import { useAuthStore } from "@/store";
 import type { DropdownOption } from "naive-ui";
-const { logout, userInfo } = useAuthStore();
+const { logout, userInfo, clearSystemCache } = useAuthStore();
 const options: DropdownOption[] = [
     {
         key: "clearCache",
@@ -30,6 +30,9 @@ const handleSelect = (key: string | number, option: DropdownOption) => {
     switch (key) {
         case "Login":
             logout();
+            break;
+        case "clearCache":
+            clearSystemCache();
             break;
         default:
             break;

@@ -19,10 +19,19 @@
                 </n-layout-content>
                 <n-layout-sider
                     :width="300"
+                    :default-collapsed="true"
                     :collapsed-width="0"
                     collapse-mode="transform"
                     show-trigger="arrow-circle"
-                ></n-layout-sider>
+                >
+                    <n-button-group>
+                        <n-button round>点</n-button>
+                        <n-button round>线</n-button>
+                        <n-button round>面</n-button>
+                    </n-button-group>
+                    <n-form label-placement="left">
+                    </n-form>
+                </n-layout-sider>
             </n-layout>
         </n-layout>
     </div>
@@ -31,7 +40,7 @@
 import { ref, onMounted, nextTick } from "vue";
 import { getMapDataList } from "@/api/map";
 import { initZTree, zTreeSetting } from "@/utils/zTree";
-import LeafletMap from "./leafletMap.vue";
+import LeafletMap from "./LeafletMap.vue";
 import { getAssetsFile, recUpdate } from "@/utils/common";
 interface mapOptions {
     id: string;

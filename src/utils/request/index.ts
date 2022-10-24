@@ -1,12 +1,8 @@
 import qs from "qs";
 import Request from "./request";
 import { getToken, removeToken } from "@/utils/auth/index";
-interface requestObj {
-    base: Request;
-    business?: Request;
-}
-const request: requestObj = {
-    base: new Request({
+const request: Request[] = [
+    new Request({
         baseURL: import.meta.env.VITE_BASE_URL,
         timeout: 1000 * 30,
     }),
@@ -14,7 +10,7 @@ const request: requestObj = {
     //     baseURL: import.meta.env.VITE_BUSINESS_URL,
     //     timeout: 1000 * 30,
     // }),
-};
+];
 // const request = new Request({
 //     baseURL: import.meta.env.VITE_BASE_URL,
 //     timeout: 1000 * 30,
@@ -45,7 +41,7 @@ export default <T>(
     option?: configOption
 ) => {
     let formData = new FormData();
-    let requestAPI = "base";
+    let requestAPI = 0;
     if (jsonData.files) {
         formData.append("action", jsonData.targetAPI);
         formData.append("token", getToken());
@@ -59,9 +55,9 @@ export default <T>(
             return url == Api;
         })
     ) {
-        requestAPI = "base";
-    } else {
-        requestAPI = "business";
+        requestAPI = 0;
+    } else if(request.length > 1) {
+        requestAPI = 1;
     }
     return request[requestAPI].request<defaultType.responseDefaultType<T>>({
         url: url,

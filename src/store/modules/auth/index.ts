@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 import { getToken, setToken, removeToken, getQueryVariable } from "@/utils/auth";
-import { loginRequest, useInfoRequest, getConfig } from "@/api/login";
+import { loginRequest, useInfoRequest, getConfig, clearCache } from "@/api/login";
 import { MD5Encrypt } from "@/utils/login";
 
 interface AuthState {
@@ -51,6 +51,14 @@ export const useAuthStore = defineStore("auth-store", {
         async getSocketConfig() {
             const { Data } = await getConfig();
             this.socketConfig = Data;
+        },
+        /**清除系统缓存 */
+        async clearSystemCache () {
+            clearCache().then(res => {
+                if(res.State == 1) {
+                    window.$message?.success('系统缓存清除成功!');
+                }
+            });
         },
     },
 });

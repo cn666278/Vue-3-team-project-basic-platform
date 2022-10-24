@@ -55,40 +55,34 @@ const initMap = async () => {
 
 /**生成电子围栏 */
 const initFence = (data: MapFenceRecord.MapFenceTree[]) => {
-    return data.map((fence) => {
-        let latLng = fence.mapPointList.map((point) => L.latLng(point.lat, point.lng));
-        // let latLngList = fence.mapPointList.map((point) =>
-        //     L.latLng(point.lat, point.lng)
-        // );
-        // let geoJsonData: GeoJSON.Feature = {
-        //     type: "Feature",
-        //     geometry: {
-        //         type: "Polygon",
-        //         coordinates: latLng,
-        //     },
-        //     properties: {},
-        // };
-        // layersData.value[fence.id] = L.geoJSON(geoJsonData, {
-        //     style: () => {
-        //         return {
-        //             color: fence.color,
-        //             weight:
-        //                 fence.lineWidth && fence.lineWidth == 0
-        //                     ? 1.5
-        //                     : fence.lineWidth,
-        //             fill: fence.isFill,
-        //         };
-        //     },
-        // })
-        // .bindPopup(`${fence.codeName}-${fence.name}`)
-        // layersData.value[fence.id] = L.polygon(latLngList, {
-        //     color: fence.color,
-        //     weight:
-        //         fence.lineWidth && fence.lineWidth == 0 ? 1.5 : fence.lineWidth,
-        //     fill: fence.isFill,
-        // }).addTo(map.value as unknown as L.LayerGroup);
-        if(map.value && !map.value.hasLayer(layers.value.fenceLayer as L.FeatureGroup)) {
+    data.map((fence) => {
+        let latLng = fence.mapPointList.map((point) => [point.lng, point.lat]);
+        let geoJsonData: GeoJSON.Feature = {
+            type: "Feature",
+            geometry: {
+                type: "Polygon",
+                coordinates: [latLng],
+            },
+            properties: {},
+        };
+        layersData.value.editFenceData[fence.id] = L.geoJSON(geoJsonData, {
+            style: () => {
+                return {
+                    color: fence.color,
+                    weight: fence.lineWidth == 0 ? 1.5 : fence.lineWidth,
+                    fill: fence.isFill,
+                };
+            },
+        }).bindPopup(`${fence.codeName}-${fence.name}`);
+        map.value?.addLayer(layersData.value.editFenceData[fence.id]);
+        if (
+            map.value &&
+            !map.value.hasLayer(layers.value.fenceLayer as L.FeatureGroup)
+        ) {
             map.value.addLayer(layers.value.fenceLayer as L.FeatureGroup);
+        }
+        if (fence.children.length > 0) {
+            initFence(fence.children);
         }
     });
 };
