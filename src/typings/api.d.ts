@@ -287,3 +287,28 @@ declare namespace BusinessGroup {
         createDate: string;
     }
 }
+
+// 里程查看
+declare namespace deviceMileagee {
+    interface deviceMileageeData {
+        terminalNo?: string;
+        businessParam?: string;
+        beginTime?: string;
+        endTime?: string;
+        name?: string;
+        currentPage?: number;
+        pageSize?: number;
+    }
+
+    interface deviceMileageeList {
+        id: string;
+        deviceId: string;
+        terminalNo: string;
+        businessParam: string;
+        mileage: string;
+        totalMileage: string;
+        trailCount: string;
+        recordDate: string;
+        createDate: string;
+    }
+}
