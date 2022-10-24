@@ -29,7 +29,8 @@ export const useAuthStore = defineStore("auth-store", {
             let { Data } = await loginRequest(loginData);
             let authBusiness = getQueryVariable('url');
             if(authBusiness) {
-                window.location.href = `${authBusiness}?token=${Data}`;
+                console.log(`${authBusiness}?token=${Data.token}`);
+                window.location.href = `${authBusiness}?token=${Data.token}`;
             } else if(Data) {
                 setToken(Data);
                 this.token = Data;

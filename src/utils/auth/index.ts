@@ -26,11 +26,18 @@ export const getUserInfo = async (token: string) => {
  * @returns 
  */
 export const getQueryVariable = (param: string) => {
-    let query = window.location.search.substring(1);
+    // let index = window.location.href.indexOf('?')
+    // let query = window.location.href.substring(index);
+    // let vars = query.split("=");
+    // vars[0] = vars[0].replace('?', '');
+    // if(vars[0] == param) return vars[1];
+    // return(false);
+    let query = window.location.hash.split("?")[1];
     let vars = query.split("&");
-    vars.map(item => {
-        let pair = item.split("=");
-        if(pair[0] == param) return pair[0];
-    });
+    for (let i = 0; i < vars.length; i++) {
+        const pair = vars[i].split("=");
+        console.log(pair[1]);
+        if(pair[0] == param) return pair[1];
+    }
     return(false);
 };
