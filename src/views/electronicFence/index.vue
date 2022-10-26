@@ -24,13 +24,68 @@
                     collapse-mode="transform"
                     show-trigger="arrow-circle"
                 >
-                    <n-button-group>
-                        <n-button round>点</n-button>
-                        <n-button round>线</n-button>
-                        <n-button round>面</n-button>
-                    </n-button-group>
-                    <n-form label-placement="left">
-                    </n-form>
+                    <n-space
+                        align="center"
+                        :vertical="true"
+                        class="editFenceForm"
+                    >
+                        <n-button-group>
+                            <n-button round>点</n-button>
+                            <n-button round>线</n-button>
+                            <n-button round>面</n-button>
+                        </n-button-group>
+                        <n-form
+                            size="small"
+                            label-placement="left"
+                            label-width="auto"
+                        >
+                            <n-grid x-gap="12" cols="1 s:1 m: 2">
+                                <n-form-item-gi
+                                    label="上级围栏"
+                                    :span="2"
+                                ></n-form-item-gi>
+                                <n-form-item-gi label="围栏名称" :span="2">
+                                    <n-input />
+                                </n-form-item-gi>
+                                <n-form-item-gi label="编号名称" :span="2">
+                                    <n-input />
+                                </n-form-item-gi>
+                                <n-form-item-gi label="颜色" :span="2">
+                                    <n-color-picker />
+                                </n-form-item-gi>
+                                <n-form-item-gi label="中心点经度" :span="2">
+                                    <n-input />
+                                </n-form-item-gi>
+                                <n-form-item-gi label="中心点纬度" :span="2">
+                                    <n-input />
+                                </n-form-item-gi>
+                                <n-form-item-gi label="层级" :span="2">
+                                    <n-input-number />
+                                </n-form-item-gi>
+                                <n-form-item-gi label="线条粗细值" :span="2">
+                                    <n-input-number />
+                                </n-form-item-gi>
+                                <n-form-item-gi label="排序" :span="2">
+                                    <n-input-number />
+                                </n-form-item-gi>
+                                <n-form-item-gi label="拓展标识" :span="2">
+                                    <n-input />
+                                </n-form-item-gi>
+                                <n-form-item-gi label="是否显示" :span="1">
+                                    <n-switch size="small" />
+                                </n-form-item-gi>
+                                <n-form-item-gi label="是否填充" :span="1">
+                                    <n-switch size="small" />
+                                </n-form-item-gi>
+                                <n-form-item-gi label="是否启用" :span="1">
+                                    <n-switch size="small" />
+                                </n-form-item-gi>
+                                <n-form-item-gi label="围栏点数量" :span="2">
+                                    <n-input />
+                                </n-form-item-gi>
+                            </n-grid>
+                        </n-form>
+                    </n-space>
                 </n-layout-sider>
             </n-layout>
         </n-layout>
@@ -120,6 +175,10 @@ onMounted(() => {
 <style lang="scss" scoped>
 .electronicFence {
     height: 100%;
+    .editFenceForm {
+        padding-left: 10px;
+        box-sizing: border-box;
+    }
     :deep(.n-layout) {
         height: inherit;
     }

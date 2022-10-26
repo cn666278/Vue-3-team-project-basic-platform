@@ -21,6 +21,7 @@ export interface zTreeSetting {
     fontCss?: any;
     chkStyle?: "checkbox" | "radio";
     chkBoxType?: any;
+    showIcon?: boolean;
 
     dataFilter: Function;
     render?: any;
@@ -72,7 +73,7 @@ export const initZTree = (
                     "height": "auto",
                     "padding": "2px 0",
                 },
-            showIcon: true,
+            showIcon: setting.showIcon ? setting.showIcon : true,
             expandSpeed: "fast",
             dblClickExpand: true,
             nameIsHTML: true,

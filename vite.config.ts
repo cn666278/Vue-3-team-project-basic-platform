@@ -4,6 +4,7 @@ import Components from "unplugin-vue-components/vite";
 import { NaiveUiResolver } from "unplugin-vue-components/resolvers";
 import { createSvgIconsPlugin } from "vite-plugin-svg-icons";
 import * as path from "path";
+import resolveExternalsPlugin from 'vite-plugin-resolve-externals';
 
 // https://vitejs.dev/config/
 export default defineConfig({

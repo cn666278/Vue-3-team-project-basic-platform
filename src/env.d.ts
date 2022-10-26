@@ -6,3 +6,6 @@ declare module '*.vue' {
   const component: DefineComponent<{}, {}, any>
   export default component
 }
+// declare module "./utils/CvNetVideo/CvNetVideo.js" {
+//   export function Init(dom: Element | null, videoNums?: number, config?: any);
+// }
