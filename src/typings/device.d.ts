@@ -103,3 +103,24 @@ declare namespace device {
         isEnable: boolean
     }
 }
+declare namespace SelectDevice {
+    // 搜索的数据
+    interface SelectDevicedata {
+        deviceTypeId?: string;
+        isDevice?: boolean;
+        isOnline?: boolean;
+        isBind?: boolean;
+        name?: string;
+        currentPage?: number;
+        pageSize?: number;
+    }
+    // 得到的数据
+    interface SelectDeviceList {
+        id: string;
+        name: string;
+        terminalNo: string;
+        isDevice: boolean;
+        isOnline: boolean;
+        createDate: string;
+    }
+}
