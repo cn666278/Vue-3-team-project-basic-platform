@@ -73,7 +73,7 @@ export const initZTree = (
                     "height": "auto",
                     "padding": "2px 0",
                 },
-            showIcon: setting.showIcon ? setting.showIcon : true,
+            showIcon: setting.showIcon == undefined ? true : setting.showIcon,
             expandSpeed: "fast",
             dblClickExpand: true,
             nameIsHTML: true,
