@@ -55,7 +55,7 @@
       @confirm="confirm"
       width="60vw"
     >
-    <device-data></device-data>
+    <device-data :transmitServerId="props.transmitServerId" @closeDialog="close1" ref="devicedataRef"></device-data>
     </Dialog>
   </div>
 </template>
@@ -83,7 +83,7 @@ const props = defineProps({
     default: "",
   },
 });
-const emit = defineEmits(["TopicCheck"]);
+const devicedataRef = ref<any>();
 const message = useMessage();
 const dialog = useDialog();
 const searchData = ref<deviceTransmit.deviceTransmitdata>({});
@@ -132,9 +132,15 @@ function addTable() {
 // 关闭新增弹窗
 function close() {
   showModal.value = false;
+
+}
+function close1() {
+  showModal.value = false;
+  getTableData();
 }
 // 保存新增弹窗
 function confirm() {
+    devicedataRef.value.onSubmit()
 }
 function deltable() {
   console.log(delIdlist.value);

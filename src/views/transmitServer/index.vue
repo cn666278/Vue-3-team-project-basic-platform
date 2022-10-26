@@ -180,6 +180,7 @@ const seeshowModal = ref(false);
 // 关闭修改密码弹窗
 function seeclose() {
   seeshowModal.value = false;
+  getTableData();
 }
 // 保存修改密码弹窗
 function seeconfirm() {
