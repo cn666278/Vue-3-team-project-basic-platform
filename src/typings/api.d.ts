@@ -197,6 +197,24 @@ declare namespace admin {
         isEnable: boolean;
         createDate: string;
     }
+    /**设备业务分组视频树形 */
+    interface deviceVideoTree {
+        id: string;
+        pid: string;
+        name: string;
+        count: number;
+        onlineCount: number;
+        deviceList: deviceList[];
+    }
+    /**业务分组视频设备 */
+    interface deviceList {
+        deviceId: string;
+        terminalNo: string;
+        name: string;
+        image: string;
+        isOnline: boolean;
+        channelList: number[];
+    }
 }
 /**文件上传 */
 declare namespace updateFile {

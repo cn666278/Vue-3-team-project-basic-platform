@@ -10,6 +10,8 @@
   "dependencies": {
     "@types/jquery": "^3.5.14",
     "@types/node": "^18.6.1",
+    "@wangeditor/editor": "^5.1.20",
+    "@wangeditor/editor-for-vue": "^5.1.12",
     "@ztree/ztree_v3": "^3.5.48",
     "animate.css": "^4.1.1",
     "axios": "^0.27.1",
@@ -32,9 +34,7 @@
     "vue": "^3.2.25",
     "vue-router": "^4.0.14",
     "vue-types": "^4.1.1",
-    "vuedraggable": "^4.1.0",
-    "@wangeditor/editor": "^5.1.20",
-    "@wangeditor/editor-for-vue": "^5.1.12"
+    "vuedraggable": "^4.1.0"
   },
   "devDependencies": {
     "@types/crypto-js": "^4.1.1",
