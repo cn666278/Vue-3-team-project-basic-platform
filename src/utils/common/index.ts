@@ -39,20 +39,20 @@ export function mergeObjArray<T extends RouteLocationNormalizedLoaded>(
  * @param arr2 
  * @returns 
  */
-export function mergeArray<T>(arr1: T[], arr2: T[]){
-    let _arr:T[] = [];
+export function mergeArray<T>(arr1: T[], arr2: T[]) {
+    let _arr: T[] = [];
     arr1.forEach(i => {
         _arr.push(i);
     });
     arr2.forEach(i => {
         let flag = true;
         arr1.forEach(j => {
-            if(i == j) {
+            if (i == j) {
                 flag = false;
                 return
             }
         });
-        if(flag) {
+        if (flag) {
             _arr.push(i);
         }
     });
@@ -136,6 +136,36 @@ export function transformTozTreeFormat(sNodes: any[]) {
     }
     return r;
 }
+
+
+/**
+ * @function transformTozTreeFormat2 将数组转换成树形结构
+ * @param sNodes
+ * @returns
+ */
+export function transformTozTreeFormat2(sNodes: any[]) {
+    //将普通的数组转换为父子结构
+    let i, l;
+    let r = [];
+    let tmpMap: any = {};
+    for (i = 0, l = sNodes.length; i < l; i++) {
+        tmpMap[sNodes[i].id] = sNodes[i];
+    }
+    for (i = 0, l = sNodes.length; i < l; i++) {
+        let p = tmpMap[sNodes[i].pId];
+        if (p && sNodes[i].id != sNodes[i].pId) {
+            let children = nodeChildren(p);
+            if (!children) {
+                children = nodeChildren(p, []);
+            }
+            children.push(sNodes[i]);
+        } else {
+            r.push(sNodes[i]);
+        }
+    }
+    return r;
+}
+
 /**转树形单独使用 */
 function nodeChildren(node: any, newChildren?: any[]) {
     if (typeof newChildren !== "undefined") {
@@ -167,7 +197,7 @@ export function getAssetsFile(url: string, fileName: string) {
 }
 /**计算方向 */
 export function calculateDirection(direction: number | undefined) {
-    if(direction) {
+    if (direction) {
         let list = [
             '正北',
             '东北偏北',
@@ -270,8 +300,8 @@ interface treeRecursion<T> {
  * @param group 以函数对象形式传递需要更改的参数,仍有子级的node
  * @returns 
  */
-export function recUpdate<T>(data: treeRecursion<T>, group: Function, node: Function):T {
-    if(data?.children.length > 0) {
+export function recUpdate<T>(data: treeRecursion<T>, group: Function, node: Function): T {
+    if (data?.children.length > 0) {
         return {
             ...data,
             children: data?.children?.map((c: any) => recUpdate(c, group, node)),
