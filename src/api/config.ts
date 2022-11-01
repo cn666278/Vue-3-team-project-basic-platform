@@ -47,3 +47,15 @@ const url = '/Config';
     })
     return result
 }
+
+/**
+ * @function GetFtpUploadParam 获取视频FTP上传参数
+ * @param jsonData 提交字段
+ * @returns {String} token
+ */
+ export async function getFtpUploadParam() {
+    const result = await axios<config.FtpUploadConfig>('DeviceVideo', {
+        targetAPI: 'GetFtpUploadParam',
+    })
+    return result
+}

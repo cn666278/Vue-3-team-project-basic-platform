@@ -110,6 +110,21 @@ export function formatDateTime(
 }
 
 /**
+ * @function formatMilliseconds 时间格式毫秒到时分秒
+ * @param time 
+ * @returns 
+ */
+export function formatMilliseconds (time: number) {
+    let hour: number | string = Math.floor((time % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    hour = hour < 10 ? '0' + hour : hour;
+    let minute: number | string = Math.floor((time % (1000 * 60 * 60)) / (1000 * 60));
+    minute = minute < 10 ? '0' + minute : minute;
+    let second: number | string = Math.floor((time % (1000 * 60)) / 1000);
+    second = second < 10 ? '0' + second : second;
+    return hour + ':' + minute + ':' + second
+}
+
+/**
  * @function transformTozTreeFormat 将数组转换成树形结构
  * @param sNodes
  * @returns
@@ -223,7 +238,7 @@ export function someDaysAgoEnd(num = 1) {
     let time = timeStringFormat(date);
     return time;
 }
-/**获取当前开始时间 */
+/**获取当天开始时间 */
 export function getBeginTime() {
     let now = new Date();
     let date = new Date(now.getTime() - 1 * 3600 * 1000);
@@ -241,7 +256,7 @@ export function getBeginTime() {
     let timeData = year + '-' + month + '-' + day + ' ' + '00' + ':' + '00' + ':' + '00';
     return timeData;
 }
-/**获取当前开始时间 */
+/**获取当天结束时间 */
 export function getEndTime() {
     let now = new Date();
     let date = new Date(now.getTime() - 1 * 3600 * 1000);
@@ -258,6 +273,17 @@ export function getEndTime() {
     second = second < 10 ? '0' + second : second;
     let timeData = year + '-' + month + '-' + day + ' ' + '23' + ':' + '59' + ':' + '59';
     return timeData;
+}
+
+/**获取当前的前n小时 */
+export function getHoursDistance(date: string | Date, hour: number) {
+    if(typeof date == 'string') {
+        let time = new Date(date);
+        time.setHours(time.getHours() - hour);
+        return formatDateTime(time);
+    } 
+    date.setHours(date.getHours() - hour);
+    return formatDateTime(date);
 }
 
 /**递归树形 */

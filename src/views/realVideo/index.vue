@@ -8,7 +8,15 @@
             @after-enter="cvNetVideoResize"
             @after-leave="cvNetVideoResize"
         >
-            <ul id="groupTree" class="ztree"></ul>
+            <div class="video_group_tree">
+                <n-input-group class="device_search">
+                    <n-input v-model:value="searchTreeData" placeholder="设备号" />
+                    <n-button type="primary" @click="zTreeSearchNode()"
+                        >搜索</n-button
+                    >
+                </n-input-group>
+                <ul id="groupTree" class="ztree"></ul>
+            </div>
         </n-layout-sider>
         <n-layout-content class="real_video_container">
             <div class="real_video_content">
@@ -39,7 +47,7 @@
     </n-layout>
 </template>
 <script setup lang="ts">
-import { ref, onMounted, nextTick } from "vue";
+import { ref, onMounted, nextTick, inject } from "vue";
 import { getMapDataList, getMapDeviceListInfo } from "@/api/map";
 import { initZTree, zTreeSetting } from "@/utils/zTree";
 import { getAssetsFile, mergeArray } from "@/utils/common";
@@ -237,6 +245,35 @@ const initNodeStatus = (data: admin.deviceList) => {
     return getAssetsFile("base", "icon-offline.png");
 };
 
+/**动态更新树形节点状态 */
+const updateNodeStatus = (data: any) => {
+    let device: any = treeObj.value.getNodeByParam(
+        "terminalNo",
+        data.d.TN ? data.d.TN : data.d.TerminalNo
+    );
+    if (data && device) {
+        if (data.c === 1) {
+            //  行驶
+            if (data.d.S > 0) {
+                device.status = 3;
+                device.icon = getAssetsFile("base", "icon-drive.png");
+            } else {
+                device.status = 2;
+                device.icon = getAssetsFile("base", "icon-stop.png");
+            }
+        } else if (data.c === 4 || data.c === 5) {
+            //  静止或上线
+            device.status = 2;
+            device.icon = getAssetsFile("base", "icon-stop.png");
+        } else if (data.c === 6) {
+            //  离线
+            device.status = 1;
+            device.icon = getAssetsFile("base", "icon-offline.png");
+        }
+        treeObj.value.updateNode(device);
+    }
+};
+
 /**获取车辆详情 */
 const getTreeCarInfo = (deviceIdList: string[]) => {
     getMapDeviceListInfo({
@@ -312,6 +349,13 @@ const cvNetVideoResize = () => {
     )?.offsetHeight;
     cvNetVideoData.value.Resize(videoWidth, videoHeight);
 };
+
+/**本页websocket接收数据处理 */
+const onSocketMessage = (res: string) => {
+    let data = JSON.parse(res);
+    if (data.c != 120) updateNodeStatus(data);
+};
+
 onMounted(() => {
     initCvNetVideo();
     getMapList();
@@ -322,12 +366,19 @@ onMounted(() => {
     nextTick(() => {
         cvNetVideoResize();
     });
+    /**接收注入 */
+    const onMessageList = inject(onMessageListKey, []);
+    onMessageList.push(onSocketMessage);
 });
 </script>
 <style lang="scss" scoped>
 .real_video {
     width: 100%;
     height: 100%;
+    .video_group_tree {
+        padding: 5px;
+        box-sizing: border-box;
+    }
     .real_video_container {
         width: inherit;
         height: inherit;

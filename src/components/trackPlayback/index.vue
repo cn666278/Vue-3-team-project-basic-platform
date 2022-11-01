@@ -137,14 +137,15 @@ import { nextTick, onMounted, onUnmounted, ref } from "vue";
 import { DataTableColumn, DataTableInst } from 'naive-ui';
 import { createPluginsMap, layerBounds, Map } from "@/utils/LeafletMap";
 import { getMapParamInfo, getDeviceTrail } from "@/api/map";
-import { formatDateTime } from '@/utils/common';
 import {
     getAssetsFile,
     getBeginTime,
     getEndTime,
+    getHoursDistance,
     someDaysAgoZero,
     someDaysAgoEnd,
     calculateDirection,
+    formatDateTime
 } from "@/utils/common";
 interface Props {
     mapId: string;
@@ -163,14 +164,15 @@ const infoData = ref<deviceInfo>();
 const layers = ref({
     locusLineLayer: L.featureGroup(),
     carEditLayer: L.featureGroup(),
+    startOrEndLayer: L.featureGroup(),
 });
 const editCarData = ref();
 const trackFormData = ref<map.deviceTrailRequest>({
     coordinateType: props.coordinateType,
-    beginTime: getBeginTime(),
-    endTime: getEndTime(),
+    beginTime: getHoursDistance(new Date(), 1),
+    endTime: formatDateTime(new Date()),
 });
-const searchTimeType = ref<1 | 2 | 3>(2);
+const searchTimeType = ref<1 | 2 | 3>(3);
 const locusColumn: DataTableColumn[] = [
     {title: '序号', key: 'index', render: (_, index) => index+1, width: 75 },
     {title: '设备时间', key: 'deviceDate', render: (row, index) => dateFormat(row.deviceDate as string) },
@@ -239,10 +241,13 @@ const createDeviceTrack = (deviceTrackData: map.deviceTrail[]) => {
     layers.value.locusLineLayer.clearLayers();
     layers.value.carEditLayer.clearLayers();
     /**轨迹生成 */
-    let latLng = deviceTrackData.map((item) => [
-        Number(item.lng),
-        Number(item.lat),
-    ]);
+    let latLng = deviceTrackData.map((item) => {
+        if(item.stopMessage) createStopPoint(item);
+        return [
+            Number(item.lng),
+            Number(item.lat),
+        ]
+    });
     locusData.value = deviceTrackData;
     let geoJsonData: GeoJSON.Feature = {
         type: "Feature",
@@ -263,6 +268,7 @@ const createDeviceTrack = (deviceTrackData: map.deviceTrail[]) => {
     map.value?.addLayer(layers.value.locusLineLayer as L.GeoJSON);
     layerBounds(map.value as Map, layers.value.locusLineLayer as L.GeoJSON);
     createDeviceMarker(deviceTrackData[0]);
+    createStartOrEndMarker(deviceTrackData);
     playStop('播放');
 };
 /**车辆图标生成 */
@@ -278,6 +284,45 @@ const createDeviceMarker = (data: map.deviceTrail) => {
     editCarData.value.setRotationAngle(data.direction);
     map.value?.addLayer(layers.value.carEditLayer as L.FeatureGroup);
 };
+/**起始与结束地点图标生成 */
+const createStartOrEndMarker = (data: map.deviceTrail[]) => {
+    let icon = (type: 'start' | 'end') => {
+        return L.icon({
+            iconUrl: getAssetsFile('map', `icon-${type}.png`),
+            iconSize: [32, 44],
+            iconAnchor: [16, 44],
+        });
+    };
+    let startMarker = L.marker([Number(data[0].lat), Number(data[0].lng)], {
+        icon: icon('start'),
+    }).addTo(layers.value.startOrEndLayer as L.FeatureGroup);
+    let lastIndex = data.length - 1;
+    let endMarker = L.marker([Number(data[lastIndex].lat), Number(data[lastIndex].lng)], {
+        icon: icon('end'),
+    }).addTo(layers.value.startOrEndLayer as L.FeatureGroup);
+    map.value?.addLayer(layers.value.startOrEndLayer as L.FeatureGroup);
+};
+/**停留点图标生成 */
+const createStopPoint = (data: map.deviceTrail) => {
+    let popup = L.popup({
+        offset: [0, -25]
+    })
+    let stopPointMarker = L.marker([Number(data.lat), Number(data.lng)], {
+        icon: L.icon({
+            iconUrl: getAssetsFile('map', 'icon-stop-point.png'),
+            iconSize: [20, 38],
+            iconAnchor: [10, 38],
+        }),
+        zIndexOffset: 666,
+    })
+    .on('mouseover', () => {
+        stopPointMarker
+        .bindPopup(popup)
+        .setPopupContent(data.stopMessage)
+        .openPopup()
+    })
+    .addTo(layers.value.startOrEndLayer as L.FeatureGroup);
+};
 /**轨迹回放 */
 const playBack = () => {
     if(trackIndex.value < locusData.value.length) {
@@ -292,6 +337,7 @@ const playBack = () => {
             } else {
                 window.$message?.info('播放完毕');
                 clearInterval(trackInterval.value);
+                playStopType.value = true;
             }
         }, playSpeed.value)
     }

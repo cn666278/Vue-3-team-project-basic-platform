@@ -53,9 +53,6 @@ declare namespace config {
         paramC?: string;
         updateDate?: string;
     }
-}
-// 设备配置
-declare namespace config {
     interface deviceConfig {
         checkCD?: string;
         onlineCD?: string;
@@ -68,6 +65,13 @@ declare namespace config {
         ftpUser?: string;
         ftpPassWord?: string;
         ftpPath?: string;
+    }
+    interface FtpUploadConfig {
+        ftpServerIp: string;
+        ftpPort: number;
+        ftpUser: string;
+        ftpPassWord: string;
+        ftpPath: string;
     }
 }
 // 用户管理
