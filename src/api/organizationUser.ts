@@ -75,7 +75,7 @@ export async function setUserIsEnable(jsonData: object) {
     return result
 }
 /**
- * @function ImportUserForExcel 获取用户详情
+ * @function ImportUserForExcel 导入员工信息
  * @param jsonData 提交字段
  * @returns {String} token
  */
