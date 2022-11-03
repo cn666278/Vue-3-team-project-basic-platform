@@ -299,7 +299,10 @@ const onAddEditModal = async (id?: string) => {
     showAddEdit.value = true;
     if(id) {
         let mapInfoData = (await getMapInfo(id)).Data;
+        addEditTitle.value = '编辑地图';
         setFieldsValue(mapInfoData);
+    } else {
+        addEditTitle.value = '新增地图';
     }
 };
 const onAddEditConfirm = () => {

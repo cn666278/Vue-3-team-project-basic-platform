@@ -144,11 +144,11 @@ const tagTabCloseHandle = (key: string, event?: MouseEvent) => {
     updateNavScroll();
 };
 
+/**更新多签页是否处于溢出状态 */
 const updateNavScroll = async (autoScroll?: boolean) => {
     await nextTick();
     const containerWidth = tagNavScroll.value.offsetWidth;
     const navWidth = tagNavScroll.value.scrollWidth;
-    console.log(containerWidth, navWidth);
     if (containerWidth < navWidth) {
         state.scrollable = true;
         if (autoScroll) {
@@ -158,6 +158,7 @@ const updateNavScroll = async (autoScroll?: boolean) => {
     }
 };
 
+/**向左横向滚动 */
 const scrollPrev = () => {
     const containerWidth = tagNavScroll.value.offsetWidth;
     const currentScroll = tagNavScroll.value.scrollLeft;
@@ -167,6 +168,7 @@ const scrollPrev = () => {
     scrollTo(scrollLeft, (scrollLeft - currentScroll) / 20);
 };
 
+/**向右横向滚动 */
 const scrollNext = () => {
     const containerWidth = tagNavScroll.value.offsetWidth;
     const navWidth = tagNavScroll.value.scrollWidth;
@@ -180,6 +182,7 @@ const scrollNext = () => {
     scrollTo(scrollLeft, (scrollLeft - currentScroll) / 20);
 };
 
+/**横向滚动 */
 const scrollTo = (value: number, amplitude: number): any => {
     const currentScroll = tagNavScroll.value.scrollLeft;
     const scrollWidth =
@@ -192,6 +195,7 @@ const scrollTo = (value: number, amplitude: number): any => {
     return window.requestAnimationFrame(() => scrollTo(value, amplitude));
 };
 
+/**监听多签页是否溢出 */
 const onElementResize = () => {
     let observer = elementResizeDetectorMaker();
     observer.listenTo(tagNavWrap.value, () => updateNavScroll(true));

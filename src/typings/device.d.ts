@@ -5,7 +5,7 @@ declare namespace device {
         deviceTypeName?: string;
         businessGroupId?: string;
         deviceTypeId?: string;
-        deviceTypeCode?: string;
+        deviceTypeCode?: string | null;
         isEnable?: boolean;
         state?: int;
         name?: string;

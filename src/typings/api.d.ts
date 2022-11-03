@@ -219,6 +219,31 @@ declare namespace admin {
         isOnline: boolean;
         channelList: number[];
     }
+    /**业务订阅列表 */
+    interface businessSubList {
+        id: string;
+        name: string;
+        businessGroupCount: string;
+        mapFenceCount: string;
+        memo: string;
+        isEnable: boolean;
+        create: string;
+    }
+    /**业务订阅详情 */
+    interface businessSubInfo {
+        id?: string;
+        name: string;
+        deviceOnLineUrl?: string;
+        deviceOnLineParam?: string;
+        mapFenceRecordUrl?: string;
+        mapFenceRecordParam?: string;
+        businessGroupIdList?: string[];
+        mapFenceIdList?: string[];
+        allBusinessGroup?: boolean;
+        allMapFence?: boolean;
+        memo?: string;
+        isEnable?: boolean;
+    }
 }
 /**文件上传 */
 declare namespace updateFile {
