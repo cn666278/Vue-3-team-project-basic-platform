@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
-import { getToken, setToken, removeToken } from "@/utils/auth/index";
-import { loginRequest, useInfoRequest, getConfig } from "@/api/login";
+import { getToken, setToken, removeToken, getQueryVariable } from "@/utils/auth";
+import { loginRequest, useInfoRequest, getConfig, clearCache } from "@/api/login";
 import { MD5Encrypt } from "@/utils/login";
 
 interface AuthState {
@@ -27,7 +27,11 @@ export const useAuthStore = defineStore("auth-store", {
                 passWord: MD5Encrypt(passWord),
             };
             let { Data } = await loginRequest(loginData);
-            if (Data) {
+            let authBusiness = getQueryVariable('url');
+            if(authBusiness) {
+                console.log(`${authBusiness}?token=${Data.token}`);
+                window.location.href = `${authBusiness}?token=${Data.token}`;
+            } else if(Data) {
                 setToken(Data);
                 this.token = Data;
                 location.reload();
@@ -47,6 +51,14 @@ export const useAuthStore = defineStore("auth-store", {
         async getSocketConfig() {
             const { Data } = await getConfig();
             this.socketConfig = Data;
+        },
+        /**清除系统缓存 */
+        async clearSystemCache () {
+            clearCache().then(res => {
+                if(res.State == 1) {
+                    window.$message?.success('系统缓存清除成功!');
+                }
+            });
         },
     },
 });

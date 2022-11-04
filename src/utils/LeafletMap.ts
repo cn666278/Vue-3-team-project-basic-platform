@@ -41,6 +41,7 @@ export function createPluginsMap(domId: string, options: MapOptions, mapType: Ob
     return map
 }
 
+/**地图组件高度计算(待优化) */
 export function computeMapHeight(map: any, mapHeadClass?: string): number {
     let tagsHeight = 0;
     let mapHeadHeight = 0;
@@ -56,4 +57,16 @@ export function computeMapHeight(map: any, mapHeadClass?: string): number {
     };
     const { bottomIncludeBody } = getViewportOffset(headEl);
     return (bottomIncludeBody - tagsHeight - mapHeadHeight - 100)
+}
+/**
+ * 缩放至传入图层最佳缩放级别
+ * @param {L.Map} map 
+ * @param {L.FeatureGroup} layer 
+ */
+ export function layerBounds(map: Map, layer: L.FeatureGroup) {
+	let latLngBounds = layer.getBounds();
+	map.flyToBounds(latLngBounds, {
+        duration: 0.15,
+        easeLinearity: 0.15,
+    });
 }

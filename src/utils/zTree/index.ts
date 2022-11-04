@@ -3,6 +3,7 @@ import '@ztree/ztree_v3/js/jquery-1.4.4.min.js';
 import '@ztree/ztree_v3/js/jquery.ztree.core.min.js';
 import '@ztree/ztree_v3/js/jquery.ztree.excheck.min.js';
 import '@ztree/ztree_v3/js/jquery.ztree.exedit.min.js';
+import '@ztree/ztree_v3/js/jquery.ztree.exhide';
 // import '@ztree/ztree_v3/css/metroStyle/metroStyle.css'
 import '@ztree/ztree_v3/css/zTreeStyle/zTreeStyle.css';
 import "jquery";
@@ -20,6 +21,7 @@ export interface zTreeSetting {
     fontCss?: any;
     chkStyle?: "checkbox" | "radio";
     chkBoxType?: any;
+    showIcon?: boolean;
 
     dataFilter: Function;
     render?: any;
@@ -71,7 +73,7 @@ export const initZTree = (
                     "height": "auto",
                     "padding": "2px 0",
                 },
-            showIcon: true,
+            showIcon: setting.showIcon == undefined ? true : setting.showIcon,
             expandSpeed: "fast",
             dblClickExpand: true,
             nameIsHTML: true,

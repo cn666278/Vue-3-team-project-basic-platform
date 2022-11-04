@@ -79,11 +79,15 @@ export default defineComponent({
         ? "default"
         : props.style === "text"
         ? "primary"
+        : props.style === "del"
+        ? "error"
         : "default";
     const actionText =
       props.style === "button"
         ? undefined
         : props.style === "text"
+        ? true
+        : props.style === "del"
         ? true
         : undefined;
 

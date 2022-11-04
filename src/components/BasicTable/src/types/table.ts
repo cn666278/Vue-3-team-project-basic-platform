@@ -20,7 +20,7 @@ export interface BasicColumn extends TableBaseColumn {
 
 export interface TableActionType {
   reload: (opt: any) => Promise<void>;
-  emit?: any;
+  emit?: EmitType;
   getColumns: (opt?: any) => BasicColumn[];
   setColumns: (columns: BasicColumn[] | string[]) => void;
 }

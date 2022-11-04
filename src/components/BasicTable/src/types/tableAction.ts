@@ -3,6 +3,7 @@ import { NButton } from 'naive-ui';
 import type { Component } from 'vue';
 // import { PermissionsEnum } from '@/enums/permissionsEnum';
 export interface ActionItem extends Partial<InstanceType<typeof NButton>> {
+style: string;
   onClick?: Fn;
   label?: string;
   type?: 'success' | 'error' | 'warning' | 'info' | 'primary' | 'default';

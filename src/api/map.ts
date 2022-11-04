@@ -94,3 +94,16 @@ export async function getMapDeviceListInfo(jsonData: map.mapDeviceListInfoReques
     });
     return result
 }
+
+/**
+ * @function GetDeviceTrail 获取设备轨迹
+ * @param jsonData 
+ * @returns 
+ */
+export async function getDeviceTrail(jsonData: map.deviceTrailRequest) {
+    const result = await axios<map.deviceTrail[]>(url, {
+        targetAPI: 'GetDeviceTrail',
+        data: jsonData,
+    });
+    return result
+}

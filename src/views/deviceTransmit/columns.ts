@@ -3,6 +3,9 @@ import { NAvatar, NTag,NButton } from "naive-ui";
 import { formatDateTime } from "@/utils/common";
 export const columns: any[] = [
   {
+    type: 'selection',
+  },
+  {
     title: "设备名称",
     key: "transmitServerName",
     width:220,

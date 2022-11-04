@@ -85,3 +85,14 @@ export async function getConfig() {
     })
     return result
 }
+
+/**
+ * @function ClearCache 获取清除系统缓存
+ * @returns 
+ */
+export async function  clearCache() {
+    const result = await axios(url, {
+        targetAPI: 'ClearCache',
+    });
+    return result
+}

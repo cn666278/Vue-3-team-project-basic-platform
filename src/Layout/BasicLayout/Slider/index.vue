@@ -39,7 +39,7 @@ const routeTransformMenu = (routes: AuthRoute.Route[]): MenuOption[] => {
         ) {
             routeTransformMenu(route.children);
         }
-        if(themeStore.layoutMode == "mix" && props.mode == "horizontal") {
+        if (themeStore.layoutMode == "mix" && props.mode == "horizontal") {
             routeMenu.push({
                 key: route.path,
                 label: route.meta.title,
@@ -52,12 +52,11 @@ const routeTransformMenu = (routes: AuthRoute.Route[]): MenuOption[] => {
                 label: route.meta.title,
                 show: !route.meta.hidden,
                 children:
-                route.children != undefined &&
-                route.children.length > 0
-                // themeStore.layoutMode == "mix" &&
-                // props.mode == "vertical"
-                    ? routeTransformMenu(route.children)
-                    : undefined,
+                    route.children != undefined && route.children.length > 0
+                        ? // themeStore.layoutMode == "mix" &&
+                          // props.mode == "vertical"
+                          routeTransformMenu(route.children)
+                        : undefined,
             });
         }
     }
@@ -93,14 +92,26 @@ const onMenuItem = (key: string) => {
         let childrenListKey = menu.value.findIndex((item) => {
             return item.path == key;
         });
-        
-        if(childrenListKey != -1) {
-            activeKey.value = key;
-            console.log(menu.value, childrenListKey);
-            appStore.setActionChildrenList(menu.value[childrenListKey].children);
+
+        if (childrenListKey != -1) {
+            router.push({
+                path: getChildrenFirstView(menu.value[childrenListKey].children)
+                    .path,
+            });
         }
     } else {
         router.push({ path: key });
+    }
+};
+/**选中mix模式下的顶部菜单 */
+const onMixActionChildren = (key: string) => {
+    let childrenListKey = menu.value.findIndex((item) => {
+        return item.path == key;
+    });
+
+    if (childrenListKey != -1) {
+        activeKey.value = key;
+        appStore.setActionChildrenList(menu.value[childrenListKey].children);
     }
 };
 /**监听路由实时选中菜单 */
@@ -108,34 +119,38 @@ const routeHandle = watch(route, (nowRoute) => {
     activeKey.value = nowRoute.path as string;
     let paths = nowRoute.matched.map((routerPath) => {
         let path = routerPath.path;
-        if(path.lastIndexOf('/') > 0) {
-            path = path.slice(path.lastIndexOf('/')+1)
+        if (path.lastIndexOf("/") > 0) {
+            path = path.slice(path.lastIndexOf("/") + 1);
         }
-        return path
+        return path;
     }) as string[];
     expandedKeys.value = paths;
     if (themeStore.layoutMode == "mix" && props.mode == "horizontal") {
-        onMenuItem(expandedKeys.value[0] as string);
+        onMixActionChildren(expandedKeys.value[0]);
     }
 });
 const expandedKeysHandle = (keys: string[]) => {
     expandedKeys.value = keys;
 };
+/**递归取第一个可跳转子级路由 */
+const getChildrenFirstView = (data: any[]): any => {
+    if (data[0].children.length > 0) {
+        return getChildrenFirstView(data[0].children);
+    }
+    return data[0];
+};
 onMounted(() => {
     activeKey.value = route.path as string;
-    expandedKeys.value = route.matched.map(
-        (routeItem) => {
-            let path = routeItem.path;
-            if(path.lastIndexOf('/') > 0) {
-                path = path.slice(path.lastIndexOf('/')+1)
-            }
-            return path
+    expandedKeys.value = route.matched.map((routeItem) => {
+        let path = routeItem.path;
+        if (path.lastIndexOf("/") > 0) {
+            path = path.slice(path.lastIndexOf("/") + 1);
         }
-    ) as string[];
+        return path;
+    }) as string[];
     if (themeStore.layoutMode == "mix" && props.mode == "horizontal") {
-        onMenuItem(expandedKeys.value[0] as string);
+        onMixActionChildren(expandedKeys.value[0]);
     }
 });
 </script>
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

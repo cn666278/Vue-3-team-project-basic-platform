@@ -3,4 +3,5 @@ export interface SearchColumns {
     key: string;
     value: any;
     type: 'input' | 'select' | 'dateTime';
+    props?: Object;
 }

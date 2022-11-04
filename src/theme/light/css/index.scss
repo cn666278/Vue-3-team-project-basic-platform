@@ -4,5 +4,14 @@
         .layout_header {
             background: linear-gradient(to right ,#00828DFF,#005873FF);
         }
+        // 树形上线与总数
+        .device_tree_status {
+            .device_tree_online {
+                color: #18A058FF;
+            }
+            .device_tree_count {
+                color: #2080F0FF;
+            }
+        }
     }
 }

@@ -45,6 +45,10 @@ export const basicProps = {
     type: [Object, Boolean],
     default: () => {},
   },
+  pageOption: {
+    type: [Object, Boolean],
+    default: () => {},
+  },
   //废弃
   showPagination: {
     type: [String, Boolean],

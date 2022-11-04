@@ -70,8 +70,9 @@ import {
     addMenu,
     updateMenu,
     getMenuInfo,
+    menuTree as MenuTree
 } from "@/api/setting";
-import { transformTozTreeFormat } from "@/utils/common";
+import { transformTozTreeFormat, recUpdate } from "@/utils/common";
 import {
     NTag,
     DataTableColumn,
@@ -127,7 +128,12 @@ const getTableData = async () => {
 
 const getMenuTreeList = async () => {
     const { Data } = await getMenusTree();
-    menuTree.value[0].children = Data as unknown as TreeSelectOption[];
+    menuTree.value[0].children = (treeDataRecursive(Data)) as unknown as TreeSelectOption[];
+};
+
+/**树形数据格式化 */
+const treeDataRecursive = (data: MenuTree[]): MenuTree[] => {
+    return data.map((menu) => recUpdate(menu, () => ({isLeaf: false}), () => ({isLeaf: true})));
 };
 
 /**编辑新增弹窗事件 */

@@ -58,7 +58,6 @@ export function useFormEvents({
   }
   //更新视图
   async function updateSchema(data: Partial<FormSchema> | Partial<FormSchema>[]) {
-    console.log(data)
     let updateData: Partial<FormSchema>[] = [];
     if (isObject(data)) {
       updateData.push(data as FormSchema);
