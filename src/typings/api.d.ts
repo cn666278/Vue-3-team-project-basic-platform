@@ -224,4 +224,19 @@ declare namespace unAuth {
     offLineCount: number;
     groupList: groupList[]
   }
+
+}
+
+/* memberDeviceList interface */
+declare namespace appManage{
+  interface memberDeviceList {
+      id: string;
+      memberId: string;
+      memberNick: string;
+      memberImg: string;
+      memberPhone: string;
+      terminalNo: string;
+      createDate: string;
+      expirationDate: string;
+  }
 }
