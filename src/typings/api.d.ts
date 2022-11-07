@@ -1,3 +1,4 @@
+
 declare namespace defaultType {
     interface requestDefaultType {
         targetAPI: string;
@@ -275,7 +276,7 @@ declare namespace updateFile {
 }
 /**免权接口类型 */
 declare namespace unAuth {
-    
+
     interface deviceList {
         deviceId: string;
         terminalNo: string;
@@ -301,8 +302,8 @@ declare namespace unAuth {
     }
 }
 
-/* memberDeviceList interface */
-declare namespace appManage{
+/* appManage */
+declare namespace appManage {
     interface memberDeviceList {
         id: string;
         memberId: string;
@@ -312,6 +313,104 @@ declare namespace appManage{
         terminalNo: string;
         createDate: string;
         expirationDate: string;
+    }
+    interface appUserList {
+        id: string;
+        nick: string;
+        phone: string;
+        img: string;
+        deviceList: deviceList[];
+        createDate: string;
+    }
+    interface deviceList {
+        name: string;
+        expirationDate: string;
+    }
+    /** 获取设备商品列表 */
+    interface deviceCommodityList {
+        id: string;
+        name: string;
+        price: number;
+        dayVal: number;
+        memo: string;
+        sort: number;
+        isEnable: boolean;
+    }
+    /**获取设备商品详情 */
+    interface deviceCommodityInfo {
+        id?: string;
+        name: string;
+        price: number;
+        dayVal: number;
+        memo?: string;
+        sort: number;
+        isEnable?: boolean;
+    }
+    /**获取车辆订单列表 */
+    interface appCarOrderList {
+        id: string;
+        name: string;
+        orderNo: string;
+        orderPrice: string;
+        memberImg: string;
+        memberNick: string;
+        memberPhone: string;
+        commodityName: string;
+        dayVal: number;
+        status: string;
+        eStatusName: string;
+        payDate: string;
+        isEnable: string;
+        createDate: string;
+    }
+    /**获取车辆订单详情 */
+    interface appCarOrderInfo {
+        id: string;
+        orderNo: string;
+        memberId: string;
+        memberImg: string;
+        memberNick: string;
+        memberPhone: string;
+        name: string;
+        sysMemberDeviceId: string;
+        commodityId: string;
+        dayVal: number;
+        deviceId: string;
+        terminalNo: string;
+        price: number;
+        payRecordId: string;
+        payDate: string; // Date time
+        eStatusName: string;
+        payInfo: payInfo[];
+        updateDate: string; // Date time
+        createDate: string; // Date time
+    }
+    interface payInfo {
+        payTypeName: string;
+        paySuccessTime: string;
+        payParam: string;
+        memo: string;
+    }
+    /**获取门店列表 */
+    interface salesStoreList {
+        id: string;
+        name: string;
+        phone: string;
+        address: string;
+        deviceCount: number;
+        memo: string;
+        isEnable: boolean;
+        createDate: string;
+    }
+    interface salesStoreInfo {
+        id: string;
+        name: string;
+        phone: string;
+        address: string;
+        deviceCount: number;
+        memo: string;
+        isEnable: boolean;
+        createDate: string;
     }
 }
 
