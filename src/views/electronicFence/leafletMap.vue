@@ -4,7 +4,7 @@
 <script setup lang="ts">
 import L from "leaflet";
 import { onMounted, ref, nextTick, unref } from "vue";
-import { createPluginsMap, Map } from "@/utils/LeafletMap";
+import { createMap, createPluginsMap, Map } from "@/utils/LeafletMap";
 import { getMapParamInfo } from "@/api/map";
 interface Props {
     mapId: string;
@@ -28,29 +28,51 @@ const getMapDataInfo = async () => {
 /**初始化地图 */
 const initMap = async () => {
     await getMapDataInfo();
-    map.value = createPluginsMap(
-        "Map",
-        {
-            center: mapParamData.value.mapCenter
-                .split(",")
-                .map((v: string) => Number(v)),
-            minZoom: Number(mapParamData.value.minZoom),
-            maxZoom: Number(mapParamData.value.maxZoom),
-            zoom: Number(),
-            attributionControl: false,
-        },
-        {
-            天地图: ["TianDiTu.Normal.Map", "TianDiTu.Normal.Annotion"],
-            天地图影像: [
-                "TianDiTu.Satellite.Map",
-                "TianDiTu.Satellite.Annotion",
-            ],
-            高德地图: ["GaoDe.Normal.Map"],
-            高德影像: ["GaoDe.Satellite.Map", "GaoDe.Satellite.Annotion"],
-            Geoq: ["Geoq.Normal.Map"],
-            OSM: ["OSM.Normal.Map"],
-        }
-    );
+    if(mapParamData.value.MapType == 'leafletMap') {
+        map.value = createMap(
+            "Map",
+            {
+                center: mapParamData.value.mapCenter
+                    .split(",")
+                    .map((v: string) => Number(v)),
+                minZoom: Number(mapParamData.value.minZoom),
+                maxZoom: Number(mapParamData.value.maxZoom),
+                zoom: Number(),
+                attributionControl: false,
+            },
+            mapParamData.value.MapUrl,
+            {
+                layers: mapParamData.value.mapLayers,
+                format: 'image/png',
+                version: '1.3.0',
+                maxZoom: Number(mapParamData.value.maxZoom),
+            }
+        )
+    } else {
+        map.value = createPluginsMap(
+            "Map",
+            {
+                center: mapParamData.value.mapCenter
+                    .split(",")
+                    .map((v: string) => Number(v)),
+                minZoom: Number(mapParamData.value.minZoom),
+                maxZoom: Number(mapParamData.value.maxZoom),
+                zoom: Number(mapParamData.value.zoom),
+                attributionControl: false,
+            },
+            {
+                天地图: ["TianDiTu.Normal.Map", "TianDiTu.Normal.Annotion"],
+                天地图影像: [
+                    "TianDiTu.Satellite.Map",
+                    "TianDiTu.Satellite.Annotion",
+                ],
+                高德地图: ["GaoDe.Normal.Map"],
+                高德影像: ["GaoDe.Satellite.Map", "GaoDe.Satellite.Annotion"],
+                Geoq: ["Geoq.Normal.Map"],
+                OSM: ["OSM.Normal.Map"],
+            }
+        );
+    }
 };
 
 /**生成电子围栏 */

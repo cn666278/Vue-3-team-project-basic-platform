@@ -135,7 +135,7 @@ import "leaflet-rotatedmarker";
 import "leaflet.marker.slideto";
 import { nextTick, onMounted, onUnmounted, ref } from "vue";
 import { DataTableColumn, DataTableInst } from 'naive-ui';
-import { createPluginsMap, layerBounds, Map } from "@/utils/LeafletMap";
+import { createMap, createPluginsMap, layerBounds, Map } from "@/utils/LeafletMap";
 import { getMapParamInfo, getDeviceTrail } from "@/api/map";
 import {
     getAssetsFile,
@@ -193,29 +193,51 @@ const locusPointTableRef = ref<DataTableInst | null>();
 /**初始化地图 */
 const initMap = async () => {
     await getMapDataInfo();
-    map.value = createPluginsMap(
-        "trackPlayBackMap",
-        {
-            center: mapParamData.value.mapCenter
-                .split(",")
-                .map((v: string) => Number(v)),
-            minZoom: Number(mapParamData.value.minZoom),
-            maxZoom: Number(mapParamData.value.maxZoom),
-            zoom: Number(),
-            attributionControl: false,
-        },
-        {
-            天地图: ["TianDiTu.Normal.Map", "TianDiTu.Normal.Annotion"],
-            天地图影像: [
-                "TianDiTu.Satellite.Map",
-                "TianDiTu.Satellite.Annotion",
-            ],
-            高德地图: ["GaoDe.Normal.Map"],
-            高德影像: ["GaoDe.Satellite.Map", "GaoDe.Satellite.Annotion"],
-            Geoq: ["Geoq.Normal.Map"],
-            OSM: ["OSM.Normal.Map"],
-        }
-    );
+    if(mapParamData.value.MapType == 'leafletMap') {
+        map.value = createMap(
+            "Map",
+            {
+                center: mapParamData.value.mapCenter
+                    .split(",")
+                    .map((v: string) => Number(v)),
+                minZoom: Number(mapParamData.value.minZoom),
+                maxZoom: Number(mapParamData.value.maxZoom),
+                zoom: Number(),
+                attributionControl: false,
+            },
+            mapParamData.value.MapUrl,
+            {
+                layers: mapParamData.value.mapLayers,
+                format: 'image/png',
+                version: '1.3.0',
+                maxZoom: Number(mapParamData.value.maxZoom),
+            }
+        )
+    } else {
+        map.value = createPluginsMap(
+            "Map",
+            {
+                center: mapParamData.value.mapCenter
+                    .split(",")
+                    .map((v: string) => Number(v)),
+                minZoom: Number(mapParamData.value.minZoom),
+                maxZoom: Number(mapParamData.value.maxZoom),
+                zoom: Number(mapParamData.value.zoom),
+                attributionControl: false,
+            },
+            {
+                天地图: ["TianDiTu.Normal.Map", "TianDiTu.Normal.Annotion"],
+                天地图影像: [
+                    "TianDiTu.Satellite.Map",
+                    "TianDiTu.Satellite.Annotion",
+                ],
+                高德地图: ["GaoDe.Normal.Map"],
+                高德影像: ["GaoDe.Satellite.Map", "GaoDe.Satellite.Annotion"],
+                Geoq: ["Geoq.Normal.Map"],
+                OSM: ["OSM.Normal.Map"],
+            }
+        );
+    }
 };
 /**获取地图参数详情 */
 const getMapDataInfo = async () => {

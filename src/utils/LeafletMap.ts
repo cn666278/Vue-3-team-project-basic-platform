@@ -1,10 +1,25 @@
 import "leaflet/dist/leaflet.css";
-import L, { MapOptions, Layer, Map } from "leaflet";
+import L, { MapOptions, WMSOptions, Layer, Map } from "leaflet";
 import { useAppStore } from '@/store';
 import { getViewportOffset } from '@/utils/domUtils';
 import "leaflet.chinatmsproviders";
 
 const appStore = useAppStore();
+
+/**
+ * 创建地图
+ * @param {String} domId 显示地图的标签ID
+ * @param {Object} options 生成地图所需参数
+ * @param {String} mapUrl 离线底图地址
+ * @param {Object} mapOptions 离线底图属性
+ * @returns {Object} map对象
+ */
+export function createMap(domId: string, options: MapOptions, mapUrl: string, mapOptions: WMSOptions) {
+    let map = L.map(domId, options);
+    let image = L.tileLayer.wms(mapUrl, mapOptions).addTo(map);
+    if(options.center) map.setView(options.center, options.zoom);
+    return map
+}
 
 /**
  * 创建插件地图
