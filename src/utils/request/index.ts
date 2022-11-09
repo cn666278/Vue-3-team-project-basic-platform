@@ -1,35 +1,12 @@
 import qs from "qs";
 import Request from "./request";
+import { requests, getTargetAPI } from "@/utils/request/requestTargetAPI";
 import { getToken, removeToken } from "@/utils/auth/index";
-const request: Request[] = [
-    new Request({
-        baseURL: import.meta.env.VITE_BASE_URL,
-        timeout: 1000 * 30,
-    }),
-    // business: new Request({
-    //     baseURL: import.meta.env.VITE_BUSINESS_URL,
-    //     timeout: 1000 * 30,
-    // }),
-];
+const request = requests;
 // const request = new Request({
 //     baseURL: import.meta.env.VITE_BASE_URL,
 //     timeout: 1000 * 30,
 // });
-const baseTargetAPIList = [
-    "/Admin",
-    "/App",
-    "/AppManage",
-    "/Config",
-    "/DeviceCommand",
-    "/DeviceControl",
-    "/DeviceVideo",
-    "/File",
-    "/Log",
-    "/Login",
-    "/RTVS",
-    "/UnAuth",
-    "/WeiXin",
-];
 
 interface configOption {
     closeMessage?: boolean;
@@ -41,7 +18,6 @@ export default <T>(
     option?: configOption
 ) => {
     let formData = new FormData();
-    let requestAPI = 0;
     if (jsonData.files) {
         formData.append("action", jsonData.targetAPI);
         formData.append("token", getToken());
@@ -50,16 +26,7 @@ export default <T>(
             formData.append(file.name, file);
         });
     }
-    if (
-        baseTargetAPIList.some((Api) => {
-            return url == Api;
-        })
-    ) {
-        requestAPI = 0;
-    } else if(request.length > 1) {
-        requestAPI = 1;
-    }
-    return request[requestAPI].request<defaultType.responseDefaultType<T>>({
+    return request[getTargetAPI(url)].request<defaultType.responseDefaultType<T>>({
         url: url,
         method: "post",
         interceptors: {
