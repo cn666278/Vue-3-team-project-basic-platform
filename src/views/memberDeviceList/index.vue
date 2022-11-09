@@ -264,13 +264,6 @@ const getTableData = async () => {
     data.selectData.currentPage = pageOption.value?.currentPage;
     data.selectData.pageSize = pageOption.value?.pageSize;
   }
-  // let jsonData: memberDevice = {
-  //   name:"", //需要？
-  //   phone: "",
-  //   terminalNo: "",
-  //   currentPage: 1,
-  //   pageSize: 50
-  // }
 
   // 列表插入序列(序号)
   let sequence = {
