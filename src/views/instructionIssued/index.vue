@@ -268,9 +268,9 @@ const getCommandData = (data: any) => {
 /**获取发送的指令字段 */
 const getCommandParam = (data: any) => {
     console.log(data, deviceIdList.value);
-    // if (deviceIdList.value.length > 0) {
-    //     jT808Command8103({ ...data, deviceIdList: deviceIdList.value });
-    // }
+    if (deviceIdList.value.length > 0) {
+        jT808Command8103({ ...data, deviceIdList: deviceIdList.value });
+    }
 };
 /**弹窗关闭方法 */
 const onModelClose = () => {
