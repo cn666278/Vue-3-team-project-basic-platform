@@ -50,6 +50,7 @@
     "typings": "^2.1.1",
     "vite": "^2.9.9",
     "vite-plugin-svg-icons": "^2.0.1",
+    "vite-plugin-top-level-await": "^1.2.1",
     "vue-tsc": "^0.35.0"
   }
 }

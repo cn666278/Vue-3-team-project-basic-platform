@@ -4,7 +4,7 @@ import Components from "unplugin-vue-components/vite";
 import { NaiveUiResolver } from "unplugin-vue-components/resolvers";
 import { createSvgIconsPlugin } from "vite-plugin-svg-icons";
 import * as path from "path";
-import resolveExternalsPlugin from 'vite-plugin-resolve-externals';
+import topLevelAwait from 'vite-plugin-top-level-await';
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -16,6 +16,10 @@ export default defineConfig({
         createSvgIconsPlugin({
             iconDirs: [path.resolve(process.cwd(), "src/assets/icons")],
             symbolId: 'icon-[dir]-[name]'
+        }),
+        topLevelAwait({
+            promiseExportName: "__tla",
+            promiseImportName: i => `__tla_${i}`,
         }),
     ],
     /**文件路径 */

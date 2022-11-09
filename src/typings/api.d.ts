@@ -388,3 +388,21 @@ declare namespace dataStatistics {
         deviceMileageSevenDay: Array;
     }
 }
+
+declare namespace deviceCommand {
+    interface deviceCommandList {
+        id: string;
+        terminalNo: string;
+        memberName: string;
+        commandText: string;
+        msgNum: number;
+        replyText: string;
+        replyDate: string;
+        replyResult: string;
+        isReply: boolean;
+        sendDate: string;
+        isSend: boolean;
+        isEnable: boolean;
+        createDate: string;
+    }
+}
