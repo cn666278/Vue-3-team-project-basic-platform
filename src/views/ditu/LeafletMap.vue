@@ -38,7 +38,7 @@ import L from 'leaflet';
 import 'leaflet-rotatedmarker';
 import 'leaflet.marker.slideto';
 import { onMounted, ref, inject, nextTick, unref } from "vue";
-import { createPluginsMap, Map } from "@/utils/LeafletMap";
+import { createMap, createPluginsMap, Map } from "@/utils/LeafletMap";
 import { getMapParamInfo } from "@/api/map";
 import { getAssetsFile, formatDateTime, calculateDirection } from '@/utils/common';
 import { onMessageListKey } from "@/utils/webSocket";
@@ -66,33 +66,56 @@ const showTrackPlayBack = ref(false);
 const getMapDataInfo = async () => {
     let data = (await getMapParamInfo(propsData.value.mapId)).Data as any;
     mapParamData.value = data;
+    return data
 };
 /**初始化地图 */
 const initMap = async () => {
-    await getMapDataInfo();
-    map.value = createPluginsMap(
-        "Map",
-        {
-            center: mapParamData.value.mapCenter
-                .split(",")
-                .map((v: string) => Number(v)),
-            minZoom: Number(mapParamData.value.minZoom),
-            maxZoom: Number(mapParamData.value.maxZoom),
-            zoom: Number(),
-            attributionControl: false,
-        },
-        {
-            天地图: ["TianDiTu.Normal.Map", "TianDiTu.Normal.Annotion"],
-            天地图影像: [
-                "TianDiTu.Satellite.Map",
-                "TianDiTu.Satellite.Annotion",
-            ],
-            高德地图: ["GaoDe.Normal.Map"],
-            高德影像: ["GaoDe.Satellite.Map", "GaoDe.Satellite.Annotion"],
-            Geoq: ["Geoq.Normal.Map"],
-            OSM: ["OSM.Normal.Map"],
-        }
-    );
+    const mapParam = await getMapDataInfo();
+    if(mapParam.MapType == 'leafletMap') {
+        map.value = createMap(
+            "Map",
+            {
+                center: mapParam.mapCenter
+                    .split(",")
+                    .map((v: string) => Number(v)),
+                minZoom: Number(mapParam.minZoom),
+                maxZoom: Number(mapParam.maxZoom),
+                zoom: Number(mapParam.maxZoom),
+                attributionControl: false,
+            },
+            mapParam.mapUrl,
+            {
+                layers: mapParam.mapLayers,
+                format: 'image/png',
+                version: '1.3.0',
+                maxZoom: Number(mapParam.maxZoom),
+            }
+        )
+    } else {
+        map.value = createPluginsMap(
+            "Map",
+            {
+                center: mapParam.mapCenter
+                    .split(",")
+                    .map((v: string) => Number(v)),
+                minZoom: Number(mapParam.minZoom),
+                maxZoom: Number(mapParam.maxZoom),
+                zoom: Number(mapParam.zoom),
+                attributionControl: false,
+            },
+            {
+                天地图: ["TianDiTu.Normal.Map", "TianDiTu.Normal.Annotion"],
+                天地图影像: [
+                    "TianDiTu.Satellite.Map",
+                    "TianDiTu.Satellite.Annotion",
+                ],
+                高德地图: ["GaoDe.Normal.Map"],
+                高德影像: ["GaoDe.Satellite.Map", "GaoDe.Satellite.Annotion"],
+                Geoq: ["Geoq.Normal.Map"],
+                OSM: ["OSM.Normal.Map"],
+            }
+        );
+    }
 };
 /**初始化设备 */
 const initCar = (data: map.mapDeviceListInfo[]) => {

@@ -49,8 +49,8 @@ const url = '/Log';
  * @param jsonData 提交字段
  * @returns {String} token
  */
- export async function getJTJsonWriter(jsonData:  deviceMsgLog.deviceMsgLogdata) {
-    const result = await axios<deviceMsgLog.deviceMsgLogdata>('/UnAuth', {
+ export async function getJTJsonWriter(jsonData: string) {
+    const result = await axios<string>('/UnAuth', {
         targetAPI: 'GetJTJsonWriter',
         data: jsonData
     })
