@@ -192,37 +192,37 @@ const playSpeed = ref(2000);
 const locusPointTableRef = ref<DataTableInst | null>();
 /**初始化地图 */
 const initMap = async () => {
-    await getMapDataInfo();
-    if(mapParamData.value.MapType == 'leafletMap') {
+    const mapParam = await getMapDataInfo();
+    if(mapParam.MapType == 'leafletMap') {
         map.value = createMap(
-            "Map",
+            "trackPlayBackMap",
             {
-                center: mapParamData.value.mapCenter
+                center: mapParam.mapCenter
                     .split(",")
                     .map((v: string) => Number(v)),
-                minZoom: Number(mapParamData.value.minZoom),
-                maxZoom: Number(mapParamData.value.maxZoom),
+                minZoom: Number(mapParam.minZoom),
+                maxZoom: Number(mapParam.maxZoom),
                 zoom: Number(),
                 attributionControl: false,
             },
-            mapParamData.value.MapUrl,
+            mapParam.mapUrl,
             {
-                layers: mapParamData.value.mapLayers,
+                layers: mapParam.mapLayers,
                 format: 'image/png',
                 version: '1.3.0',
-                maxZoom: Number(mapParamData.value.maxZoom),
+                maxZoom: Number(mapParam.maxZoom),
             }
         )
     } else {
         map.value = createPluginsMap(
             "Map",
             {
-                center: mapParamData.value.mapCenter
+                center: mapParam.mapCenter
                     .split(",")
                     .map((v: string) => Number(v)),
-                minZoom: Number(mapParamData.value.minZoom),
-                maxZoom: Number(mapParamData.value.maxZoom),
-                zoom: Number(mapParamData.value.zoom),
+                minZoom: Number(mapParam.minZoom),
+                maxZoom: Number(mapParam.maxZoom),
+                zoom: Number(mapParam.zoom),
                 attributionControl: false,
             },
             {
@@ -243,6 +243,7 @@ const initMap = async () => {
 const getMapDataInfo = async () => {
     let data = (await getMapParamInfo(propsData.value.mapId)).Data as any;
     mapParamData.value = data;
+    return data
 };
 /**获取当前设备详情 */
 const getDeviceInfo = (data: deviceInfo) => {

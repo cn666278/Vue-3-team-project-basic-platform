@@ -18,6 +18,7 @@ export function createMap(domId: string, options: MapOptions, mapUrl: string, ma
     let map = L.map(domId, options);
     let image = L.tileLayer.wms(mapUrl, mapOptions).addTo(map);
     if(options.center) map.setView(options.center, options.zoom);
+    // map.on('click', (e) => console.log(e))
     return map
 }
 
