@@ -1,8 +1,4 @@
 import Request from "./request";
-export interface requests {
-    base: Request;
-    // business: Request;
-}
 const baseTargetAPIList = [
     "/Admin",
     "/App",
@@ -19,25 +15,25 @@ const baseTargetAPIList = [
     "/WeiXin",
 ];
 const businessTargetAPIList = ["/BusinessBase", "/Camera", "/ProCommon"];
-export const requests: requests = {
-    base: new Request({
+export const requests: Request[] = [
+    new Request({
         baseURL: import.meta.env.VITE_BASE_URL,
         timeout: 1000 * 30,
     }),
-    // business: new Request({
+    // new Request({
     //     baseURL: import.meta.env.VITE_BUSINESS_URL,
     //     timeout: 1000 * 30,
     // })
-};
-export function getTargetAPI(url: string): 'base' | 'business' {
+];
+export function getTargetAPI(url: string): number {
     const checkApiTarget = (Api: string) => {
         return url === Api
     };
     if (baseTargetAPIList.some(checkApiTarget)) {
-        return "base";
+        return 0;
     } else if (businessTargetAPIList.some(checkApiTarget)) {
-        return 'business'
+        return 1;
     } else {
-        return 'business'
+        return 1
     }
 }
