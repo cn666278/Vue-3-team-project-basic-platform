@@ -2,10 +2,11 @@ import { h } from "vue";
 import { formSearch } from "@/components/TableListTemplate";
 import { FormSchema } from "@/components/Form";
 import { DataTableColumn, NTag } from "naive-ui";
+import { formatDateTime } from "@/utils/common";
 
 // 搜索栏
 export const searchColumns: formSearch[] = [
-    {
+      {
         label: "关键字搜索",
         key: "name",
         value: "",
@@ -38,7 +39,13 @@ export const tableColumn: DataTableColumn[] = [
             );
         },
     },
-    { title: "创建日期", key: "createDate" },
+    { 
+        title: "创建日期",
+        key: "createDate",
+        render: (row: any) => {
+            return formatDateTime(row.createDate);
+        },
+    },
 ];
 
 // 新增按钮表单

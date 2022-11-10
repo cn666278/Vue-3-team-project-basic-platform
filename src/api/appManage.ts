@@ -192,4 +192,18 @@ export async function getSalesStoreList(jsonData: storeList) {
     return result
 }
 
+// TODO ???
+/**
+ * @function ImportDeviceForExcel 门店设备下发
+ * @param jsonData  
+ * @returns {String} result
+ */
+ export async function importDeviceForExcel(jsonData: appManage.deviceForExcel) {
+    const result = await axios(url, {
+        targetAPI: 'ImportDeviceForExcel',
+        data: jsonData
+    })
+    return result
+}
+
 

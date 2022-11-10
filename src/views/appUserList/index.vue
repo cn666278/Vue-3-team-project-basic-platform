@@ -54,8 +54,7 @@ const [register, { }] = useForm({
 });
 /**搜索查询 */
 function handleSubmit(values: Recordable) {
-  data.selectData.name = values.name; // ERROR ??? 查询参数 name/memberNick
-  // data.list.phone = values.phone; // ERROR ???
+  data.selectData.name = values.name; 
   getTableData();
 }
 /**搜索重置 */
@@ -96,19 +95,12 @@ const getTableData = async () => {
     data.selectData.currentPage = pageOption.value?.currentPage;
     data.selectData.pageSize = pageOption.value?.pageSize;
   }
-  // let jsonData: memberDevice = {
-  //   name:"", //需要？
-  //   phone: "",
-  //   terminalNo: "",
-  //   currentPage: 1,
-  //   pageSize: 50
-  // }
 
   // 列表插入序列(序号)
   let sequence = {
     title: '序号',
     key: 'no',
-    width: 5,
+    width: 50,
     render: (_: any, index: number) => {
       return `${index + 1 + ((pageOption.value.currentPage - 1) * pageOption.value.pageSize)}`
     }

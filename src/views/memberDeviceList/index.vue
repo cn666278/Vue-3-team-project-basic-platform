@@ -17,7 +17,6 @@
         <BasicForm @register="register" @submit="handleSubmit" @reset="handleReset">
         </BasicForm>
       </template>
-
       <template #table>
         <BasicTable :columns="columns" :pagination="false" :dataSource="data.list" :scroll-x="1500"></BasicTable>
       </template>
@@ -51,7 +50,7 @@ import { AppstoreAddOutlined } from "@vicons/antd";
 // MemberDeviceList
 import { columns } from "./columns"; // 列表数据
 import { InitData } from "@/typings/memberDeviceList"; //初始化数据列表
-import { getMemberDeviceList, memberDevice } from "@/api/appManage";
+import { getMemberDeviceList } from "@/api/appManage";
 
 // 新增弹窗显示
 const showModal = ref(false);

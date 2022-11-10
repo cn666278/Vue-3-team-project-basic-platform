@@ -1,4 +1,11 @@
 <template>
+  <n-upload 
+    action="https://www.mocky.io/v2/5e4bafc63100007100d8b70f"
+    :default-file-list="fileListRef"
+    show-download-button
+    @download="handleDownload"
+  >
+  </n-upload>
   <TableListTemplate>
       <template #operate>
           <n-button text @click="onAddEditModal()">
@@ -51,6 +58,7 @@
           </Dialog>
       </template>
   </TableListTemplate>
+
 </template>
 <script setup lang="ts">
 import { ref, h } from "vue";
@@ -62,7 +70,7 @@ import {
 } from "@/components/TableListTemplate";
 import { BasicTable, TableAction } from "@/components/BasicTable";
 import { BasicForm, useForm } from "@/components/Form";
-import { DataTableColumn } from "naive-ui";
+import { DataTableColumn, UploadFileInfo, useMessage } from "naive-ui";
 import { AppstoreAddOutlined } from "@vicons/antd";
 import { searchColumns, tableColumn, addEditForm } from "./columns";
 // getSalesStoreList
@@ -71,7 +79,8 @@ import {
   storeList, 
   getSalesStoreInfo, 
   addSalesStore,
-  updateSalesStore 
+  updateSalesStore,
+  importDeviceForExcel, // 设备下发
 } from "@/api/appManage";
 
 const searchData = ref<storeList>();
@@ -139,7 +148,6 @@ const getTableData = async (jsonData?: storeList) => {
 /**搜索重置 */
 function handleReset(values: Recordable) {
   Object.keys(searchData).forEach((key) => {
-    // 把除了 currentPage 和 pageSize 之外的其他参数设为 undefined
     if (key !== "currentPage" && key !== "pageSize") {
       console.log(key);
       searchData[key] = undefined;
@@ -192,5 +200,19 @@ const onAddEditSubmit = (data: appManage.salesStoreInfo) => {
 const onAddEditClose = () => {
   showAddEdit.value = false;
 };
+
+// File template download
+const message = useMessage()
+const fileListRef = ref<UploadFileInfo[]>([
+      {
+        id: 'a',
+        name: '下载模板',
+        status: 'finished',
+        url: 'https://07akioni.oss-cn-beijing.aliyuncs.com/07akioni.jpeg'
+      }
+    ])
+const handleDownload = (file: UploadFileInfo) => {
+      message.success(`下载成功：${file.name}`)
+}
 </script>
 <style lang="scss"></style>

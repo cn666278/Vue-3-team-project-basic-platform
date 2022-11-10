@@ -28,20 +28,20 @@ export const searchColumns: formSearch[] = [
 
 // 数据列表
 export const tableColumn: DataTableColumn[] = [
-    { title: "序列", key: "key", width: 120, align: "center" },
-    { title: "商品名称", key: "name", width: 150 },
-    { title: "追加有效天数", key: "dayVal", width: 150 },
+    { title: "序列", key: "sort", width: 100, align: "center" }, // ??? sort cannot show
+    { title: "商品名称", key: "name", width: 200 },
+    { title: "追加有效天数", key: "dayVal", width: 200 },
     { title: "价格(元)", key: "price", width: 100 },
     {
         title: "是否启用",
         key: "isEnable",
         align: "center",
-        width: 190,
+        width: 200,
         render: (row) => {
             return h(
                 NTag,
                 {
-                    type: row.isEnable ? "success" : "info",
+                    type: row.isEnable ? "success" : "error",
                     size: "small",
                 },
                 {
@@ -50,17 +50,17 @@ export const tableColumn: DataTableColumn[] = [
             );
         },
     },
-    { title: "备注", key: "memo" },
+    { title: "备注", key: "memo", width: 200, align: "center" },
 ];
 
 // 新增按钮表单
 export const addEditForm: FormSchema[] = [
-    { 
-      field: "id",
-      label: "",
-      giProps: {
-          span: 0,
-      },
+    {
+        field: "id",
+        label: "",
+        giProps: {
+            span: 0,
+        },
     }, // id 用于添加逻辑，不可删除
     {
         field: "name",
@@ -76,11 +76,11 @@ export const addEditForm: FormSchema[] = [
         ],
     },
     {
-        field: "dayVal", 
+        field: "dayVal",
         label: "追加有效天数",
         component: "NInput",
         componentProps: {
-          placeholder: "0",
+            placeholder: "0",
         },
         giProps: { span: 3 },
     },
@@ -89,23 +89,23 @@ export const addEditForm: FormSchema[] = [
         label: "价格",
         component: "NInput",
         componentProps: {
-          placeholder: "0.00 元",
+            placeholder: "0.00 元",
         },
         giProps: { span: 3 },
     },
     {
-      field: "sort",
-      label: "排序",
-      component: "NInput",
-      componentProps: {
-        placeholder: "0",
-      },
-      giProps: { span: 3 },
+        field: "sort",
+        label: "排序",
+        component: "NInput",
+        componentProps: {
+            placeholder: "0",
+        },
+        giProps: { span: 3 },
     },
     {
         field: "isEnable",
         label: "是否启用",
-        component: "NSwitch", // 摁扭
+        component: "NSwitch",
         defaultValue: false,
         giProps: { span: 1 },
     },
