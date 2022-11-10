@@ -104,7 +104,7 @@ const initMap = async () => {
                     .map((v: string) => Number(v)),
                 minZoom: Number(mapParam.minZoom),
                 maxZoom: Number(mapParam.maxZoom),
-                zoom: Number(),
+                zoom: Number(mapParam.zoom),
                 attributionControl: false,
             },
             mapParam.MapUrl,
