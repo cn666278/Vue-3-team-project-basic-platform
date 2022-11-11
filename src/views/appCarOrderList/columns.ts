@@ -2,22 +2,22 @@ import { h } from "vue";
 import { formSearch } from "@/components/TableListTemplate";
 import { FormSchema } from "@/components/Form";
 import { DataTableColumn, NTag } from "naive-ui";
+import { formatDateTime } from "@/utils/common";
 
 // 搜索栏
 export const searchColumns: formSearch[] = [
     {
         label: "关键字搜索",
-        key: "name",
+        key: "name", // 订单号、设备号搜索
         value: "",
         type: "input",
     },
     {
         label: "名称搜索",
-        key: "memberPhone",
+        key: "memberName", // 名称、手机号、账号搜索 ?? ERROR
         value: "",
         type: "input",
     },
-
 ];
 
 // 数据列表
@@ -25,9 +25,22 @@ export const tableColumn: DataTableColumn[] = [
     { title: "序号", key: "key", width: 70, align: "center" },
     { title: "订单号", key: "orderNo", width: 150 },
     { title: "名称", key: "name", width: 150 },
-    { title: "商品名称", key: "commodityName", width: 100 },
-    { title: "头像", key: "memberImg", width: 70 },
-    { title: "用户", key: "memberNick", width: 110 },
+    { title: "商品名称", key: "commodityName", width: 150 },
+    { 
+        title: "头像",
+        key: "memberImg",
+        width: 70,
+        render: (row: any) => {
+            return h('img',
+              {
+                src: row.memberImg,
+                style: 'width: 35px; hegiht: 35px; border-radius: 50%'
+              },
+              { defaut: () => '' } // 默认值
+            )
+        },
+    },
+    { title: "用户", key: "memberNick", width: 150 },
     { title: "手机号", key: "memberPhone", width: 120 },
     {
         title: "状态",
@@ -65,7 +78,13 @@ export const tableColumn: DataTableColumn[] = [
             );
         },
     },
-    { title: "下单时间", key: "createDate" },
+    { 
+        title: "下单时间",
+        key: "createDate",
+        render: (row: any) => {
+            return formatDateTime(row.createDate);
+        },
+    },
 ];
 
 // 新增按钮表单

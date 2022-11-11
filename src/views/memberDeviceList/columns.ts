@@ -1,5 +1,5 @@
 import { h } from "vue";
-import { NAvatar, NTag, NButton } from "naive-ui";
+// import { NAvatar, NTag, NButton } from "naive-ui";
 import { formatDateTime } from "@/utils/common";
 export const columns: any[] = [
   {
@@ -13,15 +13,9 @@ export const columns: any[] = [
     width: 40,
   },
   {
-    title: "ID",
-    key: "id",
-    width: 30,
-  },
-  {
     title: "用户昵称",
     key: "memberNick",
     width: 50,
-
   },
   {
     title: "用户手机号",

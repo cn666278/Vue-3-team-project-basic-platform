@@ -1,13 +1,13 @@
 <template>
   <TableListTemplate>
-      <template #operate>
+      <!-- <template #operate>
           <n-button text @click="onAddEditModal()">
               <n-icon :size="22">
                   <AppstoreAddOutlined />
               </n-icon>
               新增
           </n-button>
-      </template>
+      </template> -->
       <template #search>
           <tableSearch
               :columns="searchColumns"
@@ -44,9 +44,9 @@
           >
               <BasicForm
                   @register="addRegister"
+                  @submit="onAddEditSubmit"
               ></BasicForm>
           </Dialog>
-          <!-- @submit="onAddEditSubmit" -->
       </template>
   </TableListTemplate>
 </template>
@@ -61,7 +61,7 @@ import {
 import { BasicTable, TableAction } from "@/components/BasicTable";
 import { BasicForm, useForm } from "@/components/Form";
 import { DataTableColumn } from "naive-ui";
-import { AppstoreAddOutlined } from "@vicons/antd";
+// import { AppstoreAddOutlined } from "@vicons/antd";
 import { searchColumns, tableColumn, addEditForm } from "./columns";
 // getAppCarOrderList
 import { 
@@ -88,7 +88,7 @@ const pageOption = ref<PaginationType>({
 const actionColumn: DataTableColumn = {
   title: "操作",
   key: "action",
-  width: 70,
+  width: 100,
   fixed: "right",
   align: "center",
   render: (row) => {
@@ -121,7 +121,7 @@ const getTableData = async (jsonData?: carOrderList) => {
   ).Data;
   // 列表插入序列(序号)
   let sequence = {
-    title: ' 序号',
+    title: '序号',
     key: 'key',
     width: 70,
     render: (_: any, index: number) => {
@@ -139,17 +139,6 @@ const getTableData = async (jsonData?: carOrderList) => {
   pageOption.value = pageData;
   tableData.value = Data.data;
 };
-/**搜索重置 */
-function handleReset(values: Recordable) {
-  Object.keys(searchData).forEach((key) => {
-    // 把除了 currentPage 和 pageSize 之外的其他参数设为 undefined
-    if (key !== "currentPage" && key !== "pageSize") {
-      console.log(key);
-      searchData[key] = undefined;
-    }
-  });
-  getTableData();
-}
 /**搜索列表数据并返回到第一页 */
 const onSearch = () => {
   pageOption.value.currentPage = 1;
@@ -175,23 +164,19 @@ const onAddEditModal = async (id?: string) => {
       addEditTitle.value = "新增";
   }
 };
-// 设备商品更新/添加
-// const onAddEditSubmit = (data: appManage.deviceCommodityInfo) => {
-//   if (data.id) {
-//     updateDeviceCommodity(data).then(res => {
-//     // if(res.State == 1) {
-//     //     window.$message?.success('编辑成功');
-//       onSearch();
-//       onAddEditClose();
-//     // }
-//     });
-//   } else {
-//     addDeviceCommodity(data).then(res => {
-//       onSearch();
-//       onAddEditClose();
-//     });
-//   }
-// };
+// ERROR: Inner error ??
+// 设备商品退款
+const onAddEditSubmit = (data: appManage.appCarOrderInfo) => {
+  if (data.id) {
+    appCarOrderRefund(data).then(res => {
+    // if(res.State == 1) {
+    //     window.$message?.success('编辑成功');
+      onSearch();
+      onAddEditClose();
+    // }
+    });
+  }
+};
 const onAddEditClose = () => {
   showAddEdit.value = false;
 };
