@@ -2,6 +2,7 @@ import { ComponentType } from './index';
 import type { CSSProperties } from 'vue';
 import type { GridProps, GridItemProps } from 'naive-ui/lib/grid';
 import type { ButtonProps } from 'naive-ui/lib/button';
+import type { FormItemProps } from 'naive-ui/lib/form';
 
 export interface FormSchema {
   field: string;
@@ -15,6 +16,7 @@ export interface FormSchema {
   slot?: string;
   rules?: object | object[];
   giProps?: GridItemProps;
+  formItemProps?: FormItemProps;
   isFull?: boolean;
   suffix?: string;
 }
