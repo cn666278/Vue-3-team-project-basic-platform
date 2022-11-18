@@ -20,6 +20,10 @@ export interface userList extends defaultType.requestList { }
 
 export interface storeList extends defaultType.requestList { }
 
+export interface deviceForExcel {
+    fileId: string; // 附件id
+    salesStoreId: string;   // 门店id
+}
 
 // 注释，方便看是什么接口
 /** 
@@ -158,7 +162,7 @@ export async function getSalesStoreList(jsonData: storeList) {
  * @param jsonData  
  * @returns {String} result
  */
- export async function getSalesStoreInfo(jsonData: string) {
+export async function getSalesStoreInfo(jsonData: string) {
     const result = await axios<appManage.salesStoreInfo[]>(url, {
         targetAPI: 'GetSalesStoreInfo',
         data: jsonData
@@ -171,7 +175,7 @@ export async function getSalesStoreList(jsonData: storeList) {
  * @param jsonData  
  * @returns {String} result
  */
- export async function addSalesStore(jsonData: appManage.salesStoreInfo) {
+export async function addSalesStore(jsonData: appManage.salesStoreInfo) {
     const result = await axios(url, {
         targetAPI: 'AddSalesStore',
         data: jsonData
@@ -184,7 +188,7 @@ export async function getSalesStoreList(jsonData: storeList) {
  * @param jsonData  
  * @returns {String} result
  */
- export async function updateSalesStore(jsonData: appManage.salesStoreInfo) {
+export async function updateSalesStore(jsonData: appManage.salesStoreInfo) {
     const result = await axios(url, {
         targetAPI: 'UpdateSalesStore',
         data: jsonData
@@ -198,7 +202,7 @@ export async function getSalesStoreList(jsonData: storeList) {
  * @param jsonData  
  * @returns {String} result
  */
- export async function importDeviceForExcel(jsonData: appManage.deviceForExcel) {
+export async function importDeviceForExcel(jsonData: deviceForExcel) {
     const result = await axios(url, {
         targetAPI: 'ImportDeviceForExcel',
         data: jsonData

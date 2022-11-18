@@ -14,7 +14,10 @@
         </n-space>
       </template>
       <template #search>
-        <BasicForm @register="register" @submit="handleSubmit" @reset="handleReset">
+        <BasicForm 
+          @register="register" 
+          @submit="handleSubmit" 
+          @reset="handleReset">
         </BasicForm>
       </template>
       <template #table>
@@ -42,10 +45,7 @@ import type { PaginationType } from "@/components/pagination/index";
 // add button
 import Dialog from "@/components/dialog/index.vue";
 import { MD5Encrypt } from "@/utils/login";
-import {
-  addMember,
-  updateMember,
-} from "@/api/member";
+import { addMember, updateMember } from "@/api/member";
 import { AppstoreAddOutlined } from "@vicons/antd";
 // MemberDeviceList
 import { columns } from "./columns"; // 列表数据
@@ -60,6 +60,7 @@ const dialogoption = reactive({
   ConfirmBtnText: "保存",
   title: dialogTitle,
 });
+
 /**点击新增按钮 */
 function addTable() {
   showModal.value = true;
@@ -90,7 +91,7 @@ const addschemas: FormSchema[] = [
     label: "ID",
     componentProps: {
       placeholder: "请输入id",
-      onInput: (e: any) => { },
+      onInput: (e: any) => { console.log(e) },
     },
     rules: [{ required: true, message: "请输入ID", trigger: ["blur"] }],
   },

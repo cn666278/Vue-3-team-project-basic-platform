@@ -40,9 +40,6 @@ const schemas: FormSchema[] = [
     label: "关键字",
     componentProps: {
       placeholder: "名称 | 手机号",
-      onInput: (e: any) => {
-        console.log(e);
-      },
     },
   }
 ];
