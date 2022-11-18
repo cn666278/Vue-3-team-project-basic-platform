@@ -96,8 +96,9 @@ const actionColumn: DataTableColumn = {
           style: "text",
           actions: [
               {
+                // 已支付则显示退款按钮，否则不显示
                 label: row.eStatusName == "已支付" ? "退款" : "",
-                  onClick: () => onAddEditModal(row.id as string),
+                onClick: () => onAddEditModal(row.id as string),
               },
           ],
       });
@@ -146,7 +147,7 @@ const onSearch = () => {
 };
 /**分页页数监听 */
 const pageHandle = (page: number) => {
-  pageOption.value.currentPage = page;
+  pageOption.value.currentPage = page; //换页
   getTableData();
 };
 /**每页页数监听 */

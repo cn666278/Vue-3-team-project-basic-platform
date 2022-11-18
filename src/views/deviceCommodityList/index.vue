@@ -36,6 +36,7 @@
               @page-size-change="pageSizeHandle"
           />
       </template>
+      <!-- 新增表单 -->
       <template #modal>
           <Dialog
               v-model:showModal="showAddEdit"
@@ -95,15 +96,15 @@ const actionColumn: DataTableColumn = {
   fixed: "right",
   align: "center",
   render: (row) => {
-      return h(TableAction as any, {
-          style: "text",
-          actions: [
-              {
-                  label: "编辑",
-                  onClick: () => onAddEditModal(row.id as string),
-              },
-          ],
-      });
+    return h(TableAction as any, {
+        style: "text",
+        actions: [
+            {
+              label: "编辑",
+              onClick: () => onAddEditModal(row.id as string),
+            },
+        ],
+    });
   },
 };
 const [addRegister, { setFieldsValue, submit }] = useForm({
@@ -159,6 +160,7 @@ const pageSizeHandle = (pageSize: number) => {
 };
 const onAddEditModal = async (id?: string) => {
   showAddEdit.value = true;
+  // 此处逻辑：是否改变名称(id),是则说明是新增了新的商品信息，否则只是编辑当前商品
   if (id) {
       let infoData = (await getDeviceCommodityInfo(id)).Data;
       addEditTitle.value = "编辑";
@@ -167,8 +169,9 @@ const onAddEditModal = async (id?: string) => {
       addEditTitle.value = "新增";
   }
 };
-// 设备商品更新/添加
+/**设备商品更新/添加 */ 
 const onAddEditSubmit = (data: appManage.deviceCommodityInfo) => {
+  // 逻辑同上
   if (data.id) {
     updateDeviceCommodity(data).then(res => {
     // if(res.State == 1) {

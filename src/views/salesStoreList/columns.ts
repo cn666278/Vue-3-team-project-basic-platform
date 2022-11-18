@@ -6,12 +6,20 @@ import { formatDateTime } from "@/utils/common";
 
 // 搜索栏
 export const searchColumns: formSearch[] = [
-      {
+    {
         label: "关键字搜索",
         key: "name",
         value: "",
         type: "input",
     },
+    // { 
+    //     field: "name",
+    //     label: "关键字搜索",
+    //     component: "NInput",
+    //     giProps: {
+    //         span: 1,
+    //     },
+    // }
 ];
 
 // 数据列表
@@ -20,7 +28,7 @@ export const tableColumn: DataTableColumn[] = [
     { title: "名称", key: "name", width: 150 },
     { title: "电话", key: "phone", width: 150 },
     { title: "地址", key: "address", width: 150 },
-    { title: "库存设备数量", key: "deviceCount", align:"center",width: 120 },
+    { title: "库存设备数量", key: "deviceCount", align: "center", width: 120 },
     {
         title: "是否启用",
         key: "isEnable",
@@ -39,7 +47,7 @@ export const tableColumn: DataTableColumn[] = [
             );
         },
     },
-    { 
+    {
         title: "创建日期",
         key: "createDate",
         render: (row: any) => {
@@ -50,12 +58,12 @@ export const tableColumn: DataTableColumn[] = [
 
 // 新增按钮表单
 export const addEditForm: FormSchema[] = [
-    { 
-      field: "id",
-      label: "",
-      giProps: {
-          span: 0,
-      },
+    {
+        field: "id",
+        label: "",
+        giProps: {
+            span: 0,
+        },
     }, // id 用于添加逻辑，不可删除
     {
         field: "name",
@@ -71,7 +79,7 @@ export const addEditForm: FormSchema[] = [
         ],
     },
     {
-        field: "phone", 
+        field: "phone",
         label: "联系电话",
         component: "NInput",
         giProps: { span: 3 },

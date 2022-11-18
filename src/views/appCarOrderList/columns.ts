@@ -87,14 +87,12 @@ export const tableColumn: DataTableColumn[] = [
     },
 ];
 
-// 新增按钮表单
+// 退款表单
 export const addEditForm: FormSchema[] = [
     { 
       field: "id",
-      label: "",
-      giProps: {
-          span: 0,
-      },
+      label: "name",
+      giProps: { span: 0 },
     }, // id 用于添加逻辑，不可删除
     {
         field: "refund",

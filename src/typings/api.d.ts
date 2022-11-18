@@ -412,11 +412,6 @@ declare namespace appManage {
         isEnable: boolean;
         createDate: string;
     }
-    // ??? 设备下发
-    interface deviceForExcel {
-        fileId: string; // 附件id
-        salesStoreId: string;   // 门店id
-    }
 }
 
 // 业务分组

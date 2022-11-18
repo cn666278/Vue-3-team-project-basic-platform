@@ -22,7 +22,6 @@ let systemConfig: configType[] = [
                 type: 'number',
                 paramName: 'onlineCD',
                 span: 2,
-
             },
             {
                 label: '公众号开发者密码',
